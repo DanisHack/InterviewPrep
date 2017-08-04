@@ -23,7 +23,8 @@ function swap() {
     a = b - a;
 }
 
-swap(); // 7, 3
+swap();
+console.log(a, b); // 230, 157
 ```
 Find the maximum without using if/else or comparison operator:
 ```javascript
