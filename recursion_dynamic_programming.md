@@ -74,19 +74,62 @@ function findPath(grid) {
             path.push(`${i}${j}`);
             return true;
         }
-
         if (recurse(i, j + 1)) {
             path.push(`${i}${j}`);
             return true;
         }
-
         if (recurse(i + 1, j)) {
             path.push(`${i}${j}`);
             return true;
         }
+		return false;
     })(0, 0);
     return path.reverse();
 }
 
 findPath(grid);
+```
+Find a magic index where the index equal to its value:
+```javascript
+const arr1 = [-40, -20, -1, 1, 2, 3, 5, 7, 9, 12, 13];
+
+// handles data that have only distinct values
+function magicIndexDistinct(arr, start = 0, end = arr.length - 1){
+    if (start > end) {
+        return -1;
+    }
+    const middle = Math.floor((start + end) / 2);
+    if (arr[middle] === middle) {
+        return middle;
+    } else if (arr[middle] > middle) {
+        return magicIndexDistinct(arr, start, middle - 1);
+    }
+    return magicIndexDistinct(arr, middle + 1, end);
+}
+
+magicIndexDistinct(arr1);
+
+const arr2 = [-10, -5, 2, 2, 2, 3, 4, 7, 9, 12, 13];
+
+// handles array that have non distinct values
+function magicIndexNonDistinct(arr, start = 0, end = arr.length - 1) {
+    if (start > end) {
+        return -1;
+    }
+    const middle = Math.floor((start + end) / 2);
+    const midValue = arr[middle];
+    if (middle === midValue) {
+        return middle;
+    }
+    const leftIndex = Math.min(middle - 1, midValue);
+    const left = magicIndexNonDistinct(arr, start, leftIndex);
+    if (left >= 0) {
+        return left;
+    }
+    const rightIndex = Math.max(middle + 1, midValue);
+    const right = magicIndexNonDistinct(arr, rightIndex, end);
+    return right;
+}
+
+magicIndexNonDistinct(arr2);
 ```
