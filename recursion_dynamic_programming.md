@@ -36,3 +36,56 @@ function findMax(a, b){
 
 findMax(3, 100); // 100
 ```
+Ways a child can run up a stairs with steps 1, 2, or 3 (memoization):
+```javascript
+function countWays(n) {
+	const memo = [];
+	return (function recurse(n) {
+		if (n < 0) {
+			return 0;
+		} else if (n === 0) {
+			return 1;
+		} else if (memo[n] > -1) {
+			return memo[n];
+		} else {
+			memo[n] = recurse(n - 1) + recurse(n - 2) + recurse(n - 3);
+			return memo[n];
+		}
+	})(n);
+}
+```
+Find path for a Robot on a grid:
+```javascript
+const grid = [
+    [1, 1, 0, 1],
+    [1, 0, 1, 0],
+    [1, 1, 1, 1]
+];
+
+function findPath(grid) {
+    const path = [];
+    (function recurse(i, j) {
+        console.log(i, j)
+        if (i >= grid.length || j >= grid[0].length || !grid[i][j]) {
+            return false;
+        }
+        if (i === grid.length - 1 && j === grid[0].length - 1) {
+            path.push(`${i}${j}`);
+            return true;
+        }
+
+        if (recurse(i, j + 1)) {
+            path.push(`${i}${j}`);
+            return true;
+        }
+
+        if (recurse(i + 1, j)) {
+            path.push(`${i}${j}`);
+            return true;
+        }
+    })(0, 0);
+    return path.reverse();
+}
+
+findPath(grid);
+```
