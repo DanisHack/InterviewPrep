@@ -45,7 +45,7 @@ function countWays(n) {
 			return 0;
 		} else if (n === 0) {
 			return 1;
-		} else if (memo[n] > -1) {
+		} else if (memo[n]) {
 			return memo[n];
 		} else {
 			memo[n] = recurse(n - 1) + recurse(n - 2) + recurse(n - 3);
@@ -53,6 +53,8 @@ function countWays(n) {
 		}
 	})(n);
 }
+
+countWays(4); // 7
 ```
 Find path for a Robot on a grid:
 ```javascript
@@ -65,7 +67,6 @@ const grid = [
 function findPath(grid) {
     const path = [];
     (function recurse(i, j) {
-        console.log(i, j)
         if (i >= grid.length || j >= grid[0].length || !grid[i][j]) {
             return false;
         }
