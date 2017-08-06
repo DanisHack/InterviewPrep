@@ -181,9 +181,9 @@ function hanoi(disc, src, buffer, dest) {
 		return;
 	}
 	hanoi(disc - 1, src, dest, buffer);
-	src.shift();
-	dest.unshift(disc);
-	console.log(src, dest, buffer);
+	src.jar.shift();
+	dest.jar.unshift(disc);
+	console.log(src, buffer, dest);
 	hanoi(disc - 1, buffer, src, dest);
 }
 
