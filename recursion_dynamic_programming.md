@@ -189,3 +189,120 @@ function hanoi(disc, src, buffer, dest) {
 
 hanoi(3, jar1, jar2, jar3);
 ```
+Anagram of a word:
+```javascript
+function anagram(str) {
+    const map = {};
+    (function recurse(current, remain) {
+        current.split("").forEach((e, i) => {
+            const tail = current.slice(0, i) + current.slice(i + 1);
+            const word = remain + e + tail;
+            if (!map[word]) {
+                map[word] = true;
+            }
+            if (current.length > 1) {
+                recurse(tail, remain + e);
+            }
+        });
+    })(str, "");
+    return Object.keys(map);
+}
+
+anagram("ABCA");
+```
+Generate n numbers of proper Parentheses set:
+```javascript
+function generate(n) {
+    const result = [];
+    (function recurse(str, i, j) {
+        if (i > j) {
+            return;
+        }
+        if (i === 0 && j === 0) {
+            result.push(str);
+            return;
+        }
+        if (i > 0) {
+            recurse(str + "(", i - 1, j);
+        }
+        if (j > 0) {
+            recurse(str + ")", i, j - 1);
+        }
+    })("", n, n);
+    return result;
+}
+
+generate(3); // [ '((()))', '(()())', '(())()', '()(())', '()()()' ]
+```
+Implement Paint Fill method:
+```javascript
+const screen = [
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 0, 0],
+    [1, 0, 0, 1, 1, 0, 1, 1],
+    [1, 2, 2, 2, 2, 0, 1, 0],
+    [1, 1, 1, 2, 2, 0, 1, 0],
+    [1, 1, 1, 2, 2, 2, 2, 0],
+    [1, 1, 1, 1, 1, 2, 1, 1],
+    [1, 1, 1, 1, 1, 2, 2, 1]
+];
+
+function paintFill(screen, x, y, newColor) {
+    const visited = {};
+    (function recurse(x, y) {
+        const key = `${x}${y}`;
+        if (visited[key] || x >= screen.length || y >= screen[0].length || x < 0 || y < 0) {
+            return;
+        }
+        if (screen[x][y] === newColor - 1) {
+            screen[x][y] = newColor;
+            visited[key] = true;
+            recurse(x - 1, y);
+            recurse(x, y - 1);
+            recurse(x + 1, y);
+            recurse(x, y + 1);
+        }
+    })(x, y);
+    return screen;
+}
+
+paintFill(screen, 4, 4, 3);
+```
+Ways to put 8 queens on a 8x8 board:
+```javascript
+function isValid(combo, row1, col1) {
+    for (let row2 = 0; row2 < row1; row2++) {
+        const col2 = combo[row2];
+        if (col1 === col2) {
+            return false;
+        }
+        const colDistance = Math.abs(col2 - col1);
+        const rowDistance = row1 - row2;
+        // this is to check diagonally, if it is equal, it is diagonal
+        if (colDistance === rowDistance) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function placeQueens() {
+    const result = [];
+    const combo = [];
+    (function recurse(row) {
+        if (row === 8) {
+            result.push([...combo]);
+            return;
+        }
+        for (let col = 0; col < 8; col++) {
+            if (isValid(combo, row, col)) {
+                combo[row] = col;
+                recurse(row + 1);
+            }
+        }
+    })(0);
+    return result;
+}
+
+placeQueens();
+```
