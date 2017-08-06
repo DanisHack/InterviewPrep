@@ -133,3 +133,59 @@ function magicIndexNonDistinct(arr, start = 0, end = arr.length - 1) {
 
 magicIndexNonDistinct(arr2);
 ```
+Write a method to return all subsets of a set:
+```javascript
+function getSubsets(set, index = 0) {
+	if (index === set.length) {
+		return [[]]
+	}
+	const result = getSubsets(set, index + 1);
+	const item = set[index];
+	const newSubsets = result.map(subset => subset.concat(item));
+	return result.concat(newSubsets);
+}
+
+// time complexity: O(n2^n)
+getSubsets([1, 2, 3]); // [ [], [ 3 ], [ 2 ], [ 3, 2 ], [ 1 ], [ 3, 1 ], [ 2, 1 ], [ 3, 2, 1 ] ]
+```
+A recursive function that multiplies two integers without the * operator:
+```javascript
+function multiply(x, y) {
+	if (y === 0) {
+		return 0;
+	} else if (y > 0) {
+		return x + multiply(x, y - 1);
+	}
+	return -multiply(x, -y);
+}
+
+multiply(5, -11); // -55
+```
+Moving Discs in Tower of Hanoi:
+```javascript
+const jar1 = {
+    name: "jar1",
+    jar: [1, 2, 3]
+};
+const jar2 = {
+    name: "jar2",
+    jar: []
+};
+const jar3 = {
+    name: "jar3",
+    jar: []
+};
+
+function hanoi(disc, src, buffer, dest) {
+	if (disc <= 0) {
+		return;
+	}
+	hanoi(disc - 1, src, dest, buffer);
+	src.shift();
+	dest.unshift(disc);
+	console.log(src, dest, buffer);
+	hanoi(disc - 1, buffer, src, dest);
+}
+
+hanoi(3, jar1, jar2, jar3);
+```
