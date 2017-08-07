@@ -196,3 +196,43 @@ function isPrime(n) {
     return false;
 }
 ```
+Next permutation of a number:
+```javascript
+function reverse(nums, p, q) {
+    while (p < q) {
+        const temp = nums[p];
+        nums[p] = nums[q];
+        nums[q] = temp;
+        p++;
+        q--;
+    }
+}
+
+function nextPermutation(nums) {
+    let p = 0, q = 0;
+    for (let i = nums.length - 2; i >= 0; i--) {
+        if (nums[i] < nums[i + 1]) {
+            p = i;
+            break;
+        }
+    }
+    for (let i = nums.length - 1; i > p; i--) {
+        if (nums[i] > nums[p]) {
+            q = i;
+            break;
+        }
+    }
+    if (p === 0 && q === 0) {
+        return nums.reverse();
+    }
+    const temp = nums[p];
+    nums[p] = nums[q];
+    nums[q] = temp;
+    if (p < nums.length - 1) {
+        reverse(nums, p + 1, nums.length - 1);
+    }
+    return nums;
+}
+
+nextPermutation([1, 3, 2]); // [2, 1, 3]
+```
