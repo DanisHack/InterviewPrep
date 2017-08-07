@@ -557,18 +557,16 @@ function greatestSum(current, sum = 1) {
     if (!current) {
         return sum;
     }
-    let left;
-    if (current && current.left && current.val + 1 === current.left.val) {
-        left = greatestSum(current.left, sum + 1);
-    } else {
-        left = greatestSum(current.left, sum);
+    let leftSum = sum;
+    if (current.left && current.val + 1 === current.left.val) {
+        leftSum++;
     }
-    let right;
-    if (current && current.right && current.val + 1 === current.right.val) {
-        right = greatestSum(current.right, sum + 1);
-    } else {
-        right = greatestSum(current.right, sum);
+	let left = greatestSum(current.left, leftSum);
+	let rightSum = sum;
+    if (current.right && current.val + 1 === current.right.val) {
+        rightSum++;
     }
+	let right = greatestSum(current.right, rightSum);
     return Math.max(left, right);
 }
 
