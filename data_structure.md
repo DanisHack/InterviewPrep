@@ -549,3 +549,28 @@ function graphBFS(graph, start, goal) {
 
 graphBFS(graph, 2, 5);
 ```
+Greatest Consecutive Sum in a Binary Tree:
+```javascript
+const tree = { val: 4, left: { val: 3, left: { val: 4, left: null, right: null }, right: { val: 1, left: null, right: null } }, right: { val: 7, left: null, right: null } };
+
+function greatestSum(current, sum = 1) {
+    if (!current) {
+        return sum;
+    }
+    let left;
+    if (current && current.left && current.val + 1 === current.left.val) {
+        left = greatestSum(current.left, sum + 1);
+    } else {
+        left = greatestSum(current.left, sum);
+    }
+    let right;
+    if (current && current.right && current.val + 1 === current.right.val) {
+        right = greatestSum(current.right, sum + 1);
+    } else {
+        right = greatestSum(current.right, sum);
+    }
+    return Math.max(left, right);
+}
+
+greatestSum(tree); // 2
+```
