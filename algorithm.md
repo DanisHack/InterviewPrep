@@ -1,3 +1,36 @@
+3 sum:
+```javascript
+function sum3(arr) {
+    const result = [];
+    if (arr.length < 3) {
+        return result;
+    }
+    for (let i = 0; i < arr.length - 1; i++) {
+        let j = i + 1, k = arr.length - 1;
+        while (j < k) {
+            const sum = arr[i] + arr[j] + arr[k];
+            if (sum === 0) {
+                result.push(`${arr[i]},${arr[j]},${arr[k]}`);
+                j++;
+                k--;
+                while (j < k && arr[j] === arr[j - 1]) {
+                    j++;
+                }
+                while (j < k && arr[k] === arr[k + 1]) {
+                    k--;
+                }
+            } else if (sum < 0) {
+                j++;
+            } else {
+                k--;
+            }
+        }
+    }
+    return result;
+}
+
+sum3([-4, -2, 0, 0, 2, 2, 4]);
+```
 4 Sum:
 ```javascript
 function fourSum(nums, target) {
@@ -235,4 +268,303 @@ function nextPermutation(nums) {
 }
 
 nextPermutation([1, 3, 2]); // [2, 1, 3]
+```
+Insert new Interval:
+```javascript
+const arr1 = [[1,2], [3,5], [6,7], [8,10], [12,16]];
+const arr2 = [4,9];
+
+function insertInterval(intervals, newInterval) {
+    const result = [];
+    intervals.forEach(e => {
+        if (newInterval[0] > e[1]) {
+           result.push(e);
+        } else if (newInterval[1] < e[0]) {
+            result.push(newInterval);
+            newInterval = e;
+        } else if (newInterval[1] >= e[0] || newInterval[0] <= e[1]) {
+            newInterval = [Math.min(newInterval[0], e[0]), Math.max(newInterval[1], e[1])];
+        }
+    });
+    result.push(newInterval);
+    return result;
+}
+
+insertInterval(arr1, arr2); // [ [ 1, 2 ], [ 3, 10 ], [ 12, 16 ] ]
+```
+Find the Intersection of Two Arrays:
+```javascript
+function intersect(a, b) {
+    let aIndex = 0, bIndex = 0;
+    const result = [];
+    while (aIndex < a.length && bIndex < b.length) {
+        if (a[aIndex] < b[bIndex]) {
+            aIndex++;
+        } else if (a[aIndex] > b[bIndex]) {
+            bIndex++;
+        } else {
+            result.push(a[aIndex]);
+            aIndex++;
+            bIndex++;
+        }
+    }
+    return result;
+}
+
+intersect([1, 2, 3, 4], [2, 3, 4]);
+```
+Get all orders of letters of words:
+```javascript
+function get(s) {
+	let result = [];
+	function recurse(current, remain) {
+		remain.split("").forEach((e, i) => {
+			let tail = remain.slice(0, i) + remain.slice(i + 1);
+			let word = current + e + tail;
+
+			if(result.indexOf(word) < 0) {
+				result.push(word);
+			}
+
+			if(remain.length > 1) {
+				recurse(current + e, tail);
+			}
+		});
+	}
+	recurse("", s);
+	return result;
+}
+
+get("dog");
+```
+Longest Substring Without Repeating Characters:
+```javascript
+function longest(str) {
+    let result = 0, lastRepeat = -1;
+    const visited = {};
+    str.split("").forEach((e, i) => {
+        if (visited.hasOwnProperty(e)) {
+           lastRepeat = Math.max(lastRepeat, visited[e]);
+        }
+        result = Math.max(result, i - lastRepeat);
+        visited[e] = i;
+    });
+    return result;
+}
+
+longest("ewrvewvwsfa") // 5
+```
+Median of two sorted array:
+```javascript
+function merge(a, b) {
+    let aLength = a.length - 1;
+    let bLength = b.length - 1;
+    let mergeLength = a.length + b.length - 1;
+    while (aLength >= 0 && bLength >= 0) {
+        if (a[aLength] > b[bLength]) {
+            a[mergeLength] = a[aLength];
+            aLength--;
+            mergeLength--;
+        } else {
+            a[mergeLength] = b[bLength];
+            bLength--;
+            mergeLength--;
+        }
+    }
+    while (bLength >= 0) {
+        a[mergeLength] = b[bLength];
+        mergeLength--;
+        bLength--;
+    }
+    return a;
+}
+
+function findMedian(a, b) {
+    const arr = merge(a, b);
+    const middle = Math.floor(arr.length / 2);
+    if (arr.length % 2 !== 0) {
+        return arr[middle];
+    }
+    return (arr[middle] + arr[middle + 1]) / 2;
+}
+
+findMedian([1, 1, 2, 3, 4], [5, 6, 7, 7]);
+```
+Find the longest palindrome:
+```javascript
+function expand(str, i, j) {
+    while (i >= 0 && j < str.length && str[i] === str[j]) {
+        i--;
+        j++;
+    }
+    return j - i - 1;
+}
+
+function longestPalindrome(str) {
+    let start = 0, end = 0;
+    str.split("").forEach((e, i) => {
+       const len1 = expand(str, i, i);
+       const len2 = expand(str, i, i + 1);
+       const len = Math.max(len1, len2);
+       if (len > end - start) {
+           start = i - (len - 1) / 2;
+           end = (i + len / 2) + 1;
+       }
+    });
+    return str.slice(Math.ceil(start), end);
+}
+
+longestPalindrome("bbcccbb");
+```
+Regular Expression Matching:
+```javascript
+function isMatch(s, p) {
+    if (!p) {
+        return !s;
+    }
+    if (p.length === 1 || p[1] !== "*") {
+        if (!s || (p[0] !== "." && s[0] !== p[0])) {
+            return false;
+        }
+        return isMatch(s.slice(1), p.slice(1));
+    } else {
+        let i = -1;
+        while (i < s.length && (i < 0 || p[0] === "." || p[0] === s[i])) {
+            if (isMatch(s.slice(i + 1), p.slice(2))) {
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+}
+isMatch("aab", "c*a*b"); // true
+isMatch("aab", "a*"); // true
+```
+Wildcard Matching:
+```javascript
+function isMatch(s, p) {
+    let i = 0, j = 0, jIndex = -1, iIndex = -1;
+    while (i < s.length) {
+        if (j < p.length && (p[j] === "?" || p[j] === s[i])) {
+            j++;
+            i++;
+        } else if (j < p.length && p[j] === "*") {
+            jIndex = j;
+            iIndex = i;
+            j++;
+        } else if (jIndex !== -1) {
+            i = iIndex + 1;
+            j = jIndex + 1;
+            iIndex++;
+        } else {
+            return false;
+        }
+    }
+    while (j < p.length && p[j] === "*") {
+        j++;
+    }
+    return j === p.length;
+}
+
+isMatch("abefcdgiescdfimde", "ab*cd?i*de");
+```
+Longest Common Prefix:
+```javascript
+function longestCommonPrefix(arr) {
+    if (!arr.length) {
+        return "";
+    }
+    const firstWord = arr[0];
+    for (let i = 0; i < firstWord.length; i++) {
+        const currentLetter = firstWord[i];
+        for (let j = 0; j < arr.length; j++) {
+            if (i === arr[j].length || arr[j][i] !== currentLetter) {
+                return firstWord.slice(0, i);
+            }
+        }
+    }
+    return firstWord;
+}
+
+longestCommonPrefix(["leets", "leetcode", "leet", "leeds"]); // lee
+```
+Check if parentheses are valid:
+```javascript
+function validParen(str) {
+    const parentheses = { "(": 1, ")": 2 };
+    const arr = [];
+    let valid = 0;
+    str.split("").forEach(e => {
+        const current = parentheses[e];
+        if (current % 2) {
+            valid++;
+            arr.push(e);
+        } else {
+            valid--;
+            arr.pop()
+        }
+    });
+    return arr.length === 0 && valid === 0;
+}
+
+validParen(")()()(");
+```
+Word Break:
+```javascript
+function wordBreak(s, dict) {
+    const arr = [true];
+    for (let i = 0; i < s.length; i++) {
+        if (arr[i]) {
+            for (let j = i + 1; j <= s.length; j++) {
+                const word = s.slice(i, j);
+                if (dict.includes(word)) {
+                    arr[j] = true;
+                }
+            }
+        }
+    }
+    return arr[s.length];
+}
+
+wordBreak("leetcode", ["leet", "code"]); // Return true because "leetcode" can be segmented as "leet code".
+```
+Word Break II:
+```javascript
+function dfs(arr, result, str, index) {
+    if (index === 0) {
+        result.push(str.trim());
+        return;
+    }
+    for (let i = 0; i < arr[index].length; i++) {
+        const word = arr[index][i];
+        dfs(arr, result, `${word} ${str}`, index - word.length);
+    }
+}
+
+function wordBreak(s, dict) {
+    const arr = [[]];
+    for (let i = 0; i < s.length; i++) {
+        if (arr[i]) {
+            for (let j = i + 1; j <= s.length; j++) {
+                const word = s.slice(i, j);
+                if (dict.includes(word)) {
+                    if (arr[j]) {
+                        arr[j].push(word);
+                    } else {
+                        arr[j] = [word];
+                    }
+                }
+            }
+        }
+    }
+    const result = [];
+    if (!arr.length) {
+        return result;
+    }
+    dfs(arr, result, "", s.length);
+    return result;
+}
+
+wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and dog", "cat sand dog"]
 ```

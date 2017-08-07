@@ -433,3 +433,119 @@ function BFS(node) {
 
 BFS(tree);
 ```
+Add Up the value of each binary tree level:
+```javascript
+var tree = {val: 5, left: {val: 3, left: {val: 2, left: null, right: null}, right: {val: 4, left: null, right: null}}, right: {val: 7, left: {val: 6, left: null, right: null}, right: {val: 8, left: null, right: null}}};
+
+function addBinaryTree(head) {
+    const queue = [head];
+    const sum = [head.val];
+    let level = 1;
+    let numberOfNodes = 1;
+    while (queue.length) {
+        if (!numberOfNodes) {
+            level++;
+            numberOfNodes = queue.length;
+        }
+        const current = queue.shift();
+        if (current.left) {
+            if (sum[level]) {
+                sum[level] += current.left.val;
+            } else {
+                sum[level] = current.left.val;
+            }
+            queue.push(current.left);
+        }
+        if (current.right) {
+            if (sum[level]) {
+                sum[level] += current.right.val;
+            } else {
+                sum[level] = current.right.val;
+            }
+            queue.push(current.right);
+        }
+        numberOfNodes--;
+    }
+    return sum;
+}
+
+addBinaryTree(tree);
+```
+Depth First Search of Graph:
+```javascript
+const graph = [
+  [0, 1, 0, 0, 1, 0],
+  [1, 0, 1, 0, 1, 0],
+  [0, 1, 0, 1, 0, 0],
+  [0, 0, 1, 0, 1, 1],
+  [1, 1, 0, 1, 0, 0],
+  [0, 0, 0, 1, 0, 0]
+];
+
+function graphDFS(graph, start, goal) {
+    const visited = {};
+    const path = [];
+    (function recurse(current) {
+        visited[current] = true;
+        path.push(current);
+        if (current === goal) {
+            return true;
+        }
+        for (let i = 0; i < graph[current].length; i++) {
+            if (graph[current][i] && !visited[i]) {
+                if (recurse(i)) {
+                    return true;
+                }
+                path.pop();
+            }
+        }
+    })(start);
+    return path;
+}
+
+graphDFS(graph, 2, 5);
+```
+Breadth First Search of Graph: Time Complexity is O(V + E), where V is vertex and E is Edges
+```javascript
+const graph = [
+  [0, 1, 0, 0, 1, 0],
+  [1, 0, 1, 0, 1, 0],
+  [0, 1, 0, 1, 0, 0],
+  [0, 0, 1, 0, 1, 1],
+  [1, 1, 0, 1, 0, 0],
+  [0, 0, 0, 1, 0, 0]
+];
+
+function buildPath(parents, goal) {
+    let current = goal;
+    const path = [current];
+    while (parents[current] !== null) {
+        current = parents[current];
+        path.push(current);
+    }
+    return path.reverse();
+}
+
+function graphBFS(graph, start, goal) {
+    const visited = { [start]: true };
+    const queue = [start];
+    const parents = [];
+    parents[start] = null;
+    while (queue.length) {
+        const current = queue.shift();
+        if (current === goal) {
+            return buildPath(parents, goal);
+        }
+        for (let i = 0; i < graph[current].length; i++) {
+            if (i !== current && graph[current][i] && !visited[i]) {
+                visited[i] = true;
+                parents[i] = current;
+                queue.push(i);
+            }
+        }
+    }
+    return null;
+}
+
+graphBFS(graph, 2, 5);
+```
