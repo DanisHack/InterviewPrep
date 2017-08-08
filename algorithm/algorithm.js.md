@@ -5,7 +5,7 @@ function sum3(arr) {
     if (arr.length < 3) {
         return result;
     }
-    for (let i = 0; i < arr.length - 1; i++) {
+    for (let i = 0; i < arr.length - 2; i++) {
         let j = i + 1, k = arr.length - 1;
         while (j < k) {
             const sum = arr[i] + arr[j] + arr[k];
