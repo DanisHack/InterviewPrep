@@ -80,6 +80,66 @@ def convertToRoman(num):
 
 convertToRoman(435)
 ```
+Convert Roman to Num:
+```python
+def convertToNumber(string):
+    roman = {
+        "M": 1000,
+        "CM": 900,
+        "D": 500,
+        "CD": 400,
+        "C": 100,
+        "XC": 90,
+        "L": 50,
+        "XL": 40,
+        "X": 10,
+        "IX": 9,
+        "V": 5,
+        "IV": 4,
+        "I": 1
+    }
+    result = roman[string[0]]
+    for i in range(1, len(string)):
+        current = roman[string[i]]
+        prev = roman[string[i - 1]]
+        if prev < current:
+            result += current - prev - prev
+        else:
+            result += current
+    return result
+
+convertToNumber('CDXXXV')
+```
+Phone Letter Combination:
+```python
+def letterCombinations(string):
+    result = []
+    if not string:
+        return result
+    obj = {
+        "1": ["1"],
+        "0": ["0"],
+        "2": ["a", "b", "c"],
+        "3": ["d", "e", "f"],
+        "4": ["g", "h", "i"],
+        "5": ["j", "k", "l"],
+        "6": ["m", "n", "o"],
+        "7": ["p", "q", "r", "s"],
+        "8": ["t", "u", "v"],
+        "9": ["w", "x", "y", "z"]
+    }
+    def recurse(current, index):
+        if len(current) == len(string):
+            result.append(current)
+            return
+        for i in range(len(obj[string[index]])):
+            word = obj[string[index]][i]
+            recurse(current + word, index + 1)
+    recurse("", 0)
+    return result
+
+letterCombinations("234")
+```
 Word Break:
 ```python
 def wordBreak(s, dictionary):
