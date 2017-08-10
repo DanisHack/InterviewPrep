@@ -650,3 +650,62 @@ function searchRange(nums, target) {
 
 searchRange([5, 7, 7, 8, 8, 10], 8); // [3, 4]
 ```
+Longest Valid Parentheses:
+```javascript
+function longestValidParentheses(s) {
+    let result = 0;
+    const stack = [];
+    s.split("").forEach((current, i) => {
+        if (current === "(") {
+            stack.push([i, 0]);
+        } else {
+            if (!stack.length || stack[stack.length - 1][1] === 1) {
+                stack.push([i, 1]);
+            } else {
+                stack.pop();
+                let currentLen = 0;
+                if (!stack.length) {
+                    currentLen = i + 1;
+                } else {
+                    currentLen = i - stack[stack.length - 1][0];
+                }
+                result = Math.max(result, currentLen);
+            }
+        }
+    });
+    return result;
+}
+
+longestValidParentheses(")()())")
+```
+Search in Rotated Sorted Array:
+```javascript
+function search(nums, target, start = 0, end = nums.length - 1) {
+    if (start > end) {
+        return -1;
+    }
+    const middle = Math.floor((start + end) / 2);
+    if (nums[middle] === target) {
+        return middle;
+    } else if (nums[middle] < target) {
+        let value = -1;
+        if (nums[0] > nums[middle]) {
+            value = search(nums, target, start, middle - 1);
+        }
+        if (value === -1) {
+            return search(nums, target, middle + 1, end);
+        }
+        return value;
+    }
+    let value = -1;
+    if (nums[nums.length - 1] < nums[middle]) {
+        value = search(nums, target, middle + 1, end)
+    }
+    if (value === -1) {
+        return search(nums, target, start, middle - 1);
+    }
+    return value;
+};
+
+search([4, 5, 6, 7, 1, 2, 3], 5);
+```
