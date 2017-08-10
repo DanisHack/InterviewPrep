@@ -568,3 +568,85 @@ function wordBreak(s, dict) {
 
 wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and dog", "cat sand dog"]
 ```
+Substring with Concatenation of All Words:
+```javascript
+function findSubstring(s, words) {
+    const result = [];
+    if (!s || !words.length) {
+        return result;
+    }
+    const len = words[0].length;
+    const map = {};
+    words.forEach(e => {
+        if (map[e]) {
+            map[e]++;
+        } else {
+            map[e] = 1;
+        }
+    });
+    for (let i = 0; i < len; i++) {
+        let count = 0;
+        let start = i;
+        let currentMap = {};
+        for (let j = i; j < s.length - len; j += len) {
+            const word = s.slice(j, j + len);
+            if (map[word]) {
+                if (currentMap[word]) {
+                    currentMap[word]++;
+                } else {
+                    currentMap[word] = 1;
+                }
+                count++;
+                while (currentMap[word] > map[word]) {
+                    const startWord = s.slice(start, start + len);
+                    currentMap[startWord]--;
+                    count--;
+                    start += len;
+                }
+                if (count === words.length) {
+                    result.push(start);
+                    const startWord = s.slice(start, start + len);
+                    currentMap[startWord]--;
+                    count--;
+                    start += len;
+                }
+            } else {
+                currentMap = {};
+                count = 0;
+                start = j + len;
+            }
+        }
+    }
+    return result;
+}
+
+findSubstring("barfoofoobarthefoobarman", ["bar","foo","the"]);
+```
+Search for a Range:
+```javascript
+function searchRange(nums, target) {
+    let start = 0;
+    let end = nums.length - 1;
+    const result = [];
+    while (start <= end) {
+        const middle = Math.floor((start + end) / 2);
+        if (nums[middle] === target) {
+            let temp = middle, temp1 = middle;
+            while (temp > 0 && nums[temp] === nums[temp - 1]) {
+                temp--;
+            }
+            while (temp1 < nums.length - 1 && nums[temp1] === nums[temp1 + 1]) {
+                temp1++;
+            }
+            return [temp, temp1];
+        } else if (nums[middle] < target) {
+            start = middle + 1;
+        } else {
+            end = middle - 1;
+        }
+    }
+    return [-1, -1];
+};
+
+searchRange([5, 7, 7, 8, 8, 10], 8); // [3, 4]
+```

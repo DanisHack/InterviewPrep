@@ -140,6 +140,69 @@ def letterCombinations(string):
 
 letterCombinations("234")
 ```
+Island count, connected islands are count as one:
+```python
+graph = [
+ [1, 1, 0, 0, 1],
+ [1, 1, 0, 0, 0],
+ [0, 0, 0, 0, 0],
+ [0, 1, 0, 1, 1]
+]
+
+def islandCount(graph):
+    visited = {}
+    result = 0
+    def isValid(row, col):
+        key = "{0}{1}".format(row, col)
+        if key in visited or row >= len(graph) or col >= len(graph[0]) or not graph[row][col]:
+            return False
+        visited[key] = True
+        isValid(row, col + 1)
+        isValid(row + 1, col + 1)
+        isValid(row + 1, col)
+        isValid(row + 1, col - 1)
+        return True
+    for i in range(len(graph)):
+        row = graph[i]
+        for j in range(len(row)):
+            current = row[j]
+            if current and not "{0}{1}".format(i, j) in visited and isValid(i, j):
+                result += 1
+    return result
+
+islandCount(graph)
+```
+Next permutation of a number:
+```python
+def reverse(nums, p, q):
+    while p < q:
+        temp = nums[p]
+        nums[p] = nums[q]
+        nums[q] = temp
+        p += 1
+        q -= 1
+
+def nextPermutation(nums):
+    p = 0; q = 0
+    for i in range(len(nums) - 2, -1, -1):
+        if nums[i] < nums[i + 1]:
+            p = i
+            break
+    for i in range(len(nums) - 1, p, -1):
+        if nums[i] > nums[p]:
+            q = i
+            break
+    if p == 0 and q == 0:
+        return list(reversed(nums))
+    temp = nums[p]
+    nums[p] = nums[q]
+    nums[q] = temp
+    if p < len(nums) - 1:
+        reverse(nums, p + 1, len(nums) - 1)
+    return nums
+
+nextPermutation([1, 3, 2])
+```
 Word Break:
 ```python
 def wordBreak(s, dictionary):
