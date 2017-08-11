@@ -709,3 +709,45 @@ function search(nums, target, start = 0, end = nums.length - 1) {
 
 search([4, 5, 6, 7, 1, 2, 3], 5);
 ```
+Given an unsorted integer array, find the first missing positive integer:
+```javascript
+function firstMissingPositive(nums) {
+    for (let i = 0; i < nums.length; i++) {
+        while (nums[i] > 0 && nums[i] < nums.length && nums[i] !== nums[nums[i] - 1]) {
+            const temp = nums[i];
+            nums[i] = nums[nums[i] - 1];
+            nums[temp - 1] = temp;
+        }
+    }
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== i + 1) {
+            return i + 1;
+        }
+    }
+    return nums.length + 1;
+}
+
+firstMissingPositive([2, 6, 4, 1, 5]); // 3
+```
+Given n and k, return the kth permutation sequence:
+```javascript
+function getPermutation(n, k) {
+    k--;
+    const arr = [];
+    let mod = 1, result = "";
+    for (let i = 1; i <= n; i++) {
+        arr.push(i);
+        mod *= i;
+    }
+    for (let i = 0; i < n; i++) {
+        mod /= n - i;
+        const current = Math.floor(k / mod);
+        k %= mod;
+        result += arr[current];
+        arr.splice(current, 1);
+    }
+    return result;
+}
+
+getPermutation(9, 2);
+```

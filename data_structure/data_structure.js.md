@@ -572,3 +572,29 @@ function greatestSum(current, sum = 1) {
 
 greatestSum(tree); // 2
 ```
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL:
+```javascript
+const tree = { val: 0, left: { val: 1, left: { val: 3, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 2, left: { val: 5, left: null, right: null }, right: { val: 6, left: null, right: null } } };
+
+function connect(root) {
+    if (!root) {
+        return;
+    }
+    const queue = [root];
+    let count = 1;
+    while (queue.length) {
+        const current = queue.shift();
+        if (current.right) {
+            queue.push(current.left);
+            queue.push(current.right);
+        }
+        if (count === 1) {
+            current.next = null;
+            count = queue.length;
+        } else {
+            current.next = queue[0];
+            count--;
+        }
+    }
+}
+```
