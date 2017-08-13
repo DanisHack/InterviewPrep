@@ -26,7 +26,7 @@ function rearrange(a, i) {
         if (a[equal] < pivot) {
             const temp = a[smaller];
             a[smaller] = a[equal];
-            a[equal] = a[bigger];
+            a[equal] = temp;
             equal++;
             smaller++;
         } else if (a[equal] === pivot) {
