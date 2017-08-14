@@ -188,3 +188,57 @@ function generatePrime(n) {
 
 generatePrime(35);
 ```
+Give the spiral order of a NxN matrix:
+```javascript
+const arr = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+];
+
+function zip(arr) {
+    const result = [];
+    for (let index = 0; index < arr.length; index++) {
+        for (let i = 0; i < arr.length; i++) {
+            if (result[index]) {
+                result[index].push(arr[i][index]);
+            } else {
+                result[index] = [arr[i][index]];
+            }
+        }
+    }
+    return result;
+}
+
+Array.prototype.sliceWithSteps = function(start = -1, stop = 0, step = -1) {
+    const arr = this;
+    const result = [];
+    for (let i = start; i > stop; i += step) {
+        result.push(arr[i]);
+    }
+    return result;
+}
+
+function spiralMatrix(matrix) {
+    let result = [];
+    const zipMatrix = zip(matrix);
+    function spiralOrder(start) {
+        const end = matrix.length - start - 1;
+        if (start === end) {
+            result.push(matrix[start][start]);
+            return;
+        }
+        const topSide = matrix[start].slice(start, end);
+        const rightSide = zipMatrix[end].slice(start, end);
+        const bottomSide = matrix[end].sliceWithSteps(end, start, -1);
+        const leftSide = zipMatrix[start].sliceWithSteps(end, start, -1);
+        result = result.concat(topSide, rightSide, bottomSide, leftSide);
+    }
+    for (let i = 0; i < Math.floor((matrix.length + 1) / 2); i++) {
+        spiralOrder(i);
+    }
+    return result;
+}
+
+spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
+```
