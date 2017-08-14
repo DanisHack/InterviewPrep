@@ -119,3 +119,72 @@ function minimumPath(a) {
 
 minimumPath([3, 3, 1, 0, 2, 0, 1]); // [1, 3, 2]
 ```
+Delete Duplicated from a sorted Array:
+```javascript
+function removeDuplicate(nums) {
+    if (!nums.length) {
+        return 0;
+    }
+    let lastIndex = 1;
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[lastIndex - 1] !== nums[i]) {
+            nums[lastIndex] = nums[i];
+            lastIndex++;
+        }
+    }
+    return lastIndex;
+}
+
+removeDuplicate([2, 3, 5, 5, 7, 11, 11, 11, 13]);
+
+function removeTarget(nums, target) {
+    if (!nums.length) {
+        return 0;
+    }
+    let lastIndex = 0;
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== target) {
+            nums[lastIndex] = nums[i];
+            lastIndex++;
+        }
+    }
+    return lastIndex;
+}
+
+removeTarget([2, 3, 5, 5, 7, 11, 11, 11, 13], 11);
+```
+Buy and Sell a stock once:
+```javascript
+function buySellStock(prices) {
+    let mostProfit = 0, prevIndex = 0
+    for (let i = 0; i < prices.length; i++) {
+        const diff = prices[i] - prices[prevIndex];
+        if (diff > mostProfit) {
+            mostProfit = diff;
+        } else if (diff < 0) {
+            prevIndex = i;
+        }
+    }
+    return mostProfit;
+}
+
+buySellStock([310, 315, 275, 295, 260, 270, 290, 230, 255, 250]);
+```
+Generate prime from 1 to n:
+```javascript
+function generatePrime(n) {
+    const primes = [];
+    const isPrime = [false, false].concat(Array(n - 1).fill(true));
+    for (let p = 2; p < n; p++) {
+        if (isPrime[p]) {
+            primes.push(p);
+            for (let i = p; i <= n; i += p) {
+                isPrime[i] = false;
+            }
+        }
+    }
+    return primes;
+}
+
+generatePrime(35);
+```
