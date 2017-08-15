@@ -196,49 +196,70 @@ const arr = [
     [7, 8, 9]
 ];
 
-function zip(arr) {
-    const result = [];
-    for (let index = 0; index < arr.length; index++) {
-        for (let i = 0; i < arr.length; i++) {
-            if (result[index]) {
-                result[index].push(arr[i][index]);
-            } else {
-                result[index] = [arr[i][index]];
-            }
-        }
-    }
-    return result;
-}
-
-Array.prototype.sliceWithSteps = function(start = -1, stop = 0, step = -1) {
-    const arr = this;
-    const result = [];
-    for (let i = start; i > stop; i += step) {
-        result.push(arr[i]);
-    }
-    return result;
-}
-
 function spiralMatrix(matrix) {
-    let result = [];
-    const zipMatrix = zip(matrix);
-    function spiralOrder(start) {
-        const end = matrix.length - start - 1;
-        if (start === end) {
-            result.push(matrix[start][start]);
-            return;
+    const result = [];
+    let counter = 1, top = left = 0, right = bottom = arr.length - 1;
+    while (counter < arr.length * arr.length) {
+        for (let i = left; i <= right; i++) {
+            result.push(arr[top][i]);
+            counter++;
         }
-        const topSide = matrix[start].slice(start, end);
-        const rightSide = zipMatrix[end].slice(start, end);
-        const bottomSide = matrix[end].sliceWithSteps(end, start, -1);
-        const leftSide = zipMatrix[start].sliceWithSteps(end, start, -1);
-        result = result.concat(topSide, rightSide, bottomSide, leftSide);
+        top++;
+        for (let i = top; i <= bottom; i++) {
+            result.push(arr[i][right]);
+            counter++;
+        }
+        right--;
+        for (let i = right; i >= left; i--) {
+            result.push(arr[bottom][i]);
+            counter++;
+        }
+        bottom--;
+        for (let i = bottom; i >= top; i--) {
+            result.push(arr[i][left]);
+            counter++;
+        }
+        left++;
     }
-    for (let i = 0; i < Math.floor((matrix.length + 1) / 2); i++) {
-        spiralOrder(i);
+    if (arr.length % 2 !== 0) {
+        const middle = Math.floor(arr.length / 2);
+        result.push(arr[middle][middle]);
     }
     return result;
 }
 
 spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
+
+function generateSpiralMatrix(n) {
+    const result = [];
+    for (let i = 0; i < n; i++) {
+        result.push([]);
+    }
+    let currentNum = 1, top = left = 0, bottom = right = n - 1;
+    while (currentNum <= n * n) {
+        for (let i = left; i <= right; i++) {
+            result[top][i] = currentNum;
+            currentNum++;
+        }
+        top++;
+        for (let i = top; i <= bottom; i++) {
+            result[i][right] = currentNum;
+            currentNum++;
+        }
+        right--;
+        for (let i = right; i >= left; i--) {
+            result[bottom][i] = currentNum;
+            currentNum++;
+        }
+        bottom--;
+        for (let i = bottom; i >= top; i--) {
+            result[i][left] = currentNum;
+            currentNum++;
+        }
+        left++;
+    }
+    return result;
+}
+
+generateSpiralMatrix(4);
 ```
