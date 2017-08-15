@@ -288,3 +288,25 @@ function rotateMatrix(matrix) {
 
 rotateMatrix(arr);
 ```
+Generate Pascal Triangle:
+```javascript
+function generatePascalTri(n) {
+    const result = [[1], [1, 1]]
+    if (result.length >= n) {
+        return result.slice(0, n);
+    }
+    let currentIndex = 2;
+    while (currentIndex < n) {
+        const current = [1];
+        for (let i = 0; i < result[currentIndex - 1].length - 1; i++) {
+            current.push(result[currentIndex - 1][i] + result[currentIndex - 1][i + 1]);
+        }
+        current.push(1);
+        currentIndex++;
+        result.push(current);
+    }
+    return result;
+}
+
+generatePascalTri(5); // [ [ 1 ], [ 1, 1 ], [ 1, 2, 1 ], [ 1, 3, 3, 1 ], [ 1, 4, 6, 4, 1 ] ]
+```
