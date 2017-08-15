@@ -188,7 +188,7 @@ function generatePrime(n) {
 
 generatePrime(35);
 ```
-Give the spiral order of a NxN matrix:
+Give the spiral order of a NxN matrix and to generate a NxN spiral matrix:
 ```javascript
 const arr = [
     [1, 2, 3],
@@ -262,4 +262,29 @@ function generateSpiralMatrix(n) {
 }
 
 generateSpiralMatrix(4);
+```
+Rotate a NxN matrix 90 degree:
+```javascript
+const arr = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+];
+
+function rotateMatrix(matrix) {
+    const result = []
+    for (let i = 0; i < arr.length; i++) {
+        for (j = arr.length - 1; j >= 0; j--) {
+            if (result[i]) {
+                result[i].push(matrix[j][i]);
+            } else {
+                result[i] = [matrix[j][i]];
+            }
+        }
+    }
+    return result;
+}
+
+rotateMatrix(arr);
 ```
