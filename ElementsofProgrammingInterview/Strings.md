@@ -6,11 +6,3 @@ function decodeStrCol(col) {
 
 decodeStrCol("ZZ"); // 702
 ```
-```python
-from functools import reduce
-
-def decodeStrCol(col):
-    return reduce(lambda result, c: result * 26 + ord(c) - 64, list(col), 0)
-
-decodeStrCol("BB")
-```

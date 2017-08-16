@@ -24,6 +24,35 @@ function remove(head){
 
 remove(list);
 ```
+```go
+type Node struct {
+    val string
+    next *Node
+}
+
+func remove(head *Node) *Node {
+    current := head
+    for current != nil {
+        runner := current
+        for runner != nil {
+            if runner.next != nil && runner.next.val == current.val {
+                runner.next = runner.next.next
+            } else {
+                runner = runner.next;
+            }
+        }
+        current = current.next
+    }
+    return head
+}
+
+func main() {
+    list := Node{
+        val: "F",
+        next: &Node{val: "O", next: &Node {val: "L", next: &Node{val: "L", next: &Node{val: "O", next: &Node{val: "W", next: nil}}}}}}
+    remove(&list)
+}
+```
 Find Kth to the last element in a singly linked list:
 ```javascript
 function findK(head, k){
