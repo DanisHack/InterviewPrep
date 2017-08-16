@@ -49,9 +49,7 @@ func remove(head *Node) *Node {
 }
 
 func main() {
-    list := Node{
-        val: "F",
-        next: &Node{val: "O", next: &Node {val: "L", next: &Node{val: "L", next: &Node{val: "O", next: &Node{val: "W", next: nil}}}}}}
+    list := Node{"F", &Node{"O", &Node {"L", &Node{"L", &Node{"O", &Node{"W", nil}}}}}}
     remove(&list)
 }
 ```
