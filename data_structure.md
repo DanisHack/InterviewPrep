@@ -1,5 +1,6 @@
 Remove Duplicates from Linked List:
 ```javascript
+// javascript version
 const list = {val: 'F', next: { val: 'O', next: { val: 'L', next: { val: 'L', next: { val: 'O', next: { val: 'W', next: null } } } } } };
 
 function remove(head){
@@ -25,6 +26,7 @@ function remove(head){
 remove(list);
 ```
 ```go
+// go version
 type Node struct {
     val string
     next *Node
