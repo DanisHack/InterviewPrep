@@ -17,7 +17,7 @@ function evenOdd(nums) {
 
 evenOdd([1, 2, 3, 5, 6, 8]); // time complexity: O(n)
 ```
-Takes an array A nad index i into A, and rearranges the elements such that all elements less than A[i]("pivot") appear first, followed by elements equal to the pivot followed by elements greater than the pivot:
+Takes an array A and index i into A, and rearranges the elements such that all elements less than A[i]("pivot") appear first, followed by elements equal to the pivot followed by elements greater than the pivot:
 ```javascript
 function rearrange(a, i) {
     const pivot = a[i];
