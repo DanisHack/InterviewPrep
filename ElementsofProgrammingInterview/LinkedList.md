@@ -78,3 +78,106 @@ function reverseSublist(list, start, end) {
 
 reverseSublist(list, 2, 4);
 ```
+Test for overlapping lists: List may have cycles
+```javascript
+class List {
+    constructor(letter) {
+        this.val = letter;
+        this.next = null;
+    }
+}
+
+const A = new List("A");
+const B = A.next = new List('B');
+const C = B.next = new List('C');
+const D = C.next = new List('D');
+const E = D.next = new List('E');
+E.next = A;
+const Z = new List("Z");
+Z.next = B;
+
+function isCycle(head){
+    let slow = fast = head;
+    while(fast && fast.next){
+        slow = slow.next;
+        fast = fast.next.next;
+        if(slow === fast){
+            break;
+        }
+    }
+    if(!fast || !fast.next){
+        return null;
+    }
+    slow = head;
+    while(slow !== fast){
+        slow = slow.next;
+        fast = fast.next;
+    }
+    return slow;
+}
+
+function getIntersectionNode(headA, headB) {
+    let a = headA, b = headB;
+    while (true) {
+        if (!a) {
+            while (b) {
+                b = b.next;
+                headB = headB.next;
+            }
+            break;
+        } else if (!b) {
+            while (a) {
+                a = a.next;
+                headA = headA.next;
+            }
+            break;
+        }
+        a = a.next;
+        b = b.next;
+    }
+    while (headA !== headB) {
+        headA = headA.next;
+        headB = headB.next;
+    }
+    return headA;
+}
+
+function distance(a, b) {
+    let dis = 0;
+    while (a !== b) {
+        a = a.next;
+        dis++;
+    }
+    return dis;
+}
+
+function overlappingLists(l1, l2) {
+    let root1 = isCycle(l1), root2 = isCycle(l2);
+    if (!root1 && !root2) {
+        return getIntersectionNode(l1, l2);
+    } else if ((root1 && !root2) || (!root1 && root2)) {
+        return null;   
+    }
+    let temp = root2;
+    while (true) {
+        temp = temp.next;
+        if (temp === root1 || temp === root2) {
+            break;
+        }
+    }
+    if (temp !== root1) {
+        return null
+    }
+    let l1Length = distance(l1, root1), l2Length = distance(l2, root2);
+    for (let i = 0; i < Math.abs(l1Length - l2Length); i++) {
+        l2 = l2.next;
+    }
+    while (l1 !== l2 && l1 !== root1 && l2 !== root2) {
+        l1 = l1.next;
+        l2 = l2.next;
+    }
+    return l1 === l2 ? l1 : root1;
+}
+
+overlappingLists(Z, A);
+```
