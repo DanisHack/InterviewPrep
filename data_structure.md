@@ -404,18 +404,32 @@ isPalindrome(list);
 ```
 Find the intersection between two nodes:
 ```javascript
-var getIntersectionNode = function(headA, headB) {
-    var a = headA, b = headB;
-    while(true){
-        if(!a){
-            while(b){
+class List {
+    constructor(letter) {
+        this.val = letter;
+        this.next = null;
+    }
+}
+
+const A = new List("A"), B = new List("B"), C = new List("C");
+A.next = B, B.next = C;
+const D = new List("D")
+D.next = new List("E");
+const Z = new List("Z"), Y = new List("Y");
+Z.next = Y;
+C.next = Y.next = D;
+
+function getIntersectionNode(headA, headB) {
+    let a = headA, b = headB;
+    while (true) {
+        if (!a) {
+            while (b) {
                 b = b.next;
                 headB = headB.next;
             }
             break;
-        }
-        if(!b){
-            while(a){
+        } else if (!b) {
+            while (a) {
                 a = a.next;
                 headA = headA.next;
             }
@@ -424,15 +438,14 @@ var getIntersectionNode = function(headA, headB) {
         a = a.next;
         b = b.next;
     }
-    while(headA){
-        if(headA === headB){
-            return headA;
-        }
+    while (headA !== headB) {
         headA = headA.next;
-        headB = headB.next
+        headB = headB.next;
     }
-    return null;
-};
+    return headA;
+}
+
+getIntersectionNode(A, Z);
 ```
 Finding the next node after this current (in-order):
 ```javascript
