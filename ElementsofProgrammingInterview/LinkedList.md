@@ -227,3 +227,31 @@ function isPalindrome(l) {
 
 isPalindrome(list);
 ```
+Write a program that implements list pivoting:
+```javascript
+const list = { val: 3, next: { val: 2, next: { val: 2, next: { val: 11, next: { val: 7, next: { val: 5, next: { val: 11, next: null } } } } } } };
+
+function listPivoting(l, k) {
+    const less = {}, equal = {}, greater = {};
+    let lessIter = less, equalIter = equal, greaterIter = greater;
+    while (l) {
+        if (l.val < k) {
+            lessIter.next = l;
+            lessIter = lessIter.next;
+        } else if (l.val === k) {
+            equalIter.next = l;
+            equalIter = equalIter.next;
+        } else {
+            greaterIter.next = l;
+            greaterIter = greaterIter.next;
+        }
+        l = l.next;
+    }
+    greaterIter.next = null;
+    equalIter.next = greater.next;
+    lessIter.next = equal.next;
+    return less.next;
+}
+
+listPivoting(list, 5);
+```
