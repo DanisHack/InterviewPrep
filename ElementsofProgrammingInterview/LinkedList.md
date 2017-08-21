@@ -181,3 +181,49 @@ function overlappingLists(l1, l2) {
 
 overlappingLists(Z, A);
 ```
+Write a program that stores all even nodes before the odd nodes
+```javascript
+const list = { val: 0, next: { val: 1, next: { val: 2, next: { val: 3, next: { val: 4, next: null } } } } };
+
+function evenOddMerge(l) {
+    const even = {}, odd = {}, arr = [even, odd];
+    let turn = 0;
+    while (l) {
+        arr[turn].next = l;
+        arr[turn] = arr[turn].next;
+        l = l.next;
+        turn ^= 1;
+    }
+    arr[1].next = null;
+    arr[0].next = odd.next;
+    return even.next;
+}
+
+evenOddMerge(list);
+```
+Write a program that tests if the linked list is a palindrome:
+```javascript
+const list = { val: "S", next: { val: "P", next: { val: "F", next: { val: "P", next: { val: "S", next: null } } } } };
+
+function isPalindrome(l) {
+    let slow = l, fast = l;
+    const arr = [];
+    while (fast && fast.next) {
+        arr.push(slow.val);
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    if (fast) {
+        slow = slow.next;
+    }
+    while (slow) {
+        if (slow.val !== arr.pop()) {
+            return false;
+        }
+        slow = slow.next;
+    }
+    return true;
+}
+
+isPalindrome(list);
+```
