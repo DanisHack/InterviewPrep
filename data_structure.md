@@ -25,34 +25,6 @@ function remove(head){
 
 remove(list);
 ```
-```go
-// go version
-type Node struct {
-    val string
-    next *Node
-}
-
-func remove(head *Node) *Node {
-    current := head
-    for current != nil {
-        runner := current
-        for runner != nil {
-            if runner.next != nil && runner.next.val == current.val {
-                runner.next = runner.next.next
-            } else {
-                runner = runner.next;
-            }
-        }
-        current = current.next
-    }
-    return head
-}
-
-func main() {
-    list := Node{"F", &Node{"O", &Node {"L", &Node{"L", &Node{"O", &Node{"W", nil}}}}}}
-    remove(&list)
-}
-```
 Find Kth to the last element in a singly linked list:
 ```javascript
 // javascript version
@@ -70,31 +42,6 @@ function findK(head, k){
 }
 
 findK(list, 2);
-```
-```go
-// go version
-type Node struct {
-    val string
-    next *Node
-}
-
-func findK(head *Node, k int) *Node {
-    pointer1, pointer2 := head, head; counter := 0
-    for counter < k && pointer2 != nil {
-        pointer2 = pointer2.next
-        counter++
-    }
-    for pointer2 != nil {
-        pointer1 = pointer1.next
-        pointer2 = pointer2.next
-    }
-    return pointer1
-}
-
-func main() {
-    list := Node{"F", &Node{"O", &Node {"L", &Node{"L", &Node{"O", &Node{"W", nil}}}}}}
-    findK(&list, 2)
-}
 ```
 Removing the kth to the last element from a linked list:
 ```javascript
@@ -119,36 +66,6 @@ var removeNthFromEnd = function(head, n) {
 };
 
 removeNthFromEnd(list, 1);
-```
-```go
-// go version
-type Node struct {
-    val string
-    next *Node
-}
-
-func removeK(head *Node, k int) *Node {
-    count := 0; pointer1, pointer2 := head, head
-    for count < k && pointer2 != nil {
-        pointer2 = pointer2.next
-        count++
-    }
-    if pointer2 == nil {
-        return pointer1.next
-    }
-    for pointer2.next != nil {
-        pointer1 = pointer1.next
-        pointer2 = pointer2.next
-    }
-    pointer1.next = pointer1.next.next
-    return head
-
-}
-
-func main() {
-    list := Node{"F", &Node{"O", &Node {"L", &Node{"L", &Node{"O", &Node{"W", nil}}}}}}
-    removeK(&list, 3)
-}
 ```
 See if the binary tree is balanced:
 ```javascript

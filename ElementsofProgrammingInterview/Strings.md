@@ -21,28 +21,6 @@ function testPalindrome(str) {
 
 testPalindrome("Able was I, ere I saw Elba"); // true
 ```
-```go
-// go version
-import (
-    "regexp"
-    "strings"
-)
-
-func testPalindrome(str string) bool {
-    arr := regexp.MustCompile(`[a-zA-Z]`).FindAllString(str, -1)
-    arrLength := len(arr)
-    for i := 0; i < int((arrLength + 1) / 2); i++ {
-        if strings.ToLower(arr[i]) != strings.ToLower(arr[arrLength - i - 1]) {
-            return false
-        }
-    }
-    return true
-}
-
-func main() {
-    testPalindrome("Able was I, ere I saw Elba")
-}
-```
 Reverse a sentence:
 ```javascript
 function reverseSentence(str) {
@@ -50,21 +28,6 @@ function reverseSentence(str) {
 }
 
 reverseSentence("ram is costly");
-```
-```go
-import "strings"
-
-func reverseSentence(str string) string {
-    arr := strings.Split(str, " ")
-    for i := 0; i < int((len(arr) + 1) / 2); i++ {
-        arr[i], arr[len(arr) - i - 1] = arr[len(arr) - i - 1], arr[i]
-    }
-    return strings.Join(arr, " ")
-}
-
-func main() {
-    reverseSentence("ram is Costly")
-}
 ```
 Generate Look and Say sequence:
 ```javascript
@@ -98,44 +61,6 @@ function lookAndSay(n) {
     return result;
 }
 lookAndSay(8);
-```
-```go
-// go version
-import "fmt"
-
-func generateSequence(str string) string {
-	count := 1
-	current := string(str[0])
-	result := ""
-	for i := 1; i < len(str); i++ {
-		currStr := string(str[i])
-		if currStr != current {
-			result = fmt.Sprintf("%v%v%v", result, count, current)
-			count = 1
-			current = currStr
-		} else {
-			count++
-		}
-	}
-	result = fmt.Sprintf("%v%v%v", result, count, current)
-	return result
-}
-
-func lookAndSay(n int) []string {
-	result := []string{"1"}
-	if n <= 1 {
-		return result
-	}
-	for i := 0; i < n-1; i++ {
-		currentSeq := generateSequence(result[i])
-		result = append(result, currentSeq)
-	}
-	return result
-}
-
-func main() {
-	fmt.Println(lookAndSay(5))
-}
 ```
 First Occurence of a substring:
 ```javascript
