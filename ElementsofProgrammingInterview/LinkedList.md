@@ -255,3 +255,28 @@ function listPivoting(l, k) {
 
 listPivoting(list, 5);
 ```
+Add two linked list into one:
+```javascript
+const list1 = { val: 2, next: { val: 4, next: { val: 3, next: null } } };
+const list2 = { val: 5, next: { val: 6, next: { val: 4, next: null } } };
+
+function addTwoNumbers(l1, l2) {
+    let iter = {}, carry = 0;
+    const result = iter;
+    while (l1 || l2 || carry) {
+        const val = carry + (l1 ? l1.val : 0) + (l2 ? l2.val : 0);
+        l1 = l1 ? l1.next : null;
+        l2 = l2 ? l2.next : null;
+        iter.next = { val: val % 10 };
+        carry = Math.floor(val / 10), iter = iter.next;
+    }
+    let current = result.next;
+    while (current) {
+        console.log(current.val);
+        current = current.next;
+    }
+    return result.next;
+}
+
+addTwoNumbers(list1, list2);
+```
