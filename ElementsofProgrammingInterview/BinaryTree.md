@@ -17,3 +17,25 @@ function isSymmetric(tree) {
 
 isSymmetric(tree);
 ```
+Sum from Root to Leaf:
+```javascript
+const tree = { val: 1, left: { val: 0, left: { val: 0, left: { val: 0, left: null, right: null }, right: { val: 1, left: null, right: null } }, right: { val: 1, left: null, right: { val: 1, left: { val: 0, left: null, right: null }, right: null } } }, right: { val: 1, left: { val: 0, left: null, right: { val: 0, left: { val: 1, left: null, right: { val: 1, left: null, right: null } }, right: { val: 0, left: null, right: null } } }, right: { val: 0, left: null, right: { val: 0, left: null, right: null } } } };
+
+function sumRootToLeaf(tree) {
+    let sum = 0;
+    (function generateSum(current, currentBinary) {
+        if (current) {
+            currentBinary += current.val;
+            if (!current.left && !current.right) {
+                sum += parseInt(currentBinary, 10);
+                return;
+            }
+            generateSum(current.left, currentBinary);
+            generateSum(current.right, currentBinary);
+        }
+    })(tree, "");
+    return sum;
+}
+
+sumRootToLeaf(tree);
+```
