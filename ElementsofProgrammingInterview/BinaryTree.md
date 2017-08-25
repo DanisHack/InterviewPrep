@@ -39,3 +39,29 @@ function sumRootToLeaf(tree) {
 
 sumRootToLeaf(tree);
 ```
+Check if num is in path root to leave:
+```javascript
+const tree = { val: 314, left: { val: 6, left: { val: 271, left: { val: 28, left: null, right: null }, right: { val: 0, left: null, right: null } }, right: { val: 561, left: null, right: { val: 3, left: { val: 17, left: null, right: null }, right: null } } }, right: { val: 6, left: { val: 2, left: null, right: { val: 1, left: { val: 401, left: null, right: { val: 641, left: null, right: null } }, right: { val: 257, left: null, right: null } } }, right: { val: 271, left: null, right: { val: 28, left: null, right: null } } } };
+
+function hasPathSum(tree, n) {
+    return (function findSum(current, sum) {
+        if (current) {
+            sum += current.val;
+            if (!current.left && !current.right) {
+                return sum === n;
+            }
+            const left = findSum(current.left, sum);
+            if (left) {
+                return true;
+            }
+            const right = findSum(current.right, sum);
+            if (right) {
+                return true;
+            }
+        }
+        return false;
+    })(tree, 0);
+}
+
+hasPathSum(tree, 901);
+```
