@@ -87,3 +87,24 @@ function inOrderSearch(tree) {
 }
 
 inOrderSearch(tree);
+```
+Pre order search of binary tree without recursion:
+```javascript
+const tree = { val: 314, left: { val: 6, left: { val: 271, left: { val: 28, left: null, right: null }, right: { val: 0, left: null, right: null } }, right: { val: 561, left: null, right: { val: 3, left: { val: 17, left: null, right: null }, right: null } } }, right: { val: 6, left: { val: 2, left: null, right: { val: 1, left: { val: 401, left: null, right: { val: 641, left: null, right: null } }, right: { val: 257, left: null, right: null } } }, right: { val: 271, left: null, right: { val: 28, left: null, right: null } } } };
+
+function preOrderSearch(tree) {
+    const stack = [], result = [];
+    while (stack.length || tree) {
+        if (tree) {
+            result.push(tree.val);
+            stack.push(tree.right);
+            tree = tree.left;
+        } else {
+            tree = stack.pop();
+        }
+    }
+    return result;
+}
+
+preOrderSearch(tree);
+```
