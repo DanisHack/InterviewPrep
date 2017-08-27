@@ -154,30 +154,28 @@ Find the kth smallest in a BST:
 ```javascript
 const tree = { val: 5, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 7, left: { val: 6, left: null, right: null }, right: { val: 8, left: null, right: null } } };
 
-function findKSmallest(node, k) {
-    let result = null, i = 1;
-    (function recurse(current) {
-        if (!current) {
-            return;
-        }
-        if (current.left) {
-            recurse(current.left);
-        }
-        if (i === k) {
+function findK(tree, k) {
+    let i = 1;
+    return (function recurse(current) {
+        if (current) {
+            const left = recurse(current.left);
+            if (left) {
+                return left;
+            }
+            if (i === k) {
+                return current;
+            }
             i++;
-            result = current;
-            return;
-        } else {
-            i++;
+            const right = recurse(current.right);
+            if (right) {
+                return right;
+            }
         }
-        if (current.right) {
-            recurse(current.right);
-        }
-    })(node)
-    return result;
+        return null;
+    })(tree);
 }
 
-findKSmallest(tree, 4);
+findK(tree, 4);
 ```
 Remove from a linkedlist that has the same val:
 ```javascript
