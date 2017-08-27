@@ -385,25 +385,20 @@ var eight = seven.right = new Leave(8);
 eight.parent = seven;
 
 function inorderSucc(root){
-    let current = null;
-    if(!root){
-        return current;
-    }
-    if(!root.parent || root.right){
-        current = current.right;
-        while(current && current.left){
+	let current = tree;
+    if (!tree.parent || tree.right) {
+        current = tree.right;
+        while (current && current.left) {
             current = current.left;
         }
         return current;
     }
-    else{
-        let prev = root.parent;
-        while(prev && prev.left !== current){
-            current = prev;
-            prev = prev.parent;
-        }
-        return prev;
+    let parent = current.parent;
+    while(parent && parent.left !== current) {
+        current = parent;
+        parent = parent.parent;
     }
+    return parent;
 }
 
 inorderSucc(eight);
