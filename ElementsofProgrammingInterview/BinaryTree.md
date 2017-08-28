@@ -108,3 +108,28 @@ function preOrderSearch(tree) {
 
 preOrderSearch(tree);
 ```
+Reconstruct the binary tree with preorder and inorder traversal:
+```javascript
+const inOrder = ["F", "B", "A", "E", "H", "C", "D", "I", "G"];
+const preOrder = ["H", "B", "F", "E", "A", "C", "D", "G", "I"];
+
+function binaryConstruct(preOrder, inOrder) {
+    const nodes = {};
+    inOrder.forEach((val, i) => {
+       nodes[val] = i;
+    });
+    return (function helper(preStart, preEnd, inStart, inEnd) {
+        if (preStart >= preEnd || inStart >= inEnd) {
+            return null;
+        }
+        const inOrderIndx = nodes[preOrder[preStart]], subTreeSize = inOrderIndx - inStart;
+        return {
+            val: preOrder[preStart],
+            left: helper(preStart + 1, preStart + 1 + subTreeSize, inStart, inOrderIndx),
+            right: helper(preStart + 1 + subTreeSize, preEnd, inOrderIndx + 1, inEnd)
+        }
+    })(0, preOrder.length, 0, inOrder.length);
+}
+
+binaryConstruct(preOrder, inOrder);
+```
