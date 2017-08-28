@@ -133,3 +133,19 @@ function binaryConstruct(preOrder, inOrder) {
 
 binaryConstruct(preOrder, inOrder);
 ```
+Reconstruct a binary tree from a pre-order traversal with marker:
+```javascript
+const preOrder = ["H", "B", "F", null, null, "E", "A", null, null, null, "C", null, "D", null, "G", "I", null, null, null];
+
+function generateTree(seq) {
+    seq.reverse();
+    return (function helper() {
+        const val = seq.pop();
+        if (!val) {
+            return null;
+        }
+        return { val, left: helper(), right: helper() };
+    })();
+}
+
+generateTree(preOrder);
