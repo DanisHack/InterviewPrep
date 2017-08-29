@@ -149,3 +149,27 @@ function generateTree(seq) {
 }
 
 generateTree(preOrder);
+```
+Generate a linked list from a binary tree:
+```javascript
+const tree = { val: "A", left: { val: "B", left: { val: "C", left: { val: "D", left: null, right: null }, right: { val: "E", left: null, right: null } }, right: { val: "F", left: null, right: { val: "G", left: { val: "H", left: null, right: null }, right: null } } }, right: { val: "I", left: { val: "J", left: null, right: { val: "K", left: { val: "L", left: null, right: { val: "M", left: null, right: null } }, right: { val: "N", left: null, right: null } } }, right: { val: "O", left: null, right: { val: "P", left: null, right: null } } } };
+
+function generateLinkedList(tree) {
+    const result = [];
+    (function helper(current) {
+        if (!current.left && !current.right) {
+            result.push(current.val);
+            return;
+        }
+        if (current.left) {
+            helper(current.left);
+        }
+        if (current.right) {
+            helper(current.right);
+        }
+    })(tree);
+    return result;
+}
+
+generateLinkedList(tree);
+```
