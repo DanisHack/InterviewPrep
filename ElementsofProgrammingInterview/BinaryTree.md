@@ -173,3 +173,39 @@ function generateLinkedList(tree) {
 
 generateLinkedList(tree);
 ```
+Find all the exterior leaves of binary tree:
+```javascript
+const tree = { val: "A", left: { val: "B", left: { val: "C", left: { val: "D", left: null, right: null }, right: { val: "E", left: null, right: null } }, right: { val: "F", left: null, right: { val: "G", left: { val: "H", left: null, right: null }, right: null } } }, right: { val: "I", left: { val: "J", left: null, right: { val: "K", left: { val: "L", left: null, right: { val: "M", left: null, right: null } }, right: { val: "N", left: null, right: null } } }, right: { val: "O", left: null, right: { val: "P", left: null, right: null } } } };
+
+function isLeave(current) {
+    return !current.left && !current.right;
+}
+
+function leftBoundary(subTree, isBoundary) {
+    if (!subTree) {
+        return [];
+    }
+    const current = isBoundary || isLeave(subTree) ? [subTree.val] : [];
+    const left = leftBoundary(subTree.left, isBoundary);
+    const right = leftBoundary(subTree.right, (isBoundary && !subTree.left));
+    return current.concat(left, right);
+}
+
+function rightBoundary(subTree, isBoundary) {
+    if (!subTree) {
+        return [];
+    }
+    const left = rightBoundary(subTree.left, (isBoundary && !subTree.right));
+    const right = rightBoundary(subTree.right, isBoundary);
+    const current = isBoundary || isLeave(subTree) ? [subTree.val] : [];
+    return left.concat(right, current);
+}
+
+function exteriorBinaryTree(tree) {
+    const left = leftBoundary(tree.left, true);
+    const right = tree ? rightBoundary(tree.right, true) : [];
+    return [tree.val].concat(left, right);
+}
+
+exteriorBinaryTree(tree);
+```
