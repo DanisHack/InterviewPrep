@@ -583,7 +583,7 @@ greatestSum(tree); // 2
 ```
 Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL:
 ```javascript
-const tree = { val: 0, left: { val: 1, left: { val: 3, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 2, left: { val: 5, left: null, right: null }, right: { val: 6, left: null, right: null } } };
+const tree = { val: "A", left: { val: "B", left: { val: "C", left: null, right: null }, right: null }, right: { val: "D", left: { val: "E", left: { val: "F", left: null, right: null }, right: null }, right: { val: "G", left: { val: "H", left: null, right: null }, right: { val: "I", left: null, right: null } } } };
 
 function connect(root) {
     if (!root) {
@@ -593,8 +593,10 @@ function connect(root) {
     let count = 1;
     while (queue.length) {
         const current = queue.shift();
-        if (current.right) {
+		if (current.left) {
             queue.push(current.left);
+        }
+        if (current.right) {
             queue.push(current.right);
         }
         if (count === 1) {
