@@ -67,3 +67,49 @@ function kLargest(tree, k) {
 
 kLargest(tree, 9);
 ```
+Reconstruct a Binary Search tree from preorder traversal:
+```javascript
+const preOrder = [19, 7, 3, 2, 5, 11, 17, 13, 43, 23, 37, 29, 31, 41, 47, 53];
+
+function rebuild(arr) {
+    let index = 0;
+    return (function helper(lower, upper) {
+        if (index === arr.length) {
+            return null;
+        }
+        const val = arr[index];
+        if (!(lower < val && val < upper)) {
+            return null;
+        }
+        index++;
+        const left = helper(lower, val);
+        const right = helper(val, upper);
+        return { val, left, right };
+    })(-Infinity, Infinity);
+}
+
+rebuild(preOrder);
+```
+Reconstruct a Binary Search Tree from postorder traversal:
+```javascript
+const postOrder = [2, 5, 3, 13, 17, 11, 7, 31, 29, 41, 37, 23, 53, 47, 43, 19];
+
+function rebuild(arr) {
+    let index = arr.length - 1;
+    return (function helper(lower, upper) {
+        if (index === -1) {
+            return null;
+        }
+        const val = arr[index];
+        if (!(lower < val && val < upper)) {
+            return null;
+        }
+        index--;
+        const right = helper(val, upper);
+        const left = helper(lower, val);
+        return { val, left, right };
+    })(-Infinity, Infinity);
+}
+
+rebuild(postOrder);
+```
