@@ -113,3 +113,68 @@ function rebuild(arr) {
 
 rebuild(postOrder);
 ```
+Insert and Deletion Binary Search Tree:
+```javascript
+const tree = { val: 10, left: { val: 7, left: { val: 2, left: null, right: null }, right: { val: 9, left: null, right: null } }, right: { val: 14, left: { val: 12, left: null, right: null }, right: { val: 16, left: null, right: null } } };
+
+function insertNode(bst, key) {
+    if (!bst) {
+        return true;
+    }
+    let parent = current = bst;
+    while (current) {
+        parent = current;
+        if (current.val === key) {
+            return false;
+        } else if (current.val > key) {
+            current = current.left;
+        } else {
+            current = current.right;
+        }
+    }
+    if (parent.val > key) {
+        parent.left = { val: key, left: null, right: null };
+    } else {
+        parent.right = { val: key, left: null, right: null };
+    }
+    return true;
+}
+
+function deleteNode(bst, val) {
+    let parent = current = bst;
+    while (current && current.val !== val) {
+        parent = current;
+        current = val < current.val ? current.left : current.right;
+    }
+    if (!current) {
+        return false;
+    }
+    const key = current;
+    if (key.right) {
+        let parentRight = key;
+        let right = key.right;
+        while (right.left) {
+            parentRight = right;
+            right = right.left;
+        }
+        key.val = right.val;
+        if (parentRight.left === right) {
+            parentRight.left = right.right;
+        } else {
+            parentRight.right = right.right;
+        }
+    } else {
+        if (bst === key) {
+            bst.val = key.left.val, bst.left = key.left.val, bst.right = key.left.right;
+        } else if (parent.left === key) {
+            parent.left = key.left;
+        } else {
+            parent.right = key.right;
+        }
+    }
+    return true;
+}
+
+insertNode(tree, 15);
+deleteNode(tree, 15);
+```
