@@ -178,3 +178,46 @@ function deleteNode(bst, val) {
 insertNode(tree, 15);
 deleteNode(tree, 15);
 ```
+Given three node, check if BST is ordered:
+```javascript
+class Node {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+const ten = new Node(10);
+const seven = ten.left = new Node(7);
+const fourteen = ten.right = new Node(14);
+const two = seven.left = new Node(2);
+const nine = seven.right = new Node(9);
+const twelve = fourteen.left = new Node(12);
+const sixteen = fourteen.right = new Node(16);
+
+function searchTarget(source, target) {
+    while (source && source !== target) {
+        source = source.val > target.val ? source.left : source.right;
+    }
+    return source === target;
+}
+
+function isBSTordered(node0, node1, middle) {
+    let pointer0 = node0, pointer1 = node1;
+    while (pointer0 !== node1 && pointer0 !== middle && pointer1 !== node0 && pointer1 !== middle && (pointer0 || pointer1)) {
+        if (pointer0) {
+            pointer0 = pointer0.val > middle.val ? pointer0.left : pointer0.right;
+        }
+        if (pointer1) {
+            pointer1 = pointer1.val > middle.val ? pointer1.left : pointer1.right;
+        }
+    }
+    if ((pointer0 !== middle && pointer1 !== middle) || pointer0 === node1 || pointer1 === node0) {
+        return false;
+    }
+    return searchTarget(middle, (pointer0 === middle ? node1 : node0));
+}
+
+isBSTordered(seven, ten, fourteen);
+```
