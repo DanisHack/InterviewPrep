@@ -286,15 +286,15 @@ function isValid(combo, row1, col1) {
     return true;
 }
 
-function placeQueens() {
+function placeQueens(n) {
     const result = [];
     const combo = [];
     (function recurse(row) {
-        if (row === 8) {
+        if (row === n) {
             result.push([...combo]);
             return;
         }
-        for (let col = 0; col < 8; col++) {
+        for (let col = 0; col < n; col++) {
             if (isValid(combo, row, col)) {
                 combo[row] = col;
                 recurse(row + 1);
