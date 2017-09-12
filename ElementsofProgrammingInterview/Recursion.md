@@ -22,3 +22,22 @@ function permutation(arr) {
 
 permutation([2, 3, 5, 7]);
 ```
+Generate all subsets of size K:
+```javascript
+function generateSubset(k, n) {
+    const result = [];
+    (function recurse(i, combo = []) {
+        if (combo.length === k) {
+            return result.push([...combo]);
+        }
+        for (let j = i; j <= n; j++) {
+            combo.push(j);
+            recurse(j + 1, combo);
+            combo.pop();
+        }
+    })(1);
+    return result;
+}
+
+generateSubset(3, 5);
+```
