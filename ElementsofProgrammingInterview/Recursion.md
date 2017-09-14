@@ -41,3 +41,23 @@ function generateSubset(k, n) {
 
 generateSubset(3, 5);
 ```
+Generate Palindromic Decompositions:
+```javascript
+function allPalindrome(str) {
+    const result = [];
+    (function helper(index, current) {
+        if (index === str.length) {
+            return result.push(current.slice(1));
+        }
+        for (let i = index + 1; i < str.length + 1; i++) {
+            const word = str.slice(index, i);
+            if (word === word.split("").reverse().join("")) {
+                helper(i, `${current},${word}`);
+            }
+        }
+    })(0, "");
+    return result;
+}
+
+allPalindrome("0204451881");
+```
