@@ -61,3 +61,27 @@ function allPalindrome(str) {
 
 allPalindrome("0204451881");
 ```
+Given a number of nodes, generate all Binary trees with the number of nodes:
+```javascript
+function generateBST(num) {
+    if (!num) {
+         return [null];
+    }
+    let result = [];
+    for (let leftNode = 0; leftNode < num; leftNode++) {
+        const rightNode = num - 1 - leftNode;
+        const leftTree = generateBST(leftNode);
+        const rightTree = generateBST(rightNode);
+        const temp = [];
+        leftTree.map(left => {
+            rightTree.forEach(right => {
+                temp.push({ val: 0, left, right });
+            });
+        });
+        result = result.concat(temp);
+    }
+    return result;
+}
+
+generateBST(3);
+```
