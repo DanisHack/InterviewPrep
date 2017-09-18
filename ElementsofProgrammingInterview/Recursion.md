@@ -85,3 +85,26 @@ function generateBST(num) {
 
 generateBST(3);
 ```
+Generate N-bit Gray Code:
+```javascript
+function generateGrayCode(n) {
+    if (n <= 0) {
+        return [];
+    }
+    const result = ["0", "1"];
+    for (let i = 2; i < 1 << n; i <<= 1) {
+        for (let j = i - 1; j >= 0; j--) {
+            result.push(result[j]);
+        }
+        for (let j = 0; j < i; j++) {
+            result[j] = "0" + result[j];
+        }
+        for (let j = i; j < 2 * i; j++) {
+            result[j] = "1" + result[j];
+        }
+    }
+    return result;
+}
+
+generateGrayCode(3);
+```
