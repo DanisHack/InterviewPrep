@@ -15,3 +15,30 @@ function combination(n) {
 
 combination(12);
 ```
+Use the Levenshtein Algorithm to calculate the minimum changes require for two words:
+```javascript
+function levenshtein(a, b) {
+    const distance = a.split("").map(() => Array(b.length).fill(-1));
+    return (function compute(aIndex, bIndex) {
+        if (aIndex < 0) {
+            return bIndex + 1;
+        }
+        if (bIndex < 0) {
+            return aIndex + 1;
+        }
+        if (distance[aIndex][bIndex] === -1) {
+            if (a[aIndex] === b[bIndex]) {
+                distance[aIndex][bIndex] = compute(aIndex - 1, bIndex - 1);
+            } else {
+                const subLast = compute(aIndex - 1, bIndex - 1);
+                const addLast = compute(aIndex - 1, bIndex);
+                const deleteLast = compute(aIndex, bIndex - 1);
+                distance[aIndex][bIndex] = Math.min(subLast, addLast, deleteLast) + 1;
+            }
+        }
+        return distance[aIndex][bIndex];
+    })(a.length - 1, b.length - 1);
+}
+
+levenshtein("Saturday", "Sundays"); // 4
+```
