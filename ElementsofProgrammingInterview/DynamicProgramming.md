@@ -42,3 +42,22 @@ function levenshtein(a, b) {
 
 levenshtein("Saturday", "Sundays"); // 4
 ```
+Count the Number of Ways to traverse a 2D Array:
+```javascript
+function nWays(n, m) {
+    const ways = Array(n).fill().map(() => Array(m).fill(0));
+    return (function computed(x, y) {
+        if (x === 0 && y === 0) {
+            return 1;
+        }
+        if (ways[x][y] === 0) {
+            const waysTop = x === 0 ? 0 : computed(x - 1, y);
+            const waysLeft = y === 0 ? 0 : computed(x, y - 1);
+            ways[x][y] = waysTop + waysLeft;
+        }
+        return ways[x][y];
+    })(n - 1, m - 1);
+}
+
+nWays(5, 5);
+```
