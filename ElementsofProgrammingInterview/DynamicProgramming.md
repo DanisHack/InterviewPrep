@@ -61,3 +61,22 @@ function nWays(n, m) {
 
 nWays(5, 5);
 ```
+Calculate Binomial Coefficient:
+```javascript
+function binomialCoefficient(n, k) {
+    const memo = Array(n + 1).fill().map(() => Array(k + 1).fill(0));
+    return (function compute(x, y) {
+        if ([0, x].includes(y)) {
+            return 1;
+        }
+        if (memo[x][y] === 0) {
+            const withoutY = compute(x - 1, y);
+            const withY = compute(x - 1, y - 1);
+            memo[x][y] = withoutY + withY;
+        }
+        return memo[x][y];
+    })(n, k);
+}
+
+binomialCoefficient(5, 2);
+``` 
