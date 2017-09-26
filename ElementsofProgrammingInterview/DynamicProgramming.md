@@ -79,4 +79,33 @@ function binomialCoefficient(n, k) {
 }
 
 binomialCoefficient(5, 2);
-``` 
+```
+Search for for the sequence in a 2D array:
+```javascript
+const arr = [
+    [1, 2, 3],
+    [3, 4, 5],
+    [5, 6, 7]
+];
+
+function patternSearch(grid, pattern) {
+    const result = [];
+    return (function search(row, col) {
+        if (!result.length && pattern[result.length] !== grid[row][col]) {
+            return false;
+        }
+        result.push(grid[row][col]);
+        if (result.length === pattern.length) {
+            return true;
+        }
+        if (col < grid[0].length - 1 && pattern[result.length] === grid[row][col + 1]) {
+            return search(row, col + 1);
+        } else if (row < grid.length - 1 && pattern[result.length] === grid[row + 1][col]) {
+            return search(row + 1, col);
+        }
+        return false;
+    })(0, 0);
+}
+
+patternSearch(arr, [1, 3, 4, 6]);
+```
