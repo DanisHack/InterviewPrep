@@ -109,3 +109,41 @@ function patternSearch(grid, pattern) {
 
 patternSearch(arr, [1, 3, 4, 6]);
 ```
+Knapsack Problem:
+```javascript
+const items = [
+    { value: 65, weight: 20 },
+    { value: 35, weight: 8 },
+    { value: 245, weight: 60 },
+    { value: 195, weight: 55 },
+    { value: 65, weight: 40 },
+    { value: 150, weight: 70 },
+    { value: 275, weight: 85 },
+    { value: 155, weight: 25 },
+    { value: 120, weight: 30 },
+    { value: 320, weight: 65 },
+    { value: 75, weight: 75 },
+    { value: 40, weight: 10 },
+    { value: 200, weight: 95 },
+    { value: 100, weight: 50 },
+    { value: 220, weight: 40 },
+    { value: 99, weight: 10 }
+];
+
+function optimalCapacity(items, cap) {
+    const v = items.map(() => Array(cap + 1).fill(-1));
+    return (function compute(k, cap) {
+        if (k < 0) {
+            return 0;
+        }
+        if (v[k][cap] === -1) {
+            const withoutCurr = compute(k - 1, cap);
+            const withCurr = items[k].weight > cap ? 0 : items[k].value + compute(k - 1, cap - items[k].weight);
+            v[k][cap] = Math.max(withoutCurr, withCurr);
+        }
+        return v[k][cap];
+    })(items.length - 1, cap);
+}
+
+optimalCapacity(items, 130);
+```
