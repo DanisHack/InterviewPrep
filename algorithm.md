@@ -533,8 +533,7 @@ Word Break II:
 ```javascript
 function dfs(arr, result, str, index) {
     if (index === 0) {
-        result.push(str.trim());
-        return;
+        return result.push(str.trim());
     }
     for (let i = 0; i < arr[index].length; i++) {
         const word = arr[index][i];
@@ -559,7 +558,7 @@ function wordBreak(s, dict) {
         }
     }
     const result = [];
-    if (!arr.length) {
+    if (arr.length === 1) {
         return result;
     }
     dfs(arr, result, "", s.length);
