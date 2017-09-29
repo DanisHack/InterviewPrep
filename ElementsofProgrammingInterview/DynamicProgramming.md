@@ -147,3 +147,17 @@ function optimalCapacity(items, cap) {
 
 optimalCapacity(items, 130);
 ```
+Find the minimum weight path in triangle:
+```javascript
+const tri = [[2], [4, 4], [8, 5, 6], [4, 2, 6, 2], [1, 5, 2, 3, 4]];
+
+function minimumPathWeight(tri) {
+    let minPath = [0];
+    tri.forEach(row => {
+        minPath = row.map((_, i) => row[i] + Math.min(minPath[Math.max(i - 1, 0)], minPath[Math.min(i, minPath.length - 1)]));
+    });
+    return Math.min(...minPath);
+}
+
+minimumPathWeight(tri);
+``
