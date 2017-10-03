@@ -160,4 +160,24 @@ function minimumPathWeight(tri) {
 }
 
 minimumPathWeight(tri);
-``
+```
+Pick up coins for Maximum gain:
+```javascript
+function maxRevenue(coins) {
+    const max = coins.map(() => Array(coins.length).fill(0));
+    return (function compute(a, b) {
+        if (a > b) {
+            return 0;
+        }
+        if (max[a][b] === 0) {
+            const bothAandB = compute(a + 1, b - 1);
+            const maxA = coins[a] + Math.min(compute(a + 2, b), bothAandB);
+            const maxB = coins[b] + Math.min(bothAandB, compute(a, b - 2));
+            max[a][b] = Math.max(maxA, maxB);
+        }
+        return max[a][b];
+    })(0, coins.length - 1);
+}
+
+maxRevenue([5, 25, 10, 1]);
+```
