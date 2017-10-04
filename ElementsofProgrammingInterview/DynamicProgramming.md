@@ -181,3 +181,24 @@ function maxRevenue(coins) {
 
 maxRevenue([5, 25, 10, 1]);
 ```
+Count the Number of Moves to Climb Stairs:
+```javascript
+function countStairs(n, k) {
+    const ways = Array(n + 1).fill(0);
+    return (function compute(h) {
+        if (h <= 1) {
+            return 1;
+        }
+        if (ways[h] === 0) {
+            const toSum = [];
+            for (let i = 1; i < Math.min(k, h) + 1; i++) {
+                toSum.push(compute(h - i));
+            }
+            ways[h] = toSum.reduce((sum, val) => sum + val, 0);
+        }
+        return ways[h];
+    })(n);
+}
+
+countStairs(4, 2);
+```
