@@ -202,3 +202,21 @@ function countStairs(n, k) {
 
 countStairs(4, 2);
 ```
+Find the longest nondecreasing subsequence:
+```javascript
+function longestIncreasing(arr) {
+    const maxLength = Array(arr.length).fill(1);
+    for (let i = 1; i < arr.length; i++) {
+        let maxNum = -Infinity;
+        for (let j = 0; j < i; j++) {
+            if (arr[i] >= arr[j] && maxLength[j] > maxNum) {
+                maxNum = maxLength[j];
+            }
+        }
+        maxLength[i] = Math.max(1 + maxNum, maxLength[i]);
+    }
+    return Math.max(...maxLength);
+}
+
+longestIncreasing([0, 8, 4, 12, 2, 10, 6, 14, 1, 9]);
+```
