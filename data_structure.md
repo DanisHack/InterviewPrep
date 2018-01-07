@@ -405,21 +405,26 @@ inorderSucc(eight);
 ```
 Reverse a Linked List:
 ```javascript
-function reverseLink(node) {
-    if (!node) {
+function helper(arr) {
+    if (!arr.length) {
         return null;
     }
-    let pointer1 = node, pointer2 = node;
-    const arr = [];
-    while (pointer2) {
-        arr.push(pointer2.value);
-        pointer2 = pointer2.next;
+    return {
+        val: arr.pop(),
+        next: helper(arr)
+    };
+}
+
+function reverse(list) {
+    if (!list) {
+        return null;
     }
-    while (pointer1) {
-        pointer1.value = arr.pop();
-        pointer1 = pointer1.next;
+    let p2 = list, arr = [];
+    while (p2) {
+        arr.push(p2.val);
+        p2 = p2.next;
     }
-    return node;
+    return helper(arr);
 }
 ```
 Breadth First Search of Binary Tree:
@@ -447,10 +452,9 @@ Add Up the value of each binary tree level:
 var tree = {val: 5, left: {val: 3, left: {val: 2, left: null, right: null}, right: {val: 4, left: null, right: null}}, right: {val: 7, left: {val: 6, left: null, right: null}, right: {val: 8, left: null, right: null}}};
 
 function addBinaryTree(head) {
-    const queue = [head];
+	const queue = [head];
     const sum = [head.val];
-    let level = 1;
-    let numberOfNodes = 1;
+    let level = 1, numberOfNodes = 1;
     while (queue.length) {
         if (!numberOfNodes) {
             level++;
@@ -458,20 +462,22 @@ function addBinaryTree(head) {
         }
         const current = queue.shift();
         if (current.left) {
+            const { left, left: { val } } = current;
             if (sum[level]) {
-                sum[level] += current.left.val;
+                sum[level] += val;
             } else {
-                sum[level] = current.left.val;
+                sum[level] = val;
             }
-            queue.push(current.left);
+            queue.push(left);
         }
         if (current.right) {
+            const { right, right: { val } } = current;
             if (sum[level]) {
-                sum[level] += current.right.val;
+                sum[level] += val;
             } else {
-                sum[level] = current.right.val;
+                sum[level] = val;
             }
-            queue.push(current.right);
+            queue.push(right);
         }
         numberOfNodes--;
     }
