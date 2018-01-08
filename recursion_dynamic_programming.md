@@ -113,22 +113,20 @@ const arr2 = [-10, -5, 2, 2, 2, 3, 4, 7, 9, 12, 13];
 
 // handles array that have non distinct values
 function magicIndexNonDistinct(arr, start = 0, end = arr.length - 1) {
-    if (start > end) {
+	if (start > end) {
         return -1;
     }
     const middle = Math.floor((start + end) / 2);
-    const midValue = arr[middle];
-    if (middle === midValue) {
+    if (middle === arr[middle]) {
         return middle;
     }
-    const leftIndex = Math.min(middle - 1, midValue);
+    const leftIndex = Math.min(middle - 1, arr[middle]);
     const left = magicIndexNonDistinct(arr, start, leftIndex);
     if (left >= 0) {
         return left;
     }
-    const rightIndex = Math.max(middle + 1, midValue);
-    const right = magicIndexNonDistinct(arr, rightIndex, end);
-    return right;
+    const rightIndex = Math.max(middle + 1, arr[middle]);
+    return magicIndexNonDistinct(arr, rightIndex, end);
 }
 
 magicIndexNonDistinct(arr2);
