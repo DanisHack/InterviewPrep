@@ -1,3 +1,15 @@
+bottom-up fibb:
+```javascript
+function fibb(x) {
+    const arr = [0, 1];
+    for (let i = 2; i < x + 1; i++) {
+        arr[i] = arr[i - 1] + arr[i - 2];
+    }
+    return arr[x];
+}
+
+fibb(8);
+```
 3 sum:
 ```javascript
 function sum3(arr) {
