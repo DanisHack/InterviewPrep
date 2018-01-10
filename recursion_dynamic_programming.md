@@ -149,6 +149,18 @@ getSubsets([1, 2, 3]); // [ [], [ 3 ], [ 2 ], [ 3, 2 ], [ 1 ], [ 3, 1 ], [ 2, 1 
 A recursive function that multiplies two integers without the * operator:
 ```javascript
 function multiply(x, y) {
+	// alternative bitwise manipulation
+	/*
+		let res = 0;
+		while (b != 0) {
+			if (b & 1) {
+				res += a // if b is odd, add a to result
+			}
+			a <<= 1;
+			b >>= 1;
+		}
+		return res;
+	*/
 	if (y === 0) {
 		return 0;
 	} else if (y > 0) {
@@ -158,6 +170,32 @@ function multiply(x, y) {
 }
 
 multiply(5, -11); // -55
+```
+
+Divide without the division symbol:
+```javascript
+function divide(a, b) {
+    if (b === 0) {
+        throw 'Division by zero is undefined: ' + a + '/' + b;
+    }
+    let sign = 1;
+    if (a < 0) {
+        a = -a;
+        sign = -sign;
+    }
+    if (b < 0) {
+        b = -b;
+        sign = -sign;
+    }
+    let result = 0;
+    while (a >= 0) {
+        a -= b;
+        result++;
+    }
+    return (result - 1) * sign;
+}
+
+divide(-24, 6);
 ```
 Moving Discs in Tower of Hanoi:
 ```javascript

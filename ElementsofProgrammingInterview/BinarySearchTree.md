@@ -22,23 +22,22 @@ First appearance of a node with the value k:
 const tree = { val: 108, left: { val: 108, left: { val: -10, left: { val: -14, left: null, right: null }, right: { val: 2, left: null, right: null } }, right: { val: 108, left: null, right: null } }, right: { val: 285, left: { val: 243, left: null, right: null }, right: { val: 285, left: null, right: { val: 401, left: null, right: null } } } };
 
 function firstAppearance(tree, k) {
-    return (function helper(current) {
-        if (!current) {
-           return null;
-        }
-        const left = helper(current.left);
-        if (left) {
-            return left;
-        }
-        if (current.val === k) {
-            return current;
-        }
-        const right = helper(current.right);
-        if (right) {
-            return right;
-        }
+    if (!tree) {
         return null;
-    })(tree);
+    }
+    const left = first(tree.left, k);
+    if (left) {
+        return left;
+    }
+    if (tree.val === k) {
+        return tree;
+    }
+
+    const right = first(tree.right, k);
+    if (right) {
+        return right;
+    }
+    return null;
 }
 
 firstAppearance(tree, 143);

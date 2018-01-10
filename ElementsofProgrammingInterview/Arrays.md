@@ -67,22 +67,19 @@ Multiply two arbitrary integers:
 function multiply(num1, num2) {
     const sign = (num1[0] < 0 && num2[0] > 0) || (num2[0] < 0 && num1[0] > 0) ? -1 : 1;
     num1[0] = Math.abs(num1[0]), num2[0] = Math.abs(num2[0]);
-    const result = Array(num1.length + num2.length).fill(0);
+    const arr = Array(num1.length + num2.length).fill(0);
     for (let i = num1.length - 1; i >= 0; i--) {
         for (let j = num2.length - 1; j >= 0; j--) {
-            result[i + j + 1] += num1[i] * num2[j];
-            result[i + j] += Math.floor(result[i + j + 1] / 10);
-            result[i + j + 1] %= 10;
+            arr[i + j + 1] += num1[i] * num2[j];
+            arr[i + j] += Math.floor(arr[i + j + 1] / 10);
+            arr[i + j + 1] %= 10;
         }
     }
-    while (result.length) {
-        if (result[0]) {
-            break;
-        }
-        result.shift();
+    while (arr[0] === 0) {
+        arr.shift();
     }
-    result[0] *= sign;
-    return result;
+    arr[0] *= sign;
+    return arr;
 }
 
 multiply([-1, 3, 9], [2, 8]);
@@ -156,15 +153,15 @@ removeTarget([2, 3, 5, 5, 7, 11, 11, 11, 13], 11);
 Buy and Sell a stock once:
 ```javascript
 function buySellStock(prices) {
-    let mostProfit = 0, prevIndex = 0
-    for (let i = 0; i < prices.length; i++) {
-        const diff = prices[i] - prices[prevIndex];
+    let mostProfit = 0, prevIndex = 0;
+    prices.forEach((e, i) => {
+        const diff = e - prices[prevIndex];
         if (diff > mostProfit) {
             mostProfit = diff;
         } else if (diff < 0) {
             prevIndex = i;
         }
-    }
+    });
     return mostProfit;
 }
 
@@ -231,10 +228,7 @@ function spiralMatrix(matrix) {
 spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
 
 function generateSpiralMatrix(n) {
-    const result = [];
-    for (let i = 0; i < n; i++) {
-        result.push([]);
-    }
+    const result = Array(n).fill(null).map(() => []);
     let currentNum = 1, top = left = 0, bottom = right = n - 1;
     while (currentNum <= n * n) {
         for (let i = left; i <= right; i++) {
