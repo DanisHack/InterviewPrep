@@ -53,12 +53,10 @@ function hasPathSum(tree, n) {
         if (!current.left && !current.right) {
             return sum === n;
         }
-        const left = findSum(current.left, sum);
-        if (left) {
+        if (recurse(current.left, sum)) {
             return true;
         }
-        const right = findSum(current.right, sum);
-        if (right) {
+        if (recurse(current.right, sum)) {
             return true;
         }
         return false;
@@ -73,14 +71,15 @@ const tree = { val: 314, left: { val: 6, left: { val: 271, left: { val: 28, left
 
 function inOrderSearch(tree) {
     const result = [], stack = [];
-    while (stack.length || tree) {
-        if (tree) {
-            stack.push(tree);
-            tree = tree.left;
+    let current = tree;
+    while (stack.length || current) {
+        if (current) {
+            stack.push(current);
+            current = current.left;
         } else {
-            tree = stack.pop();
-            result.push(tree.val);
-            tree = tree.right;
+            current = stack.pop();
+            result.push(current.val);
+            current = current.right;
         }
     }
     return result;
@@ -93,17 +92,18 @@ Pre order search of binary tree without recursion:
 const tree = { val: 314, left: { val: 6, left: { val: 271, left: { val: 28, left: null, right: null }, right: { val: 0, left: null, right: null } }, right: { val: 561, left: null, right: { val: 3, left: { val: 17, left: null, right: null }, right: null } } }, right: { val: 6, left: { val: 2, left: null, right: { val: 1, left: { val: 401, left: null, right: { val: 641, left: null, right: null } }, right: { val: 257, left: null, right: null } } }, right: { val: 271, left: null, right: { val: 28, left: null, right: null } } } };
 
 function preOrderSearch(tree) {
-    const stack = [], result = [];
-    while (stack.length || tree) {
-        if (tree) {
-            result.push(tree.val);
-            stack.push(tree.right);
-            tree = tree.left;
+    const stack = [], res = [];
+    let current = tree;
+    while (stack.length || current) {
+        if (current) {
+            stack.push(current.right);
+            res.push(current.val);
+            current = current.left;
         } else {
-            tree = stack.pop();
+            current = stack.pop();
         }
     }
-    return result;
+    return res;
 }
 
 preOrderSearch(tree);
@@ -150,25 +150,26 @@ function generateTree(seq) {
 
 generateTree(preOrder);
 ```
-Generate a linked list from a binary tree:
+Generate a linked list from the leaves of a binary tree:
 ```javascript
 const tree = { val: "A", left: { val: "B", left: { val: "C", left: { val: "D", left: null, right: null }, right: { val: "E", left: null, right: null } }, right: { val: "F", left: null, right: { val: "G", left: { val: "H", left: null, right: null }, right: null } } }, right: { val: "I", left: { val: "J", left: null, right: { val: "K", left: { val: "L", left: null, right: { val: "M", left: null, right: null } }, right: { val: "N", left: null, right: null } } }, right: { val: "O", left: null, right: { val: "P", left: null, right: null } } } };
 
 function generateLinkedList(tree) {
-    const result = [];
-    (function helper(current) {
+    let result = head = { next: null };
+    (function recurse(current) {
         if (!current.left && !current.right) {
-            result.push(current.val);
+            head.next = { val: current.val, next: null };
+            head = head.next;
             return;
         }
         if (current.left) {
-            helper(current.left);
+            recurse(current.left);
         }
         if (current.right) {
-            helper(current.right);
+            recurse(current.right);
         }
     })(tree);
-    return result;
+    return result.next;
 }
 
 generateLinkedList(tree);
@@ -203,7 +204,7 @@ function rightBoundary(subTree, isBoundary) {
 
 function exteriorBinaryTree(tree) {
     const left = leftBoundary(tree.left, true);
-    const right = tree ? rightBoundary(tree.right, true) : [];
+    const right = rightBoundary(tree.right, true);
     return [tree.val].concat(left, right);
 }
 
