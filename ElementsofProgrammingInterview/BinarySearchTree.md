@@ -47,21 +47,24 @@ Find the kth largest value in BST:
 const tree = { val: 19, left: { val: 7, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 5, left: null, right: null } }, right: { val: 11, left: null, right: { val: 17, left: { val: 13, left: null, right: null }, right: null } } }, right: { val: 43, left: { val: 23, left: null, right: { val: 37, left: { val: 29, left: null, right: { val: 31, left: null, right: null } }, right: { val: 41, left: null, right: null } } }, right: { val: 47, left: null, right: { val: 53, left: null, right: null } } } };
 
 function kLargest(tree, k) {
-    let result = null, count = 1;
-    (function helper(current) {
+    let i = 1;
+    return (function recurse(current) {
         if (!current) {
-            return;
+            return null;
         }
-        helper(current.right);
-        if (count === k) {
-            result = current;
-            count++;
-            return;
+        const right = recurse(current.right);
+        if (right) {
+            return right;
         }
-        count++;
-        helper(current.left);
-    })(tree);
-    return result;
+        if (i === k) {
+            return current;
+        }
+        i++;
+        const left = recurse(current.left);
+        if (left) {
+            return left;
+        }
+    })(node);
 }
 
 kLargest(tree, 9);
@@ -164,7 +167,10 @@ function deleteNode(bst, val) {
         }
     } else {
         if (bst === key) {
-            bst.val = key.left.val, bst.left = key.left.val, bst.right = key.left.right;
+            const val = key.left.val, left = key.left.left, right = key.left.right;
+            bst.val = val;
+            bst.left = left;
+            bst.right = right;
         } else if (parent.left === key) {
             parent.left = key.left;
         } else {
@@ -203,19 +209,19 @@ function searchTarget(source, target) {
 }
 
 function isBSTordered(node0, node1, middle) {
-    let pointer0 = node0, pointer1 = node1;
-    while (pointer0 !== node1 && pointer0 !== middle && pointer1 !== node0 && pointer1 !== middle && (pointer0 || pointer1)) {
-        if (pointer0) {
-            pointer0 = pointer0.val > middle.val ? pointer0.left : pointer0.right;
+    let p1 = node1, p0 = node0;
+    while (p1 !== node0 && p1 !== middle && p0 !== node1 && p0 !== node1 && (p0 || p1)) {
+        if (p1) {
+            p1 = p1.val > middle.val ? p1.left : p1.right;
         }
-        if (pointer1) {
-            pointer1 = pointer1.val > middle.val ? pointer1.left : pointer1.right;
+        if (p0) {
+            p0 = p0.val > middle.val ? p0.left : p0.right;
         }
     }
-    if ((pointer0 !== middle && pointer1 !== middle) || pointer0 === node1 || pointer1 === node0) {
+    if ((p1 !== middle && p0 !== middle) || p1 === node0 || p0 === node1) {
         return false;
     }
-    return searchTarget(middle, (pointer0 === middle ? node1 : node0));
+    return searchTarget(middle, (p0 === middle ? node1 : node0));
 }
 
 isBSTordered(seven, ten, fourteen);

@@ -152,7 +152,7 @@ function multiply(x, y) {
 	// alternative bitwise manipulation
 	/*
 		let res = 0;
-		while (b != 0) {
+		while (b !== 0) {
 			if (b & 1) {
 				res += a // if b is odd, add a to result
 			}
