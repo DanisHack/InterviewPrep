@@ -4,8 +4,7 @@ function permutation(arr) {
     const result = [];
     (function recurse(i) {
         if (i === arr.length - 1) {
-            result.push([...arr]);
-            return;
+            return result.push([...arr]);
         }
         for (let j = i; j < arr.length; j++) {
             let temp = arr[i];
@@ -44,19 +43,21 @@ generateSubset(3, 5);
 Generate Palindromic Decompositions:
 ```javascript
 function allPalindrome(str) {
-    const result = [];
-    (function helper(index, current) {
-        if (index === str.length) {
-            return result.push(current.slice(1));
+    const res = [];
+    (function recurse(i, current = []) {
+        if (i === str.length) {
+            return res.push([...current]);
         }
-        for (let i = index + 1; i < str.length + 1; i++) {
-            const word = str.slice(index, i);
+        for (let j = i + 1; j < str.length + 1; j++) {
+            const word = str.slice(i, j);
             if (word === word.split("").reverse().join("")) {
-                helper(i, `${current},${word}`);
+                current.push(word);
+                recurse(j, current);
+                current.pop();
             }
         }
-    })(0, "");
-    return result;
+    })(0);
+    return res;
 }
 
 allPalindrome("0204451881");

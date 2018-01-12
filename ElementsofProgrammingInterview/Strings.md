@@ -1,4 +1,4 @@
-Convert Col column to Integer where is "A" starts at 1:
+Convert Col column to Integer where "A" starts at 1:
 ```javascript
 function decodeStrCol(col) {
     return col.split("").reduce((result, c) => result * 26 + c.charCodeAt() - 64, 0)
@@ -10,9 +10,9 @@ Test palindrome of a sentence:
 ```javascript
 // javascript version
 function testPalindrome(str) {
-    const arr = str.match(/[a-zA-Z]/ig);
-    for (let i = 0; i < Math.floor((arr.length + 1) / 2); i++) {
-        if (arr[i].toLowerCase() !== arr[arr.length - i - 1].toLowerCase()) {
+    const arr = str.match(/[a-zA-Z]/gi);
+    for (let i = 0; i < Math.floor(arr.length / 2); i++) {
+        if (arr[i].toLowerCase() !== arr[arr.length - 1 - i].toLowerCase()) {
             return false;
         }
     }
@@ -33,30 +33,27 @@ Generate Look and Say sequence:
 ```javascript
 // javascript version
 function generateSequence(str) {
-    let track = 1;
-    let current = str[0];
-    let result = "";
+    let res = "", current = str[0], count = 1;
     for (let i = 1; i < str.length; i++) {
-        if (str[i] !== current) {
-            result += `${track}${current}`
-            current = str[i];
-            track = 1;
+        if (str[i] === current) {
+            count++;
         } else {
-            track++;
+            res += `${count}${current}`;
+            current = str[i];
+            count = 1;
         }
     }
-    result += `${track}${current}`;
-    return result;
+    res += `${count}${current}`;
+    return res;
 }
 
 function lookAndSay(n) {
-    const result = ["1"];
+    let result = ["1"];
     if (n <= 1) {
         return result;
     }
     for (let i = 0; i < n - 1; i++) {
-        const nextOne = generateSequence(result[i]);
-        result.push(nextOne);
+        result = [...result, generateSequence(result[i])];
     }
     return result;
 }

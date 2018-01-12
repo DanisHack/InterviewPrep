@@ -210,3 +210,40 @@ function exteriorBinaryTree(tree) {
 
 exteriorBinaryTree(tree);
 ```
+Print the vertical columns of the binary tree
+```javascript
+const tree = { val: 1, left: { val: 2, left: { val: 4, left: null, right: null }, right: { val: 5, left: null, right: null } }, right: { val: 3, left: null, right: { val: 6, left: null, right: null } } };
+
+function verticalCol(tree) {
+    const res = [];
+    let min = max = 0;
+    (function findMinMax(node, hd) {
+        if (!node) {
+            return;
+        }
+        if (hd < min) {
+            min = hd;
+        } else if (hd > max) {
+            max = hd;
+        }
+        findMinMax(node.left, hd - 1);
+        findMinMax(node.right, hd + 1);
+    })(tree, 0);
+    function insert(node, lineNum, hd) {
+        if (!node) {
+            return;
+        }
+        if (lineNum === hd) {
+            res.push(node.val);
+        }
+        insert(node.left, lineNum, hd - 1);
+        insert(node.right, lineNum, hd + 1);
+    }
+    for (let i = min; i <= max; i++) {
+        insert(tree, i, 0);
+    }
+    return res;
+}
+
+verticalCol(tree);
+```
