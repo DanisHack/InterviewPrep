@@ -124,9 +124,7 @@ function calcDiameter(root) {
     if (!root) {
         return 0;
     }
-    const leftHeight = height(root.left);
-    const rightHeight = height(root.right);
-    return leftHeight + rightHeight + 1;
+    return height(node.left) + height(node.right) + 1;
 }
 
 calcDiameter(tree);

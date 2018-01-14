@@ -70,7 +70,7 @@ function findPath(grid) {
         if (i >= grid.length || j >= grid[0].length || !grid[i][j]) {
             return false;
         }
-        if (i === grid.length - 1 && j === grid[0].length - 1) {
+        if (i === grid.length - 1 && j === grid[i].length - 1) {
             path.push(`${i}${j}`);
             return true;
         }

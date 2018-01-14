@@ -214,33 +214,30 @@ Print the vertical columns of the binary tree
 ```javascript
 const tree = { val: 1, left: { val: 2, left: { val: 4, left: null, right: null }, right: { val: 5, left: null, right: null } }, right: { val: 3, left: null, right: { val: 6, left: null, right: null } } };
 
-function verticalCol(tree) {
-    const res = [];
-    let min = max = 0;
-    (function findMinMax(node, hd) {
-        if (!node) {
-            return;
-        }
-        if (hd < min) {
-            min = hd;
-        } else if (hd > max) {
-            max = hd;
-        }
-        findMinMax(node.left, hd - 1);
-        findMinMax(node.right, hd + 1);
-    })(tree, 0);
-    function insert(node, lineNum, hd) {
-        if (!node) {
-            return;
-        }
-        if (lineNum === hd) {
-            res.push(node.val);
-        }
-        insert(node.left, lineNum, hd - 1);
-        insert(node.right, lineNum, hd + 1);
+function findMinMax(node, minMax, map, hd) {
+    if (!node) {
+        return;
     }
-    for (let i = min; i <= max; i++) {
-        insert(tree, i, 0);
+    if (hd < minMax.min) {
+        minMax.min = hd;
+    } else if (hd > minMax.max) {
+        minMax.max = hd;
+    }
+    if (map[hd]) {
+        map[hd].push(node.val);
+    } else {
+        map[hd] = [node.val];
+    }
+    findMinMax(node.left, minMax, map, hd - 1);
+    findMinMax(node.right, minMax, map, hd + 1);
+}
+
+function verticalCol(tree) {
+    const map = {}, minMax = { min: 0, max: 0 };
+    let res = [];
+    findMinMax(tree, minMax, map, 0);
+    for (let i = minMax.min; i <= minMax.max; i++) {
+        res = res.concat(map[i]);
     }
     return res;
 }

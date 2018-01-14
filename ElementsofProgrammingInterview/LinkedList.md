@@ -69,7 +69,7 @@ function reverseSublist(list, start, end) {
         subHead = subHead.next;
     }
     let subCurrent = subHead.next;
-    for (let i = 0; i < finish - start; i++) {
+    for (let i = 0; i < end - start; i++) {
         const temp1 = subCurrent.next, temp2 = subHead.next;
         subCurrent.next = temp1.next, subHead.next = temp1, temp1.next = temp2;
     }
@@ -152,7 +152,7 @@ function distance(a, b) {
 }
 
 function overlappingLists(l1, l2) {
-    let root1 = isCycle(l1), root2 = isCycle(l2);
+    const root1 = isCycle(l1), root2 = isCycle(l2);
     if (!root1 && !root2) {
         return getIntersectionNode(l1, l2);
     } else if ((root1 && !root2) || (!root1 && root2)) {
