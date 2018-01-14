@@ -59,18 +59,43 @@ function lookAndSay(n) {
 }
 lookAndSay(8);
 ```
-First Occurence of a substring:
+First Occurence of a substring even if it is anagram:
 ```javascript
+function isAnagram(w1, w2) {
+    if (w1.length !== w2.length) {
+        return false;
+    }
+    const obj1 = {}, obj2 = {};
+    for (let i = 0; i < w1.length; i++) {
+        if (obj1[w1[i]]) {
+            obj1[w1[i]]++;
+        } else {
+            obj1[w1[i]] = 1;
+        }
+        if (obj2[w2[i]]) {
+            obj2[w2[i]]++;
+        } else {
+            obj2[w2[i]] = 1;
+        }
+    }
+    for (let key in obj1) {
+        if (obj1[key] !== obj2[key]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function firstOccurence(s, t) {
     const len = t.length;
     for (let i = 0; i < s.length; i++) {
         const word = s.slice(i, i + len);
-        if (word === t) {
+        if (isAnagram(word, t)) {
             return i;
         }
     }
     return -1;
 }
 
-firstOccurence("GACGCCA", "CGC");
+firstOccurence("GACCCGA", "CGC"); // true
 ```

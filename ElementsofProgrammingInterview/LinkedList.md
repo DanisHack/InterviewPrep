@@ -4,23 +4,22 @@ const list1 = { val: 2, next: { val: 5, next: { val: 7, next: null } } };
 const list2 = { val: 3, next: { val: 11, next: null } };
 
 function mergeList(l1, l2) {
-    let tail = {};
-    const dummyHead = tail;
+    let res = head = {};
     while (l1 && l2) {
         if (l1.val < l2.val) {
-            tail.next = l1;
+            head.next = l1;
             l1 = l1.next;
-        } else {
-            tail.next = l2;
+        } else if (l2.val < l1.val) {
+            head.next = l2;
             l2 = l2.next;
         }
-        tail = tail.next;
+        head = head.next;
     }
-    tail.next = l1 || l2;
-    return dummyHead.next;
+    head.next = l1 || l2;
+    return res.next;
 }
 
-mergeList(list1, list2);
+console.log(JSON.stringify(mergeList(list2, list1), null, 2));
 ```
 Merge K sorted Lists:
 ```javascript
@@ -70,13 +69,16 @@ function reverseSublist(list, start, end) {
     }
     let subCurrent = subHead.next;
     for (let i = 0; i < end - start; i++) {
-        const temp1 = subCurrent.next, temp2 = subHead.next;
-        subCurrent.next = temp1.next, subHead.next = temp1, temp1.next = temp2;
+        const temp1 = subCurrent.next;
+        const temp2 = subHead.next;
+        subCurrent.next = temp1.next;
+        subHead.next = temp1;
+        temp1.next = temp2;
     }
     return list;
 }
 
-reverseSublist(list, 2, 4);
+console.log(JSON.stringify(reverseSublist(list, 2, 4), null, 2));
 ```
 Test for overlapping lists: List may have cycles
 ```javascript
@@ -268,15 +270,11 @@ function addTwoNumbers(l1, l2) {
         l1 = l1 ? l1.next : null;
         l2 = l2 ? l2.next : null;
         iter.next = { val: val % 10 };
-        carry = Math.floor(val / 10), iter = iter.next;
-    }
-    let current = result.next;
-    while (current) {
-        console.log(current.val);
-        current = current.next;
+        carry = Math.floor(val / 10);
+        iter = iter.next;
     }
     return result.next;
 }
 
-addTwoNumbers(list1, list2);
+console.log(JSON.stringify(addTwoNumbers(list1, list2), null, 2));
 ```

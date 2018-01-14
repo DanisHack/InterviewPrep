@@ -3,7 +3,7 @@ Remove Duplicates from Linked List:
 // javascript version
 const list = {val: 'F', next: { val: 'O', next: { val: 'L', next: { val: 'L', next: { val: 'O', next: { val: 'W', next: null } } } } } };
 
-function remove(head){
+function removeDup(head){
 	if(!head) {
 		return;
 	}
@@ -23,49 +23,49 @@ function remove(head){
 	return head;
 }
 
-remove(list);
+console.log(JSON.stringify(removeDup(list), null, 2));
 ```
 Find Kth to the last element in a singly linked list:
 ```javascript
 // javascript version
 function findK(head, k){
-    let pointer1 = head, pointer2 = head, i = 0;
-    while(i < k && pointer2){
-        pointer2 = pointer2.next;
-        i++;
+	let p1 = p2 = root, num = 0;
+    while (p2 && num < k) {
+        p2 = p2.next;
+        num++;
     }
-    while(pointer2){
-        pointer1 = pointer1.next;
-        pointer2 = pointer2.next;
+    while (p2) {
+        p1 = p1.next;
+        p2 = p2.next;
     }
-    return pointer1;
+    return p1;
 }
 
-findK(list, 2);
+console.log(JSON.stringify(findK(list, 2), null, 2));
 ```
 Removing the kth to the last element from a linked list:
 ```javascript
 // javascript version
 var list = {val: 1, next: {val: 2, next: null}};
 
-var removeNthFromEnd = function(head, n) {
-    var pointer1 = head, pointer2 = head, i = 0;
-    while(i < n){
-        pointer2 = pointer2.next;
-        i++;
+function removeNthFromEnd(root, k) {
+    let p1 = p2 = root, num = 0;
+    while (p2 && num < k) {
+        p2 = p2.next;
+        num++;
     }
-    if(!pointer2){
-        return head.next;
+    if (!p2) {
+        return root.next;
     }
-    while(pointer2.next){
-        pointer1 = pointer1.next;
-        pointer2 = pointer2.next;
+    while (p2.next) {
+        p1 = p1.next;
+        p2 = p2.next;
     }
-    pointer1.next = pointer1.next.next;
-    return head;
-};
+    p1.next = p1.next.next;
+    return root;
+}
 
-removeNthFromEnd(list, 1);
+console.log(JSON.stringify(removeNthFromEnd(list, 1), null, 2));
 ```
 See if the binary tree is balanced:
 ```javascript
@@ -181,26 +181,26 @@ Remove from a linkedlist that has the same val:
 ```javascript
 const list = {val: 'F', next: { val: 'O', next: { val: 'L', next: { val: 'L', next: { val: 'O', next: { val: 'W', next: null } } } } } };
 
-var removeElements = function(head, val) {
-    if(!head){
+function removeElements(root, val) {
+    if (!root) {
         return null;
     }
-    if(head.val === val){
-        return removeElements(head.next, val);
+    if (root.val === val) {
+        return removeElements(root.next, val);
     }
-    (function recurse(current){
-        if(!current){
+    (function recurse(current) {
+        if (!current) {
             return;
         }
-        while(current.next && current.next.val === val){
+        while (current.next && current.next.val === val) {
             current.next = current.next.next;
         }
         recurse(current.next);
-    })(head);
-    return head;
-};
+    })(root);
+    return root;
+}
 
-removeElements(list, "L");
+console.log(JSON.stringify(removeElements(list, "L"), null, 2));
 ```
 Check if subtree is part of tree:
 ```javascript
@@ -360,7 +360,7 @@ function getIntersectionNode(headA, headB) {
     return headA;
 }
 
-getIntersectionNode(A, Z);
+console.log(JSON.stringify(getIntersectionNode(A, Z), null, 2));
 ```
 Finding the next node after this current (in-order):
 ```javascript
@@ -542,10 +542,9 @@ function buildPath(parents, goal) {
 }
 
 function graphBFS(graph, start, goal) {
+	const queue = [start];
+    const parent = { [start]: null };
     const visited = { [start]: true };
-    const queue = [start];
-    const parents = [];
-    parents[start] = null;
     while (queue.length) {
         const current = queue.shift();
         if (current === goal) {

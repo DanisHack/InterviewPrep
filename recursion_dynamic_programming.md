@@ -330,7 +330,7 @@ function placeQueens(n) {
             result.push([...combo]);
             return;
         }
-        for (let col = 0; col < n; col++) {
+        for (let col = 1; col <= n; col++) {
             if (isValid(combo, row, col)) {
                 combo[row] = col;
                 recurse(row + 1);
@@ -340,5 +340,5 @@ function placeQueens(n) {
     return result;
 }
 
-placeQueens();
+placeQueens(8);
 ```
