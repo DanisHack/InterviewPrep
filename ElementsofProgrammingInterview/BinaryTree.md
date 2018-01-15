@@ -44,23 +44,21 @@ Check if num is in path root to leave:
 ```javascript
 const tree = { val: 314, left: { val: 6, left: { val: 271, left: { val: 28, left: null, right: null }, right: { val: 0, left: null, right: null } }, right: { val: 561, left: null, right: { val: 3, left: { val: 17, left: null, right: null }, right: null } } }, right: { val: 6, left: { val: 2, left: null, right: { val: 1, left: { val: 401, left: null, right: { val: 641, left: null, right: null } }, right: { val: 257, left: null, right: null } } }, right: { val: 271, left: null, right: { val: 28, left: null, right: null } } } };
 
-function hasPathSum(tree, n) {
-    return (function findSum(current, sum) {
-        if (!current) {
-            return false;
-        }
-        sum += current.val;
-        if (!current.left && !current.right) {
-            return sum === n;
-        }
-        if (recurse(current.left, sum)) {
-            return true;
-        }
-        if (recurse(current.right, sum)) {
-            return true;
-        }
+function hasPathSum(node, n, sum = 0) {
+    if (!node) {
         return false;
-    })(tree, 0);
+    }
+    sum += node.val;
+    if (!node.left && !node.right) {
+        return sum === n;
+    }
+    if (hasPathSum(node.left, n, sum)) {
+        return true;
+    }
+    if (hasPathSum(node.right, n, sum)) {
+        return true;
+    }
+    return false;
 }
 
 hasPathSum(tree, 901);
@@ -115,23 +113,50 @@ const preOrder = ["H", "B", "F", "E", "A", "C", "D", "G", "I"];
 
 function binaryConstruct(preOrder, inOrder) {
     const nodes = {};
-    inOrder.forEach((val, i) => {
-       nodes[val] = i;
+    inOrder.forEach((e, i) => {
+        nodes[e] = i;
     });
-    return (function helper(preStart, preEnd, inStart, inEnd) {
+    return (function recurse(preStart, preEnd, inStart, inEnd) {
         if (preStart >= preEnd || inStart >= inEnd) {
             return null;
         }
-        const inOrderIndx = nodes[preOrder[preStart]], subTreeSize = inOrderIndx - inStart;
+        const inOrderIndx = nodes[preOrder[preStart]];
+        const subTreeSize = inOrderIndx - inStart;
         return {
             val: preOrder[preStart],
-            left: helper(preStart + 1, preStart + 1 + subTreeSize, inStart, inOrderIndx),
-            right: helper(preStart + 1 + subTreeSize, preEnd, inOrderIndx + 1, inEnd)
+            left: recurse(preStart + 1, preStart + 1 + subTreeSize, inStart, inOrderIndx),
+            right: recurse(preStart + 1 + subTreeSize, preEnd, inOrderIndx + 1, inEnd)
         }
     })(0, preOrder.length, 0, inOrder.length);
 }
 
-binaryConstruct(preOrder, inOrder);
+console.log(JSON.stringify(binaryConstruct(preOrder, inOrder), null, 2));
+```
+Reconstruct the binary tree with postorder and inorder traversal:
+```javascript
+const inOrder = ["F", "B", "A", "E", "H", "C", "D", "I", "G"];
+const postOrder = ["F", "A", "E", "B", "I", "G", "D", "C", "H"]
+
+function binaryConstruct(postOrder, inOrder) {
+    const nodes = {};
+    inOrder.forEach((e, i) => {
+        nodes[e] = i;
+    });
+    return (function recurse(postStart, postEnd, inStart, inEnd) {
+        if (postEnd <= postStart || inStart >= inEnd) {
+            return null;
+        }
+        const inOrderIndx = nodes[postOrder[postEnd]];
+        const subTreeSize = inEnd - inOrderIndx;
+        return {
+            val: postOrder[postEnd],
+            left: recurse(postStart, postEnd - subTreeSize, inStart, inOrderIndx),
+            right: recurse(postEnd - 1 - subTreeSize, postEnd - 1, inOrderIndx + 1, inEnd)
+        }
+    })(-1, postOrder.length - 1, 0, inOrder.length);
+}
+
+console.log(JSON.stringify(binaryConstruct(postOrder, inOrder), null, 2));
 ```
 Reconstruct a binary tree from a pre-order traversal with marker:
 ```javascript
@@ -172,7 +197,7 @@ function generateLinkedList(tree) {
     return result.next;
 }
 
-generateLinkedList(tree);
+console.log(JSON.stringify(generateLinkedList(tree), null, 2));
 ```
 Find all the exterior leaves of binary tree:
 ```javascript
@@ -214,29 +239,30 @@ Print the vertical columns of the binary tree
 ```javascript
 const tree = { val: 1, left: { val: 2, left: { val: 4, left: null, right: null }, right: { val: 5, left: null, right: null } }, right: { val: 3, left: null, right: { val: 6, left: null, right: null } } };
 
-function findMinMax(node, minMax, map, hd) {
+function findMinMax(node, map, minMax, hd) {
     if (!node) {
-        return;
+        return
     }
-    if (hd < minMax.min) {
-        minMax.min = hd;
-    } else if (hd > minMax.max) {
-        minMax.max = hd;
+    if (hd < minMax[0]) {
+        minMax[0] = hd;
+    } else if (hd > minMax[1]) {
+        minMax[1] = hd;
     }
     if (map[hd]) {
         map[hd].push(node.val);
     } else {
         map[hd] = [node.val];
     }
-    findMinMax(node.left, minMax, map, hd - 1);
-    findMinMax(node.right, minMax, map, hd + 1);
+    findMinMax(node.left, map, minMax, hd - 1);
+    findMinMax(node.right, map, minMax, hd + 1);
 }
 
 function verticalCol(tree) {
-    const map = {}, minMax = { min: 0, max: 0 };
+    const map = {};
+    const minMax = [0, 0];
     let res = [];
-    findMinMax(tree, minMax, map, 0);
-    for (let i = minMax.min; i <= minMax.max; i++) {
+    findMinMax(tree, map, minMax, 0);
+    for (let i = minMax[0]; i <= minMax[1]; i++) {
         res = res.concat(map[i]);
     }
     return res;

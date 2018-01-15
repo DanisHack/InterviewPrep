@@ -65,9 +65,7 @@ Space Complexity: O(log(n))
 const a = [34, 203, 3, 746, 200, 984, 198, 764, 9];
 
 function partition(arr, left, right) {
-    const pivot = Math.floor((Math.random() * j) + i); // choosing randomized pivot would minimizes the chances of getting O(n^2),
-    // middle index would also be acceptable
-    // const pivot = Math.floor((i + j) / 2);
+    const pivot = Math.floor((left + right) / 2);
     while (left <= right) {
         while (arr[left] < arr[pivot]) {
             left++;

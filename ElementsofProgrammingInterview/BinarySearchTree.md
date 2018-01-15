@@ -15,38 +15,37 @@ function firstGreater(tree, k) {
     return greater;
 }
 
-firstGreater(tree, 23);
+console.log(JSON.stringify(firstGreater(tree, 23), null, 2));
 ```
 First appearance of a node with the value k:
 ```javascript
 const tree = { val: 108, left: { val: 108, left: { val: -10, left: { val: -14, left: null, right: null }, right: { val: 2, left: null, right: null } }, right: { val: 108, left: null, right: null } }, right: { val: 285, left: { val: 243, left: null, right: null }, right: { val: 285, left: null, right: { val: 401, left: null, right: null } } } };
 
-function firstAppearance(tree, k) {
-    if (!tree) {
+function firstAppearance(node, k) {
+    if (!node) {
         return null;
     }
-    const left = first(tree.left, k);
+    if (node.val === k) {
+        return node;
+    }
+    const left = firstAppearance(node.left, k);
     if (left) {
         return left;
     }
-    if (tree.val === k) {
-        return tree;
-    }
-
-    const right = first(tree.right, k);
+    const right = firstAppearance(node.right, k);
     if (right) {
         return right;
     }
     return null;
 }
 
-firstAppearance(tree, 143);
+console.log(JSON.stringify(firstAppearance(tree, 285), null, 2));
 ```
 Find the kth largest value in BST:
 ```javascript
 const tree = { val: 19, left: { val: 7, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 5, left: null, right: null } }, right: { val: 11, left: null, right: { val: 17, left: { val: 13, left: null, right: null }, right: null } } }, right: { val: 43, left: { val: 23, left: null, right: { val: 37, left: { val: 29, left: null, right: { val: 31, left: null, right: null } }, right: { val: 41, left: null, right: null } } }, right: { val: 47, left: null, right: { val: 53, left: null, right: null } } } };
 
-function kLargest(tree, k) {
+function kLargest(node, k) {
     let i = 1;
     return (function recurse(current) {
         if (!current) {
@@ -67,7 +66,7 @@ function kLargest(tree, k) {
     })(node);
 }
 
-kLargest(tree, 9);
+console.log(JSON.stringify(kLargest(tree, 2), null, 2));
 ```
 Reconstruct a Binary Search tree from preorder traversal:
 ```javascript
@@ -90,7 +89,7 @@ function rebuild(arr) {
     })(-Infinity, Infinity);
 }
 
-rebuild(preOrder);
+console.log(JSON.stringify(reBuild(preOrder), null, 2));
 ```
 Reconstruct a Binary Search Tree from postorder traversal:
 ```javascript
@@ -119,37 +118,37 @@ Insert and Deletion Binary Search Tree:
 ```javascript
 const tree = { val: 10, left: { val: 7, left: { val: 2, left: null, right: null }, right: { val: 9, left: null, right: null } }, right: { val: 14, left: { val: 12, left: null, right: null }, right: { val: 16, left: null, right: null } } };
 
-function insertNode(bst, key) {
-    if (!bst) {
-        return true;
+function insertNode(node, val) {
+    if (!node) {
+        return null;
     }
-    let parent = current = bst;
+    let parent = current = node;
     while (current) {
         parent = current;
-        if (current.val === key) {
-            return false;
-        } else if (current.val > key) {
+        if (current.val === val) {
+            return null;
+        } else if (current.val > val) {
             current = current.left;
-        } else {
+        } else if (current.val < val) {
             current = current.right;
         }
     }
-    if (parent.val > key) {
-        parent.left = { val: key, left: null, right: null };
-    } else {
-        parent.right = { val: key, left: null, right: null };
+    if (parent.val > val) {
+        parent.left = { val, left: null, right: null };
+    } else if (parent.val < val) {
+        parent.right = { val, left: null, right: null };
     }
-    return true;
+    return node;
 }
 
 function deleteNode(bst, val) {
-    let parent = current = bst;
+    let parent = current = node;
     while (current && current.val !== val) {
         parent = current;
-        current = val < current.val ? current.left : current.right;
+        current = current.val > val ? current.left : current.right;
     }
     if (!current) {
-        return false;
+        return null;
     }
     const key = current;
     if (key.right) {
@@ -166,22 +165,22 @@ function deleteNode(bst, val) {
             parentRight.right = right.right;
         }
     } else {
-        if (bst === key) {
+        if (node === key) {
             const val = key.left.val, left = key.left.left, right = key.left.right;
-            bst.val = val;
-            bst.left = left;
-            bst.right = right;
+            node.val = val;
+            node.left = left;
+            node.right = right;
         } else if (parent.left === key) {
             parent.left = key.left;
         } else {
-            parent.right = key.right;
+            parent.right = key.left;
         }
     }
-    return true;
+    return node;
 }
 
-insertNode(tree, 15);
-deleteNode(tree, 15);
+console.log(JSON.stringify(insertNode(tree, 15), null, 2));
+console.log(JSON.stringify(deleteNode(tree, 10), null, 2));
 ```
 Given three node, check if BST is ordered:
 ```javascript
@@ -224,5 +223,5 @@ function isBSTordered(node0, node1, middle) {
     return searchTarget(middle, (p0 === middle ? node1 : node0));
 }
 
-isBSTordered(seven, ten, fourteen);
+console.log(JSON.stringify(isBSTordered(two, ten, seven), null, 2));
 ```
