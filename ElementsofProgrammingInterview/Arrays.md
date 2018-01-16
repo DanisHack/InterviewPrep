@@ -194,65 +194,69 @@ const arr = [
 ];
 
 function spiralMatrix(matrix) {
-    const result = [];
-    let counter = 1, top = left = 0, right = bottom = arr.length - 1;
-    while (counter < arr.length * arr.length) {
+    const res = [];
+    let top = 0;
+    let left = 0;
+    let bottom = arr.length - 1;
+    let right = arr.length - 1;
+    let count = 0;
+    while (count < arr.length * arr.length) {
         for (let i = left; i <= right; i++) {
-            result.push(arr[top][i]);
-            counter++;
+            res.push(arr[top][i]);
+            count++;
         }
         top++;
         for (let i = top; i <= bottom; i++) {
-            result.push(arr[i][right]);
-            counter++;
+            res.push(arr[i][right]);
+            count++;
         }
         right--;
         for (let i = right; i >= left; i--) {
-            result.push(arr[bottom][i]);
-            counter++;
+            res.push(arr[bottom][i]);
+            count++;
         }
         bottom--;
         for (let i = bottom; i >= top; i--) {
-            result.push(arr[i][left]);
-            counter++;
+            res.push(arr[i][left]);
+            count++;
         }
         left++;
     }
-    if (arr.length % 2 !== 0) {
-        const middle = Math.floor(arr.length / 2);
-        result.push(arr[middle][middle]);
-    }
-    return result;
+    return res;
 }
 
 spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
 
 function generateSpiralMatrix(n) {
-    const result = Array(n).fill(null).map(() => []);
-    let currentNum = 1, top = left = 0, bottom = right = n - 1;
-    while (currentNum <= n * n) {
+    const res = Array(n).fill(null).map(() => []);
+    let top = 0;
+    let left = 0;
+    let bottom = n - 1;
+    let right = n - 1;
+    let count = 1;
+    while (count <= n * n) {
         for (let i = left; i <= right; i++) {
-            result[top][i] = currentNum;
-            currentNum++;
+            res[top][i] = count;
+            count++;
         }
         top++;
         for (let i = top; i <= bottom; i++) {
-            result[i][right] = currentNum;
-            currentNum++;
+            res[i][right] = count;
+            count++;
         }
         right--;
         for (let i = right; i >= left; i--) {
-            result[bottom][i] = currentNum;
-            currentNum++;
+            res[bottom][i] = count;
+            count++;
         }
         bottom--;
         for (let i = bottom; i >= top; i--) {
-            result[i][left] = currentNum;
-            currentNum++;
+            res[i][left] = count;
+            count++;
         }
         left++;
     }
-    return result;
+    return res;
 }
 
 generateSpiralMatrix(4);
@@ -285,21 +289,19 @@ rotateMatrix(arr);
 Generate Pascal Triangle:
 ```javascript
 function generatePascalTri(n) {
-    const result = [[1], [1, 1]]
-    if (result.length >= n) {
-        return result.slice(0, n);
+    const res = [[1], [1, 1]];
+    if (res.length > n) {
+        return res[n];
     }
-    let currentIndex = 2;
-    while (currentIndex < n) {
+    for (let i = 2; i < n; i++) {
         const current = [1];
-        for (let i = 0; i < result[currentIndex - 1].length - 1; i++) {
-            current.push(result[currentIndex - 1][i] + result[currentIndex - 1][i + 1]);
+        for (let j = 0; j < res[i - 1].length - 1; j++) {
+            current.push(res[i - 1][j] + res[i - 1][j + 1]);
         }
         current.push(1);
-        currentIndex++;
-        result.push(current);
+        res.push(current);
     }
-    return result;
+    return res;
 }
 
 generatePascalTri(5); // [ [ 1 ], [ 1, 1 ], [ 1, 2, 1 ], [ 1, 3, 3, 1 ], [ 1, 4, 6, 4, 1 ] ]
