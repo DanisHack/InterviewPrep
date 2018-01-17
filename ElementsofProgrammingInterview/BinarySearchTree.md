@@ -166,7 +166,7 @@ function deleteNode(bst, val) {
         }
     } else {
         if (node === key) {
-            const val = key.left.val, left = key.left.left, right = key.left.right;
+            const { val, left, right } = key.left;
             node.val = val;
             node.left = left;
             node.right = right;

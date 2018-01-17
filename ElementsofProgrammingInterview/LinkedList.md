@@ -188,13 +188,18 @@ Write a program that stores all even nodes before the odd nodes
 const list = { val: 0, next: { val: 1, next: { val: 2, next: { val: 3, next: { val: 4, next: null } } } } };
 
 function evenOddMerge(l) {
-    const even = {}, odd = {}, arr = [even, odd];
-    let turn = 0;
+    const odd = {};
+    const even = {};
+    const arr = [even, odd];
     while (l) {
-        arr[turn].next = l;
-        arr[turn] = arr[turn].next;
+        if (l.val & 1) {
+            arr[1].next = l;
+            arr[1] = arr[1].next;
+        } else {
+            arr[0].next = l;
+            arr[0] = arr[0].next;
+        }
         l = l.next;
-        turn ^= 1;
     }
     arr[1].next = null;
     arr[0].next = odd.next;
