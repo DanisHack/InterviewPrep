@@ -108,12 +108,11 @@ function createBST(arr, start = 0, end = arr.length - 1) {
 		return null;
 	}
 	let middle = Math.floor((start + end) / 2);
-	let node = {
+	return {
 		value: arr[middle],
 		left: createBST(arr, start, middle - 1),
 		right: createBST(arr, middle + 1, end)
 	};
-	return node;
 }
 
 createBST(arr);
@@ -204,8 +203,8 @@ console.log(JSON.stringify(removeElements(list, "L"), null, 2));
 ```
 Check if subtree is part of tree:
 ```javascript
-const subTree =  { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } };
-const tree = { val: 5, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 7, left: { val: 6, left: null, right: null }, right: { val: 8, left: null, right: null } } };
+const tree2 =  { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } };
+const tree1 = { val: 5, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 7, left: { val: 6, left: null, right: null }, right: { val: 8, left: null, right: null } } };
 
 function match(t1, t2){
     if(!t1 && !t2){
@@ -220,7 +219,7 @@ function match(t1, t2){
     return (match(t1.left, t2.left) && match(t1.right, t2.right));
 }
 
-function subtree(t1, t2){
+function subTree(t1, t2){
     if(!t1){
         return false;
     }
@@ -229,17 +228,17 @@ function subtree(t1, t2){
             return true;
         }
     }
-    return (subtree(t1.left, t2) || subtree(t1.right, t2));
+    return (subTree(t1.left, t2) || subTree(t1.right, t2));
 }
 
 function containsTree(t1, t2){
     if(!t2){
         return true;
     }
-    return subtree(t1, t2);
+    return subTree(t1, t2);
 }
 
-containsTree(tree, subTree);
+containsTree(tree1, tree2);
 ```
 Finding the beginning of linked list circle:
 ```javascript
@@ -247,11 +246,11 @@ function List(letter){
     this.val = letter;
     this.next = null;
 }
-var A = new List("A");
-var B = A.next = new List('B');
-var C = B.next = new List('C');
-var D = C.next = new List('D');
-var E = D.next = new List('E');
+const A = new List("A");
+const B = A.next = new List('B');
+const C = B.next = new List('C');
+const D = C.next = new List('D');
+const E = D.next = new List('E');
 E.next = C;
 
 // first method
@@ -385,9 +384,9 @@ var eight = seven.right = new Leave(8);
 eight.parent = seven;
 
 function inorderSucc(root){
-	let current = tree;
-    if (!tree.parent || tree.right) {
-        current = tree.right;
+	let current = root;
+    if (!root.parent || root.right) {
+        current = root.right;
         while (current && current.left) {
             current = current.left;
         }
@@ -451,37 +450,38 @@ Add Up the value of each binary tree level:
 ```javascript
 var tree = {val: 5, left: {val: 3, left: {val: 2, left: null, right: null}, right: {val: 4, left: null, right: null}}, right: {val: 7, left: {val: 6, left: null, right: null}, right: {val: 8, left: null, right: null}}};
 
-function addBinaryTree(head) {
-	const queue = [head];
-    const sum = [head.val];
-    let level = 1, numberOfNodes = 1;
+function helper(arr, level, val) {
+    if (arr[level]) {
+        arr[level] += val;
+    } else {
+        arr[level] = val;
+    }
+}
+
+function addBinaryTree(tree) {
+    const queue = [tree];
+    const res = [tree.val];
+    let level = 1;
+    let numberOfNodes = 1;
     while (queue.length) {
         if (!numberOfNodes) {
             level++;
             numberOfNodes = queue.length;
         }
-        const current = queue.shift();
-        if (current.left) {
-            const { left, left: { val } } = current;
-            if (sum[level]) {
-                sum[level] += val;
-            } else {
-                sum[level] = val;
-            }
+        const curr = queue.shift();
+        if (curr.left) {
+            const { left, left: { val } } = curr;
+            helper(res, level, val);
             queue.push(left);
         }
-        if (current.right) {
-            const { right, right: { val } } = current;
-            if (sum[level]) {
-                sum[level] += val;
-            } else {
-                sum[level] = val;
-            }
+        if (curr.right) {
+            const { right, right: { val } } = curr;
+            helper(res, level, val);
             queue.push(right);
         }
         numberOfNodes--;
     }
-    return sum;
+    return res;
 }
 
 addBinaryTree(tree);

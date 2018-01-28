@@ -135,7 +135,7 @@ console.log(JSON.stringify(binaryConstruct(preOrder, inOrder), null, 2));
 Reconstruct the binary tree with postorder and inorder traversal:
 ```javascript
 const inOrder = ["F", "B", "A", "E", "H", "C", "D", "I", "G"];
-const postOrder = ["F", "A", "E", "B", "I", "G", "D", "C", "H"]
+const postOrder = ["F", "A", "E", "B", "I", "G", "D", "C", "H"];
 
 function binaryConstruct(postOrder, inOrder) {
     const nodes = {};
@@ -143,7 +143,7 @@ function binaryConstruct(postOrder, inOrder) {
         nodes[e] = i;
     });
     return (function recurse(postStart, postEnd, inStart, inEnd) {
-        if (postEnd <= postStart || inStart >= inEnd) {
+        if (postStart >= postEnd || inStart >= inEnd) {
             return null;
         }
         const inOrderIndx = nodes[postOrder[postEnd]];
