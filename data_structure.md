@@ -543,7 +543,7 @@ function buildPath(parents, goal) {
 
 function graphBFS(graph, start, goal) {
 	const queue = [start];
-    const parent = { [start]: null };
+    const parents = { [start]: null };
     const visited = { [start]: true };
     while (queue.length) {
         const current = queue.shift();

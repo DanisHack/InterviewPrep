@@ -192,13 +192,9 @@ function evenOddMerge(l) {
     const even = {};
     const arr = [even, odd];
     while (l) {
-        if (l.val & 1) {
-            arr[1].next = l;
-            arr[1] = arr[1].next;
-        } else {
-            arr[0].next = l;
-            arr[0] = arr[0].next;
-        }
+        const index = l.val & 1;
+        track[index].next = l;
+        track[index] = track[index].next;
         l = l.next;
     }
     arr[1].next = null;
@@ -239,14 +235,18 @@ Write a program that implements list pivoting:
 const list = { val: 3, next: { val: 2, next: { val: 2, next: { val: 11, next: { val: 7, next: { val: 5, next: { val: 11, next: null } } } } } } };
 
 function listPivoting(l, k) {
-    const less = {}, equal = {}, greater = {};
-    let lessIter = less, equalIter = equal, greaterIter = greater;
+    const less = {};
+    const equal = {};
+    const greater = {};
+    let lessIter = less;
+    let equalIter = equal;
+    let greaterIter = greater;
     while (l) {
         if (l.val < k) {
             lessIter.next = l;
             lessIter = lessIter.next;
         } else if (l.val === k) {
-            equalIter.next = l;
+            equalIter.next = l
             equalIter = equalIter.next;
         } else {
             greaterIter.next = l;
