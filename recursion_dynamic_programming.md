@@ -120,13 +120,11 @@ function magicIndexNonDistinct(arr, start = 0, end = arr.length - 1) {
     if (middle === arr[middle]) {
         return middle;
     }
-    const leftIndex = Math.min(middle - 1, arr[middle]);
-    const left = magicIndexNonDistinct(arr, start, leftIndex);
+    const left = magicIndexNonDistinct(arr, start, Math.min(middle - 1, arr[middle]));
     if (left >= 0) {
         return left;
     }
-    const rightIndex = Math.max(middle + 1, arr[middle]);
-    return magicIndexNonDistinct(arr, rightIndex, end);
+    return magicIndexNonDistinct(arr, Math.max(middle + 1, arr[middle]), end);
 }
 
 magicIndexNonDistinct(arr2);
