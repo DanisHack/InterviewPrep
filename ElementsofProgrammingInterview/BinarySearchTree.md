@@ -6,7 +6,7 @@ function firstGreater(tree, k) {
     let current = tree, greater = null;
     while (current) {
         if (current.val > k) {
-            greater = current.val;
+            greater = current;
             current = current.left;
         } else {
             current = current.right;
