@@ -1,5 +1,24 @@
 Count the number of score combinations from [2, 3, 7]:
 ```javascript
+/* recursion solution
+    function combination(n) {
+        const points = [2, 3, 7];
+        let sum = 0;
+        (function recurse(index, num) {
+            if (num === n) {
+                sum++;
+                return;
+            } else if (num < n) {
+                for (let i = index; i < points.length; i++) {
+                    recurse(i, num + points[i]);
+                }
+            }
+        })(0, 0);
+        return sum;
+    }
+
+    combination(12);
+*/
 function combination(n) {
     const points = [2, 3, 7];
     const comb = points.map(() => [1].concat(Array(n).fill(0)));
