@@ -1,4 +1,4 @@
-Failed Facebook Interview Question:
+Facebook Interview Question:
 ```javascript
 const items = [
     { type: "iPhone", color: "red", secondary: "gold" },
