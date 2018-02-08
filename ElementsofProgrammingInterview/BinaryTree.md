@@ -46,19 +46,10 @@ const tree = { val: 314, left: { val: 6, left: { val: 271, left: { val: 28, left
 
 function hasPathSum(node, n, sum = 0) {
     if (!node) {
-        return false;
-    }
-    sum += node.val;
-    if (!node.left && !node.right) {
         return sum === n;
     }
-    if (hasPathSum(node.left, n, sum)) {
-        return true;
-    }
-    if (hasPathSum(node.right, n, sum)) {
-        return true;
-    }
-    return false;
+    const newSum = sum + node.val;
+    return hasPathSum(node.left, n, newSum) || hasPathSum(node.right, n, newSum);
 }
 
 hasPathSum(tree, 901);

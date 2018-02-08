@@ -37,25 +37,22 @@ combination(12);
 Use the Levenshtein Algorithm to calculate the minimum changes require for two words:
 ```javascript
 function levenshtein(a, b) {
-    const distance = a.split("").map(() => Array(b.length).fill(-1));
+    const dist = a.split("").map(() => Array(b.length).fill(-1));
     return (function compute(aIndex, bIndex) {
-        if (aIndex < 0) {
-            return bIndex + 1;
+        if (aIndex < 0 || bIndex < 0) {
+            return (aIndex < 0 ? bIndex : aIndex) + 1
         }
-        if (bIndex < 0) {
-            return aIndex + 1;
-        }
-        if (distance[aIndex][bIndex] === -1) {
+        if (dist[aIndex][bIndex] === -1) {
             if (a[aIndex] === b[bIndex]) {
-                distance[aIndex][bIndex] = compute(aIndex - 1, bIndex - 1);
+                dist[aIndex][bIndex] = compute(aIndex - 1, bIndex - 1);
             } else {
-                const subLast = compute(aIndex - 1, bIndex - 1);
-                const addLast = compute(aIndex - 1, bIndex);
-                const deleteLast = compute(aIndex, bIndex - 1);
-                distance[aIndex][bIndex] = Math.min(subLast, addLast, deleteLast) + 1;
+                const sub = compute(aIndex - 1, bIndex - 1);
+                const add = compute(aIndex - 1, bIndex);
+                const del = compute(aIndex, bIndex - 1);
+                dist[aIndex][bIndex] = Math.min(sub, add, del) + 1;
             }
         }
-        return distance[aIndex][bIndex];
+        return dist[aIndex][bIndex];
     })(a.length - 1, b.length - 1);
 }
 
@@ -85,7 +82,7 @@ Calculate Binomial Coefficient:
 function binomialCoefficient(n, k) {
     const memo = Array(n + 1).fill().map(() => Array(k + 1).fill(0));
     return (function compute(x, y) {
-        if ([0, x].includes(y)) {
+        if (y === x || y === 0) {
             return 1;
         }
         if (memo[x][y] === 0) {
