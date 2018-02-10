@@ -191,14 +191,13 @@ function islandCount(graph) {
     let sum = 0;
     function isValid(row, col) {
         const key = `${row}${col}`;
-        if (row >= graph.length || col >= graph[0].length || !graph[row][col] || visited[key]) {
+        if (row >= graph.length || col >= graph[row].length || !graph[row][col] || visited[key]) {
             return false;
         }
         visited[key] = true;
         isValid(row, col + 1);
         isValid(row + 1, col + 1);
         isValid(row + 1, col);
-        isValid(row + 1, col - 1);
         return true;
     }
     graph.forEach((e, row) => {
@@ -364,7 +363,7 @@ function longest(str) {
     return result;
 }
 
-longest("ewrvewvwsfa") // 5
+longest("ewrvewvwsfa"); // 5
 ```
 Median of two sorted array:
 ```javascript
@@ -393,7 +392,7 @@ function merge(a, b) {
 
 function findMedian(a, b) {
     const arr = merge(a, b);
-    const middle = Math.floor(arr.length / 2);
+    const middle = Math.floor((arr.length - 1) / 2);
     if (arr.length % 2 !== 0) {
         return arr[middle];
     }

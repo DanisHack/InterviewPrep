@@ -306,3 +306,21 @@ function generatePascalTri(n) {
 
 generatePascalTri(5); // [ [ 1 ], [ 1, 1 ], [ 1, 2, 1 ], [ 1, 3, 3, 1 ], [ 1, 4, 6, 4, 1 ] ]
 ```
+Container With Most Water:
+```javascript
+function maxArea(height) {
+    let max = 0, left = 0, right = height.length - 1;
+    while (left < right) {
+        max = Math.max(max, Math.min(height[left], height[right]) * (right - left));
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    return max;
+}
+
+maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]); // 49
+// good link: https://leetcode.com/articles/container-most-water/
+```
