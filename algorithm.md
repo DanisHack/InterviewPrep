@@ -524,7 +524,7 @@ validParen(")()()(");
 Word Break:
 ```javascript
 function wordBreak(s, dict) {
-    const arr = [true];
+    const arr = [true].concat(Array(s.length).fill(false));
     for (let i = 0; i < s.length; i++) {
         if (arr[i]) {
             for (let j = i + 1; j <= s.length; j++) {
@@ -553,25 +553,16 @@ function dfs(arr, result, str, index) {
 }
 
 function wordBreak(s, dict) {
-    const arr = [[]];
+    const arr = Array(s.length + 1).fill(null).map(() => []);
     for (let i = 0; i < s.length; i++) {
-        if (arr[i]) {
-            for (let j = i + 1; j <= s.length; j++) {
-                const word = s.slice(i, j);
-                if (dict.includes(word)) {
-                    if (arr[j]) {
-                        arr[j].push(word);
-                    } else {
-                        arr[j] = [word];
-                    }
-                }
+        for (let j = i + 1; j <= s.length; j++) {
+            const word = s.slice(i, j);
+            if (dict.includes(word)) {
+                arr[j].push(word);
             }
         }
     }
     const result = [];
-    if (arr.length === 1) {
-        return result;
-    }
     dfs(arr, result, "", s.length);
     return result;
 }
@@ -581,56 +572,24 @@ wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and do
 Substring with Concatenation of All Words:
 ```javascript
 function findSubstring(s, words) {
-    const result = [];
-    if (!s || !words.length) {
-        return result;
-    }
-    const len = words[0].length;
-    const map = {};
-    words.forEach(e => {
-        if (map[e]) {
-            map[e]++;
-        } else {
-            map[e] = 1;
-        }
-    });
-    for (let i = 0; i < len; i++) {
+    const len = words.join("").length;
+    const res = [];
+    for (let i = 0; i <= s.length - len; i++) {
+        const curr = s.slice(i, i + len);
         let count = 0;
-        let start = i;
-        let currentMap = {};
-        for (let j = i; j < s.length - len; j += len) {
-            const word = s.slice(j, j + len);
-            if (map[word]) {
-                if (currentMap[word]) {
-                    currentMap[word]++;
-                } else {
-                    currentMap[word] = 1;
-                }
+        for (let j = 0; j < words.length; j++) {
+            if (curr.includes(words[j])) {
                 count++;
-                while (currentMap[word] > map[word]) {
-                    const startWord = s.slice(start, start + len);
-                    currentMap[startWord]--;
-                    count--;
-                    start += len;
-                }
-                if (count === words.length) {
-                    result.push(start);
-                    const startWord = s.slice(start, start + len);
-                    currentMap[startWord]--;
-                    count--;
-                    start += len;
-                }
-            } else {
-                currentMap = {};
-                count = 0;
-                start = j + len;
             }
         }
+        if (count === words.length) {
+            res.push(i);
+        }
     }
-    return result;
+    return res;
 }
 
-findSubstring("barfoofoobarthefoobarman", ["bar","foo","the"]);
+findSubstring("barfoofoobarthefoobarman", ["bar", "foo", "the"]);
 ```
 Search for a Range:
 ```javascript
@@ -686,38 +645,39 @@ function longestValidParentheses(s) {
     return result;
 }
 
-longestValidParentheses(")()())")
+longestValidParentheses(")()())");
 ```
 Search in Rotated Sorted Array:
 ```javascript
-function search(nums, target, start = 0, end = nums.length - 1) {
-    if (start > end) {
+function search(nums, target) {
+    if (!arr.length) {
         return -1;
     }
-    const middle = Math.floor((start + end) / 2);
-    if (nums[middle] === target) {
-        return middle;
-    } else if (nums[middle] < target) {
-        let value = -1;
-        if (nums[0] > nums[middle]) {
-            value = search(nums, target, start, middle - 1);
+    let start = 0, end = arr.length - 1;
+    while (start <= end) {
+        const middle = Math.floor((start + end) / 2);
+        if (arr[middle] === target) {
+            return middle;
         }
-        if (value === -1) {
-            return search(nums, target, middle + 1, end);
+
+        if (arr[start] <= arr[middle]) { // left side is sorted
+            if (arr[start] <= target && target < arr[middle]) {
+                end = middle - 1;
+            } else {
+                start = middle + 1;
+            }
+        } else { // right side is sorted
+            if (arr[middle] < target && target <= arr[end]) {
+                start = middle + 1;
+            } else {
+                end = middle - 1;
+            }
         }
-        return value;
     }
-    let value = -1;
-    if (nums[nums.length - 1] < nums[middle]) {
-        value = search(nums, target, middle + 1, end)
-    }
-    if (value === -1) {
-        return search(nums, target, start, middle - 1);
-    }
-    return value;
+    return -1;
 };
 
-search([4, 5, 6, 7, 1, 2, 3], 5);
+search([4, 5, 6, 7, 1, 2, 3], 5); // 1
 ```
 Given an unsorted integer array, find the first missing positive integer:
 ```javascript

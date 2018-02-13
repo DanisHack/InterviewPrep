@@ -67,7 +67,7 @@ const grid = [
 function findPath(grid) {
     const path = [];
     (function recurse(i, j) {
-        if (i >= grid.length || j >= grid[0].length || !grid[i][j]) {
+        if (i >= grid.length || j >= grid[i].length || !grid[i][j]) {
             return false;
         }
         if (i === grid.length - 1 && j === grid[i].length - 1) {
