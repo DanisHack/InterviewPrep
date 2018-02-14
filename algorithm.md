@@ -198,6 +198,7 @@ function islandCount(graph) {
         isValid(row, col + 1);
         isValid(row + 1, col + 1);
         isValid(row + 1, col);
+        isValid(row + 1, col - 1);
         return true;
     }
     graph.forEach((e, row) => {

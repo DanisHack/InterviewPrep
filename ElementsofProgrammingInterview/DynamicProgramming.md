@@ -79,6 +79,7 @@ nWays(5, 5);
 ```
 Calculate Binomial Coefficient:
 ```javascript
+// http://mathworld.wolfram.com/images/equations/BinomialCoefficient/NumberedEquation1.gif
 function binomialCoefficient(n, k) {
     const memo = Array(n + 1).fill().map(() => Array(k + 1).fill(0));
     return (function compute(x, y) {
@@ -148,16 +149,16 @@ const items = [
 
 function optimalCapacity(items, cap) {
     const v = items.map(() => Array(cap + 1).fill(-1));
-    return (function compute(k, cap) {
+    return (function compute(k, weight) {
         if (k < 0) {
             return 0;
         }
-        if (v[k][cap] === -1) {
-            const withoutCurr = compute(k - 1, cap);
-            const withCurr = items[k].weight > cap ? 0 : items[k].value + compute(k - 1, cap - items[k].weight);
-            v[k][cap] = Math.max(withoutCurr, withCurr);
+        if (v[k][weight] === -1) {
+            const withoutCurr = compute(k - 1, weight);
+            const withCurr = items[k].weight > weight ? 0 : items[k].value + compute(k - 1, weight - items[k].weight);
+            v[k][weight] = Math.max(withoutCurr, withCurr);
         }
-        return v[k][cap];
+        return v[k][weight];
     })(items.length - 1, cap);
 }
 
