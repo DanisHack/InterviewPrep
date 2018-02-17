@@ -1,4 +1,4 @@
-Facebook Interview Question:
+Interview Question:
 ```javascript
 const items = [
     { type: "iPhone", color: "red", secondary: "gold" },
@@ -42,7 +42,7 @@ function filterItems(items, excludes) {
 
 filterItems(items, excludes);
 ```
-Uber Interview
+dependencies
 ```javascript
 const projects = ['a', 'b', 'c', 'd', 'e', 'f'];
 const dependencies = [['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']];
@@ -113,4 +113,24 @@ function iso(str1, str2) {
 }
 
 iso("pop", "boc");
+```
+Filter Color
+```javascript
+const colors = ["aliceblue","antiquewhite","aqua","aquamarine","azure","beige","bisque","black","blanchedalmond","blue","blueviolet","brown","burlywood","cadetblue","chartreuse","chocolate","coral","cornflowerblue","cornsilk","crimson","cyan","darkblue","darkcyan","darkgoldenrod","darkgray","darkgreen","darkgrey","darkkhaki","darkmagenta","darkolivegreen","darkorange","darkorchid","darkred","darksalmon","darkseagreen","darkslateblue","darkslategray","darkslategrey","darkturquoise","darkviolet","deeppink","deepskyblue","dimgray","dimgrey","dodgerblue","firebrick","floralwhite","forestgreen","fuchsia","gainsboro","ghostwhite","gold","goldenrod","gray","green","greenyellow","grey","honeydew","hotpink","indianred","indigo","ivory","khaki","lavender","lavenderblush","lawngreen","lemonchiffon","lightblue","lightcoral","lightcyan","lightgoldenrodyellow","lightgray","lightgreen","lightgrey","lightpink","lightsalmon","lightseagreen","lightskyblue","lightslategray","lightslategrey","lightsteelblue","lightyellow","lime","limegreen","linen","magenta","maroon","mediumaquamarine","mediumblue","mediumorchid","mediumpurple","mediumseagreen","mediumslateblue","mediumspringgreen","mediumturquoise","mediumvioletred","midnightblue","mintcream","mistyrose","moccasin","navajowhite","navy","oldlace","olive","olivedrab","orange","orangered","orchid","palegoldenrod","palegreen","paleturquoise","palevioletred","papayawhip","peachpuff","peru","pink","plum","powderblue","purple","red","rosybrown","royalblue","saddlebrown","salmon","sandybrown","seagreen","seashell","sienna","silver","skyblue","slateblue","slategray","slategrey","snow","springgreen","steelblue","tan","teal","thistle","tomato","turquoise","violet","wheat","white","whitesmoke","yellow","yellowgreen"];
+
+function isValid(word, str, index = 0) {
+    if (index === str.length) {
+        return true;
+    }
+    const i = word.indexOf(str[index]);
+    return i > -1 ? isValid(word.slice(i + 1), str, index + 1) : false
+}
+
+function findColor(str) {
+    return colors.filter(e => isValid(e, str));
+}
+
+console.log(findColor('uqi')); // [ 'darkturquoise', 'mediumaquamarine', 'mediumturquoise', 'paleturquoise', 'turquoise' ]
+console.log(findColor('zre')); // [ 'azure' ]
+console.log(findColor('gold')); // [ 'darkgoldenrod', 'gold', 'goldenrod', 'lightgoldenrodyellow', 'palegoldenrod' ]
 ```

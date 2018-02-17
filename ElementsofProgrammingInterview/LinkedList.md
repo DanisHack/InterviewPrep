@@ -4,18 +4,19 @@ const list1 = { val: 2, next: { val: 5, next: { val: 7, next: null } } };
 const list2 = { val: 3, next: { val: 11, next: null } };
 
 function mergeList(l1, l2) {
-    let res = head = {};
+    let iter = {};
+    const res = iter;
     while (l1 && l2) {
         if (l1.val < l2.val) {
-            head.next = l1;
+            iter.next = l1;
             l1 = l1.next;
-        } else if (l2.val < l1.val) {
-            head.next = l2;
+        } else {
+            iter.next = l2;
             l2 = l2.next;
         }
-        head = head.next;
+        iter = iter.next;
     }
-    head.next = l1 || l2;
+    iter.next = l1 || l2;
     return res.next;
 }
 
