@@ -651,24 +651,24 @@ longestValidParentheses(")()())");
 Search in Rotated Sorted Array:
 ```javascript
 function search(nums, target) {
-    if (!arr.length) {
+    if (!nums.length) {
         return -1;
     }
-    let start = 0, end = arr.length - 1;
+    let start = 0, end = nums.length - 1;
     while (start <= end) {
         const middle = Math.floor((start + end) / 2);
-        if (arr[middle] === target) {
+        if (nums[middle] === target) {
             return middle;
         }
 
-        if (arr[start] <= arr[middle]) { // left side is sorted
-            if (arr[start] <= target && target < arr[middle]) {
+        if (nums[start] <= nums[middle]) { // left side is sorted
+            if (nums[start] <= target && target < nums[middle]) {
                 end = middle - 1;
             } else {
                 start = middle + 1;
             }
         } else { // right side is sorted
-            if (arr[middle] < target && target <= arr[end]) {
+            if (nums[middle] < target && target <= nums[end]) {
                 start = middle + 1;
             } else {
                 end = middle - 1;
