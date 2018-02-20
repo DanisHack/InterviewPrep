@@ -253,16 +253,6 @@ const D = C.next = new List('D');
 const E = D.next = new List('E');
 E.next = C;
 
-// first method
-function recurse(head){
-    var current = head;
-    while(!current.visit){
-        current.visit = true;
-        current = current.next;
-    }
-    return current;
-}
-
 // second method, less space memory
 function findBeginning(head){
     var slow = head;

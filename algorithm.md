@@ -686,7 +686,7 @@ function firstMissingPositive(nums) {
     for (let i = 0; i < nums.length; i++) {
         while (nums[i] > 0 && nums[i] < nums.length && nums[i] !== nums[nums[i] - 1]) {
             const temp = nums[i];
-            nums[i] = nums[nums[i] - 1];
+            nums[i] = nums[temp - 1];
             nums[temp - 1] = temp;
         }
     }
