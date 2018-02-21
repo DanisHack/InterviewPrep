@@ -22,21 +22,10 @@ First appearance of a node with the value k:
 const tree = { val: 108, left: { val: 108, left: { val: -10, left: { val: -14, left: null, right: null }, right: { val: 2, left: null, right: null } }, right: { val: 108, left: null, right: null } }, right: { val: 285, left: { val: 243, left: null, right: null }, right: { val: 285, left: null, right: { val: 401, left: null, right: null } } } };
 
 function firstAppearance(node, k) {
-    if (!node) {
-        return null;
-    }
-    if (node.val === k) {
+    if (!node || node.val === k) {
         return node;
     }
-    const left = firstAppearance(node.left, k);
-    if (left) {
-        return left;
-    }
-    const right = firstAppearance(node.right, k);
-    if (right) {
-        return right;
-    }
-    return null;
+    return firstAppearance(node.left, k) || firstAppearance(node.right, k);
 }
 
 console.log(JSON.stringify(firstAppearance(tree, 285), null, 2));
@@ -122,16 +111,13 @@ function insertNode(node, val) {
     if (!node) {
         return null;
     }
-    let parent = current = node;
-    while (current) {
-        parent = current;
-        if (current.val === val) {
+    let parent = node, curr = node;
+    while (curr) {
+        parent = curr;
+        if (curr.val === val) {
             return null;
-        } else if (current.val > val) {
-            current = current.left;
-        } else if (current.val < val) {
-            current = current.right;
         }
+        curr = curr.val > val ? curr.left : curr.right;
     }
     if (parent.val > val) {
         parent.left = { val, left: null, right: null };
@@ -141,8 +127,8 @@ function insertNode(node, val) {
     return node;
 }
 
-function deleteNode(bst, val) {
-    let parent = current = node;
+function deleteNode(node, val) {
+    let parent = node, let current = node;
     while (current && current.val !== val) {
         parent = current;
         current = current.val > val ? current.left : current.right;
@@ -209,7 +195,7 @@ function searchTarget(source, target) {
 
 function isBSTordered(node0, node1, middle) {
     let p1 = node1, p0 = node0;
-    while (p1 !== node0 && p1 !== middle && p0 !== node1 && p0 !== node1 && (p0 || p1)) {
+    while (p1 !== node0 && p1 !== middle && p0 !== node1 && p0 !== middle && (p0 || p1)) {
         if (p1) {
             p1 = p1.val > middle.val ? p1.left : p1.right;
         }
@@ -223,5 +209,5 @@ function isBSTordered(node0, node1, middle) {
     return searchTarget(middle, (p0 === middle ? node1 : node0));
 }
 
-console.log(JSON.stringify(isBSTordered(two, ten, seven), null, 2));
+isBSTordered(two, ten, seven)
 ```

@@ -23,17 +23,17 @@ const tree = { val: 1, left: { val: 0, left: { val: 0, left: { val: 0, left: nul
 
 function sumRootToLeaf(tree) {
     let sum = 0;
-    (function generateSum(current, currentBinary) {
-        if (!current) {
-            return
-        }
-        currentBinary += current.val;
-        if (!current.left && !current.right) {
-            sum += parseInt(currentBinary, 10);
+    (function recurse(node, binary) {
+        if (!node) {
             return;
         }
-        generateSum(current.left, currentBinary);
-        generateSum(current.right, currentBinary);
+        const curr = binary + node.val;
+        if (!node.left && !node.right) {
+            sum += parseInt(curr, 10);
+            return;
+        }
+        recurse(node.left, curr);
+        recurse(node.right, curr);
     })(tree, "");
     return sum;
 }
