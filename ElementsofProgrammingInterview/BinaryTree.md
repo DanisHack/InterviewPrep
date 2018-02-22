@@ -97,6 +97,35 @@ function preOrderSearch(tree) {
 
 preOrderSearch(tree);
 ```
+Post order search of binary tree without recursion:
+```javascript
+function postOrderSearch(tree) {
+    const res = [], stack = [];
+    let curr = tree;
+    while (curr || stack.length) {
+        if (curr) {
+            if (curr.right) {
+                stack.push(curr.right);
+            }
+            stack.push(curr);
+            curr = curr.left;
+        } else {
+            curr = stack.pop();
+            if (curr.right === stack[stack.length - 1]) {
+                const right = stack.pop();
+                stack.push(curr);
+                curr = right;
+            } else {
+                res.push(curr.val);
+                curr = null;
+            }
+        }
+    }
+    return res;
+}
+
+postOrderSearch(tree);
+```
 Reconstruct the binary tree with preorder and inorder traversal:
 ```javascript
 const inOrder = ["F", "B", "A", "E", "H", "C", "D", "I", "G"];
