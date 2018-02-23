@@ -181,19 +181,31 @@ console.log(JSON.stringify(binaryConstruct(postOrder, inOrder), null, 2));
 Reconstruct a binary tree from a pre-order traversal with marker:
 ```javascript
 const preOrder = ["H", "B", "F", null, null, "E", "A", null, null, null, "C", null, "D", null, "G", "I", null, null, null];
+const postOrder = [null, null, "F", null, null, "A", null, "E", "B", null, null, null, null, "I", null, "G", "D", "C", "H"];
 
-function generateTree(seq) {
+
+function generatePreOrder(seq) {
     seq.reverse();
-    return (function helper() {
+    return (function recurse() {
+        const val = seq.pop();
+        return val ? { val, left: recurse(), right: recurse() } : null;
+    })();
+}
+
+function generatePostOrder(seq) {
+    return (function recurse() {
         const val = seq.pop();
         if (!val) {
             return null;
         }
-        return { val, left: helper(), right: helper() };
+        const right = recurse();
+        const left = recurse();
+        return { val, left, right };
     })();
 }
 
-generateTree(preOrder);
+generatePreOrder(preOrder);
+generatePostOrder(postOrder)
 ```
 Generate a linked list from the leaves of a binary tree:
 ```javascript
