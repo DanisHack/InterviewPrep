@@ -146,9 +146,9 @@ convertToNumber('CDXXXV'); // 435
 Phone number combination:
 ```javascript
 function letterCombinations(digits) {
-    const result = [];
+    const res = [];
     if (!digits) {
-        return result;
+        return res;
     }
     const obj = {
         "1": ["1"],
@@ -164,15 +164,14 @@ function letterCombinations(digits) {
     };
     (function recurse(str, index) {
         if (str.length === digits.length) {
-            result.push(str);
+            res.push(str);
             return;
         }
-        for (let i = 0; i < obj[digits[index]].length; i++) {
-            const current = obj[digits[index]][i];
-            recurse(str + current, index + 1);
-        }
+        obj[digits[index]].forEach(e => {
+            recurse(str + e, index + 1);
+        });
     })("", 0);
-    return result;
+    return res;
 }
 
 letterCombinations("234");
@@ -352,11 +351,14 @@ get("dog");
 Longest Substring Without Repeating Characters:
 ```javascript
 function longest(str) {
-    let result = 0, lastRepeat = -1;
+    let result = 0, lastRepeat = -1, s = "";
     const visited = {};
     str.split("").forEach((e, i) => {
         if (visited.hasOwnProperty(e)) {
            lastRepeat = Math.max(lastRepeat, visited[e]);
+        }
+        if (i - lastRepeat > res) {
+            s = str.slice(lastRepeat + 1, i + 1);
         }
         result = Math.max(result, i - lastRepeat);
         visited[e] = i;
@@ -514,7 +516,7 @@ function validParen(str) {
             arr.push(e);
         } else {
             valid--;
-            arr.pop()
+            arr.pop();
         }
     });
     return arr.length === 0 && valid === 0;

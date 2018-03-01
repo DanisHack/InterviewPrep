@@ -74,7 +74,7 @@ function inOrderSearch(tree) {
     return result;
 }
 
-inOrderSearch(tree);
+inOrderSearch(tree); // [ 28, 271, 0, 6, 561, 17, 3, 314, 2, 401, 641, 1, 257, 6, 271, 28 ]
 ```
 Pre order search of binary tree without recursion:
 ```javascript
@@ -124,7 +124,7 @@ function postOrderSearch(tree) {
     return res;
 }
 
-postOrderSearch(tree);
+postOrderSearch(tree); // [ 28, 0, 271, 17, 3, 561, 6, 641, 401, 257, 1, 2, 28, 271, 6, 314 ]
 ```
 Reconstruct the binary tree with preorder and inorder traversal:
 ```javascript

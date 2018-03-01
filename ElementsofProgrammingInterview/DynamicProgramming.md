@@ -40,7 +40,7 @@ function levenshtein(a, b) {
     const dist = a.split("").map(() => Array(b.length).fill(-1));
     return (function compute(aIndex, bIndex) {
         if (aIndex < 0 || bIndex < 0) {
-            return (aIndex < 0 ? bIndex : aIndex) + 1
+            return (aIndex < 0 ? bIndex : aIndex) + 1;
         }
         if (dist[aIndex][bIndex] === -1) {
             if (a[aIndex] === b[bIndex]) {

@@ -128,7 +128,7 @@ function insertNode(node, val) {
 }
 
 function deleteNode(node, val) {
-    let parent = node, let current = node;
+    let parent = node, current = node;
     while (current && current.val !== val) {
         parent = current;
         current = current.val > val ? current.left : current.right;
