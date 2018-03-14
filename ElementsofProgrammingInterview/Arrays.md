@@ -21,21 +21,21 @@ Takes an array A and index i into A, and rearranges the elements such that all e
 ```javascript
 function rearrange(a, i) {
     const pivot = a[i];
-    let smaller = 0, equal = 0, bigger = a.length;
-    while (equal < bigger) {
+    let small = 0, equal = 0, big = a.length - 1;
+    while (equal <= big) {
         if (a[equal] < pivot) {
-            const temp = a[smaller];
-            a[smaller] = a[equal];
-            a[equal] = temp;
+            const temp = a[equal];
+            a[equal] = a[small];
+            a[small] = temp;
             equal++;
-            smaller++;
+            small++;
         } else if (a[equal] === pivot) {
             equal++;
         } else {
-            bigger--;
             const temp = a[equal];
-            a[equal] = a[bigger];
-            a[bigger] = temp;
+            a[equal] = a[big];
+            a[big] = temp;
+            big--;
         }
     }
     return a;
