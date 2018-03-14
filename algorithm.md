@@ -618,7 +618,7 @@ function searchRange(nums, target) {
         }
     }
     return [-1, -1];
-};
+}
 
 searchRange([5, 7, 7, 8, 8, 10], 8); // [3, 4]
 ```
@@ -678,22 +678,22 @@ function search(nums, target) {
         }
     }
     return -1;
-};
+}
 
 search([4, 5, 6, 7, 1, 2, 3], 5); // 1
 ```
 Given an unsorted integer array, find the first missing positive integer:
 ```javascript
 function firstMissingPositive(nums) {
-    for (let i = 0; i < nums.length; i++) {
+    nums.forEach((e, i) => {
         while (nums[i] > 0 && nums[i] < nums.length && nums[i] !== nums[nums[i] - 1]) {
             const temp = nums[i];
             nums[i] = nums[temp - 1];
             nums[temp - 1] = temp;
         }
-    }
+    });
     for (let i = 0; i < nums.length; i++) {
-        if (nums[i] !== i + 1) {
+        if (i + 1 !== nums[i]) {
             return i + 1;
         }
     }

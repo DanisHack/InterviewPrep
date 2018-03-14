@@ -265,7 +265,7 @@ function exteriorBinaryTree(tree) {
     return [tree.val].concat(left, right);
 }
 
-exteriorBinaryTree(tree);
+exteriorBinaryTree(tree); // [ 'A', 'B', 'C', 'D', 'E', 'H', 'M', 'N', 'P', 'O', 'I' ]
 ```
 Print the vertical columns of the binary tree
 ```javascript
