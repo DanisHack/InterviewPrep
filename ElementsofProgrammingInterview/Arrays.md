@@ -271,17 +271,13 @@ const arr = [
 ];
 
 function rotateMatrix(matrix) {
-    const result = []
-    for (let i = 0; i < arr.length; i++) {
-        for (j = arr.length - 1; j >= 0; j--) {
-            if (result[i]) {
-                result[i].push(matrix[j][i]);
-            } else {
-                result[i] = [matrix[j][i]];
-            }
+    const res = Array(matrix.length).fill(null).map(() => []);
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = matrix.length - 1; j >= 0; j--) {
+            res[i].push(matrix[j][i]);
         }
     }
-    return result;
+    return res;
 }
 
 rotateMatrix(arr);
