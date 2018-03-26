@@ -212,21 +212,21 @@ Generate a linked list from the leaves of a binary tree:
 const tree = { val: "A", left: { val: "B", left: { val: "C", left: { val: "D", left: null, right: null }, right: { val: "E", left: null, right: null } }, right: { val: "F", left: null, right: { val: "G", left: { val: "H", left: null, right: null }, right: null } } }, right: { val: "I", left: { val: "J", left: null, right: { val: "K", left: { val: "L", left: null, right: { val: "M", left: null, right: null } }, right: { val: "N", left: null, right: null } } }, right: { val: "O", left: null, right: { val: "P", left: null, right: null } } } };
 
 function generateLinkedList(tree) {
-    let result = head = { next: null };
-    (function recurse(current) {
-        if (!current.left && !current.right) {
-            head.next = { val: current.val, next: null };
-            head = head.next;
+    const res = { next: null };
+    let curr = res;
+    (function recurse(node) {
+        if (!node) {
             return;
         }
-        if (current.left) {
-            recurse(current.left);
+        if (!node.left && !node.right) {
+            curr.next = { val: node.val, next: null };
+            curr = curr.next;
+            return;
         }
-        if (current.right) {
-            recurse(current.right);
-        }
-    })(tree);
-    return result.next;
+        recurse(node.left);
+        recurse(node.right);
+    })(head);
+    return res.next;
 }
 
 console.log(JSON.stringify(generateLinkedList(tree), null, 2));

@@ -438,7 +438,7 @@ BFS(tree);
 ```
 Add Up the value of each binary tree level:
 ```javascript
-var tree = {val: 5, left: {val: 3, left: {val: 2, left: null, right: null}, right: {val: 4, left: null, right: null}}, right: {val: 7, left: {val: 6, left: null, right: null}, right: {val: 8, left: null, right: null}}};
+const tree = {val: 5, left: {val: 3, left: {val: 2, left: null, right: null}, right: {val: 4, left: null, right: null}}, right: {val: 7, left: {val: 6, left: null, right: null}, right: {val: 8, left: null, right: null}}};
 
 function helper(arr, level, val) {
     if (arr[level]) {

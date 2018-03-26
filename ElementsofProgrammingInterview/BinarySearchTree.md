@@ -209,5 +209,5 @@ function isBSTordered(node0, node1, middle) {
     return searchTarget(middle, (p0 === middle ? node1 : node0));
 }
 
-isBSTordered(two, ten, seven)
+isBSTordered(two, ten, seven);
 ```
