@@ -91,10 +91,7 @@ function checkHeight(node) {
 }
 
 function balanceNode(root) {
-	if(checkHeight(root) === -1) {
-		return false;
-	}
-	return true;
+	return checkHeight(root) !== -1;
 }
 
 balanceNode(tree);
@@ -207,35 +204,30 @@ const tree2 =  { val: 3, left: { val: 2, left: null, right: null }, right: { val
 const tree1 = { val: 5, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 7, left: { val: 6, left: null, right: null }, right: { val: 8, left: null, right: null } } };
 
 function match(t1, t2){
-    if(!t1 && !t2){
+    if (!t1 && !t2) {
         return true;
     }
-    if(!t1 || !t2){
+    if (!t1 || !t2) {
         return false;
     }
-    if(t1.val !== t2.val){
+    if (t1.val !== t2.val) {
         return false;
     }
-    return (match(t1.left, t2.left) && match(t1.right, t2.right));
+    return match(t1.left, t2.left) && match(t1.right, t2.right);
 }
 
 function subTree(t1, t2){
-    if(!t1){
+    if (!t1) {
         return false;
     }
-    if(t1.val === t2.val){
-        if(match(t1, t2)){
-            return true;
-        }
+    if (t1.val === t2.val && match(t1, t2)) {
+        return true;
     }
-    return (subTree(t1.left, t2) || subTree(t1.right, t2));
+    return subTree(t1.left, t2) || subTree(t1.right, t2);
 }
 
 function containsTree(t1, t2){
-    if(!t2){
-        return true;
-    }
-    return subTree(t1, t2);
+    return t2 ? subTree(t1, t2) : true;
 }
 
 containsTree(tree1, tree2);
