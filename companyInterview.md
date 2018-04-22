@@ -52,16 +52,18 @@ function removeNode(nodes, key) {
         return;
     }
     delete nodes[key];
-    for (const val in nodes) {
-        if (nodes[val][key]) {
-            delete nodes[val][key];
+    Object.keys(nodes).forEach(e => {
+        if (nodes[e][key]) {
+            delete nodes[e][key];
         }
-    }
+    });
 }
 
 function findNodeWithNoDep(nodes) {
-    for (const key in nodes) {
-        if (!Object.keys(nodes[key]).length) {
+    const arr = Object.keys(nodes);
+    for (let i = 0; i < arr.length; i++) {
+        const key = arr[i];
+        if (Object.keys(nodes[key]).length === 0) {
             return key;
         }
     }
@@ -136,50 +138,58 @@ console.log(findColor('gold')); // [ 'darkgoldenrod', 'gold', 'goldenrod', 'ligh
 ```
 Given a sorted dictionary of an alien language, find order of characters
 ```javascript
+function deleteNode(node, key) {
+    if (!node[key]) {
+        return;
+    }
+    delete node[key];
+    Object.keys(node).forEach(e => {
+        if (node[e][key]) {
+            delete node[e][key];
+        }
+    });
+}
+
+function findNode(node) {
+    const arr = Object.keys(node);
+    for (let i = 0; i < arr.length; i++) {
+        const key = arr[i];
+        if (Object.keys(node[key]).length === 0) {
+            return key;
+        }
+    }
+    return null;
+}
+
 function alienOrder(dict) {
     const res = [];
     if (dict.length === 0) {
         return res;
     }
-
-    const map = {}, queue = [];
-
+    const nodes = {};
     dict.forEach((curr, i) => {
         curr.split("").forEach(e => {
-            if (!map[e]) {
-                map[e] = { arr: [], count: 0 };
+            if (!nodes[e]) {
+                nodes[e] = {};
             }
         });
         if (i !== 0) {
             const prev = dict[i - 1];
             let j = 0;
-            while (j < curr.length && j < prev.length && prev[j] === curr[j]) {
+            while (j < prev.length && j < curr.length && prev[j] === curr[j]) {
                 j++;
             }
-            if (j < prev.length && !map[prev[j]].arr.includes(curr[j])) {
-                map[prev[j]].arr.push(curr[j]);
-                map[curr[j]].count++;
+            if (j < curr.length && !nodes[curr[j]][prev[j]]) {
+                nodes[curr[j]][prev[j]] = true;
             }
         }
     });
-
-    Object.keys(map).forEach(e => {
-        if (map[e].count === 0) {
-            queue.push(e);
-        }
-    });
-
-    while (queue.length) {
-        const curr = queue.shift();
+    let curr = findNode(nodes);
+    while (curr) {
         res.push(curr);
-        map[curr].arr.forEach(e => {
-            map[e].count--;
-            if (map[e].count === 0) {
-                queue.push(e);
-            }
-        });
+        deleteNode(nodes, curr);
+        curr = findNode(nodes);
     }
-
     return res;
 }
 
