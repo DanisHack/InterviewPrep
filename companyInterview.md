@@ -134,3 +134,56 @@ console.log(findColor('uqi')); // [ 'darkturquoise', 'mediumaquamarine', 'medium
 console.log(findColor('zre')); // [ 'azure' ]
 console.log(findColor('gold')); // [ 'darkgoldenrod', 'gold', 'goldenrod', 'lightgoldenrodyellow', 'palegoldenrod' ]
 ```
+Given a sorted dictionary of an alien language, find order of characters
+```javascript
+function alienOrder(dict) {
+    const res = [];
+    if (dict.length === 0) {
+        return res;
+    }
+
+    const map = {}, queue = [];
+
+    dict.forEach((curr, i) => {
+        curr.split("").forEach(e => {
+            if (!map[e]) {
+                map[e] = { arr: [], count: 0 };
+            }
+        });
+        if (i !== 0) {
+            const prev = dict[i - 1];
+            let j = 0;
+            while (j < curr.length && j < prev.length && prev[j] === curr[j]) {
+                j++;
+            }
+            if (j < prev.length && !map[prev[j]].arr.includes(curr[j])) {
+                map[prev[j]].arr.push(curr[j]);
+                map[curr[j]].count++;
+            }
+        }
+    });
+
+    Object.keys(map).forEach(e => {
+        if (map[e].count === 0) {
+            queue.push(e);
+        }
+    });
+
+    while (queue.length) {
+        const curr = queue.shift();
+        res.push(curr);
+        map[curr].arr.forEach(e => {
+            map[e].count--;
+            if (map[e].count === 0) {
+                queue.push(e);
+            }
+        });
+    }
+
+    return res;
+}
+
+const words = ["baa", "abcd", "abca", "cab", "cad"];
+
+alienOrder(words); // [ 'b', 'd', 'a', 'c' ]
+```
