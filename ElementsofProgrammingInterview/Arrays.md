@@ -320,3 +320,21 @@ function maxArea(height) {
 maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]); // 49
 // good link: https://leetcode.com/articles/container-most-water/
 ```
+Schedule a minimum number of rooms needed
+```javascript
+const arr = [[1,3],[6,8],[4,5],[3,6],[7,10],[7,9],[11,12],[8,10],[7,8]];
+
+function minNumberOfRoom(arr) {
+    arr.sort((a, b) => a[0] - b[0]);
+    const queue = [arr[0]];
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i][0] >= queue[0][1]) {
+            queue.shift();
+        }
+        queue.push(arr[i]);
+    }
+    return queue.length;
+}
+
+minNumberOfRoom(arr);
+```
