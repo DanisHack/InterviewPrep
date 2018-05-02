@@ -338,3 +338,22 @@ function minNumberOfRoom(arr) {
 
 minNumberOfRoom(arr);
 ```
+Given a sorted array of numbers, write a function to return a range summary of the array.
+```javascript
+const arr = [0,3,4,5];
+
+function createRange(arr) {
+    const res = [[arr[0]]];
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] - arr[i - 1] > 1) {
+            if (i - 1 !== 0) {
+                res[res.length - 1].push(arr[i - 1]);
+            }
+            res.push([arr[i]]);
+        }
+    }
+    res[res.length - 1].push(arr[arr.length - 1]);
+    return res;
+}
+
+createRange(arr);

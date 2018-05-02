@@ -74,12 +74,14 @@ function findPath(grid) {
             path.push(`${i}${j}`);
             return true;
         }
-        if (recurse(i, j + 1)) {
-            path.push(`${i}${j}`);
+		if (recurse(i, j + 1)) {
+            path.push(`${i},${j}`);
             return true;
-        }
-        if (recurse(i + 1, j)) {
-            path.push(`${i}${j}`);
+        } else if (recurse(i + 1, j)) {
+            path.push(`${i},${j}`);
+            return true;
+        } else if (recurse(i + 1, j + 1)) {
+            path.push(`${i},${j}`);
             return true;
         }
 		return false;
