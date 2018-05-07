@@ -37,21 +37,18 @@ const tree = { val: 19, left: { val: 7, left: { val: 3, left: { val: 2, left: nu
 function kLargest(node, k) {
     let i = 1;
     return (function recurse(current) {
-        if (!current) {
+        if (!node) {
             return null;
         }
-        const right = recurse(current.right);
+        const right = recurse(node.right);
         if (right) {
             return right;
         }
         if (i === k) {
-            return current;
+            return node;
         }
         i++;
-        const left = recurse(current.left);
-        if (left) {
-            return left;
-        }
+        return recurse(node.left);
     })(node);
 }
 
