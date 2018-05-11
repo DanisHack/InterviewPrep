@@ -30,13 +30,12 @@ function merge(a, b) {
     while (aLength >= 0 && bLength >= 0) {
         if (a[aLength] > b[bLength]) {
             a[mergeLength] = a[aLength];
-            mergeLength--;
             aLength--;
         } else {
             a[mergeLength] = b[bLength];
-            mergeLength--;
             bLength--;
         }
+        mergeLength--;
     }
     while (bLength >= 0) {
         a[mergeLength] = b[bLength];
