@@ -549,10 +549,9 @@ function dfs(arr, result, str, index) {
     if (index === 0) {
         return result.push(str.trim());
     }
-    for (let i = 0; i < arr[index].length; i++) {
-        const word = arr[index][i];
-        dfs(arr, result, `${word} ${str}`, index - word.length);
-    }
+    arr[index].forEach(word => {
+        dfs(res, arr, `${word} ${str}`, index - word.length);
+    });
 }
 
 function wordBreak(s, dict) {
