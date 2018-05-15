@@ -99,3 +99,41 @@ function quickSort(arr, left = 0, right = arr.length - 1) {
 
 quickSort(a);
 ```
+given an array of strings separated by empty string, find the location of the string
+```javascript
+function searchString(arr, value) {
+    let start = 0, end = arr.length - 1;
+    while (start <= end) {
+        const middle = Math.floor((start + end) / 2);
+        if (arr[middle] === value) {
+            return middle;
+        } else if (arr[middle] === "") {
+            let left = middle, right = middle;
+            while ((left > 0 || right < arr.length - 1) && (arr[left] === "" || arr[right] === "")) {
+                if (left > 0 && arr[left] === "") {
+                    left--;
+                }
+                if (right < arr.length - 1 && arr[right] === "") {
+                    right++;
+                }
+            }
+            if (arr[left] && arr[left].charAt() < value.charAt()) {
+                start = right - 1;
+            } else if (arr[right] && arr[right].charAt() > value.charAt()) {
+                end = left + 1;
+            } else {
+                start = end + 1;
+            }
+        } else {
+            if (arr[middle].charAt() < value.charAt()) {
+                start = middle + 1;
+            } else {
+                end = middle - 1
+            }
+        }
+    }
+    return -1;
+}
+
+searchString(['at', '', '', '', 'ball', '', '', 'car', '', '', 'dad', '', ''], "at"); // 0
+```
