@@ -326,13 +326,13 @@ const arr = [[1,3],[6,8],[4,5],[3,6],[7,10],[7,9],[11,12],[8,10],[7,8]];
 
 function minNumberOfRoom(arr) {
     arr.sort((a, b) => a[0] - b[0]);
-    const queue = [arr[0]];
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i][0] >= queue[0][1]) {
+    const queue = [];
+    arr.forEach(e => {
+        if (queue.length && e[0] >= queue[0][1]) {
             queue.shift();
         }
-        queue.push(arr[i]);
-    }
+        queue.push(e);
+    });
     return queue.length;
 }
 
