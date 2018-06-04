@@ -98,7 +98,7 @@ balanceNode(tree);
 ```
 Create a minimal BST with a sorted array:
 ```javascript
-const arr = [1,2,3,4,5,6,7];
+const arr = [1, 2, 3, 4, 5, 6, 7];
 
 function createBST(arr, start = 0, end = arr.length - 1) {
 	if(start > end) {
@@ -151,23 +151,23 @@ Find the kth smallest in a BST:
 const tree = { val: 5, left: { val: 3, left: { val: 2, left: null, right: null }, right: { val: 4, left: null, right: null } }, right: { val: 7, left: { val: 6, left: null, right: null }, right: { val: 8, left: null, right: null } } };
 
 function findK(tree, k) {
-    let i = 1;
-    return (function recurse(current) {
-        if (current) {
-            const left = recurse(current.left);
-            if (left) {
-                return left;
-            }
-            if (i === k) {
-                return current;
-            }
-            i++;
-            const right = recurse(current.right);
-            if (right) {
-                return right;
-            }
+	let i = 1;
+    return (function recurse(node) {
+        if (!node) {
+            return null;
         }
-        return null;
+        const left = recurse(node.left);
+        if (left) {
+            return left;
+        }
+        if (i === k) {
+            return node;
+        }
+        i++;
+        const right = recurse(node.right);
+        if (right) {
+            return right;
+        }
     })(tree);
 }
 
