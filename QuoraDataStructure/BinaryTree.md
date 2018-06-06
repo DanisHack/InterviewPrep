@@ -1,0 +1,47 @@
+Find the distance between given pairs of nodes in a binary tree
+```javascript
+const tree = {
+	val: 1,
+	left: { val: 2, left: null, right: { val: 4, left: null, right: null } },
+	right: {
+		val: 3,
+		left: {
+			val: 5,
+			left: { val: 7, left: null, right: null },
+			right: { val: 8, left: null, right: null },
+		},
+		right: { val: 6, left: null, right: null },
+	},
+};
+
+function distance(node, target, num = 0) {
+    if (!node) {
+        return 0;
+    }
+    if (node.val === target) {
+        return num;
+    }
+    const left = distance(node.left, target, num + 1);
+    const right = distance(node.right, target, num + 1);
+    return left || right;
+}
+
+function lowestAncestor(node, p, q) {
+    if (!node || node.val === p || node.val === q) {
+        return node;
+    }
+    const left = lowestAncestor(node.left, p, q);
+    const right = lowestAncestor(node.right, p, q);
+    const LCA = left && right ? node : (left || right);
+    return LCA
+}
+
+function findDistance(tree, p, q) {
+    const LCA = lowestAncestor(tree, p, q);
+    const left = distance(LCA, p);
+    const right = distance(LCA, q);
+    return left + right;
+}
+
+findDistance(tree, 4, 7); // 5
+```
