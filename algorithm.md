@@ -188,21 +188,22 @@ const graph = [
 function islandCount(graph) {
     const visited = {};
     let sum = 0;
-    function isValid(row, col) {
-        const key = `${row}${col}`;
-        if (row >= graph.length || col >= graph[row].length || !graph[row][col] || visited[key]) {
+    function isValid(i, j) {
+        const key = `${i}${j}`;
+        if (i < 0 || j < 0 || !graph[i][j] || visited[key]) {
             return false;
         }
         visited[key] = true;
-        isValid(row, col + 1);
-        isValid(row + 1, col + 1);
-        isValid(row + 1, col);
-        isValid(row + 1, col - 1);
+        for (let row = i - 1; row <= i + 1 && row < graph.length; row++) {
+            for (let col = j - 1; col <= j + 1 && col < graph[i].length; col++) {
+                isValid(row, col);
+            }
+        }
         return true;
     }
     graph.forEach((e, row) => {
         e.forEach((ele, col) => {
-            if (ele && !visited[`${row}${col}`] && isValid(row, col)) {
+            if (isValid(row, col)) {
                 sum++;
             }    
         });

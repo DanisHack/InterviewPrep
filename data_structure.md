@@ -168,6 +168,7 @@ function findK(tree, k) {
         if (right) {
             return right;
         }
+		return null;
     })(tree);
 }
 
@@ -247,24 +248,23 @@ E.next = C;
 
 // second method, less space memory
 function findBeginning(head){
-    var slow = head;
-    var fast = head;
-    while(fast && fast.next){
+	let slow = head, fast = head;
+    while (fast && fast.next) {
         slow = slow.next;
         fast = fast.next.next;
-        if(slow === fast){
+        if (slow === fast) {
             break;
         }
     }
-    if(!fast || !fast.next){
+    if (!fast || !fast.next) {
         return null;
     }
     slow = head;
-    while(slow !== fast){
+    while (slow !== fast) {
         slow = slow.next;
         fast = fast.next;
     }
-    return fast;
+    return slow;
 }
 
 findBeginning(A);
@@ -274,21 +274,21 @@ Validate if a linked list is a plaindrome:
 const list = { val: 'F', next: { val: 'a', next: { val: 'b', next: { val: 'a', next: { val: 'F', next: null } } } } };
 
 var isPalindrome = function(head) {
-    if(!head){
+	if (!head) {
         return true;
     }
-    var fast = head, slow = head, arr = [];
-    while(fast && fast.next){
+    let slow = head, fast = head;
+    const arr = [];
+    while (fast && fast.next) {
         arr.push(slow.val);
         slow = slow.next;
         fast = fast.next.next;
     }
-    if(fast){
+    if (fast) {
         slow = slow.next;
     }
-    while(slow){
-        var current = arr.pop();
-        if(current !== slow.val){
+    while (slow) {
+        if (arr.pop() !== slow.val) {
             return false;
         }
         slow = slow.next;
@@ -366,16 +366,16 @@ var eight = seven.right = new Leave(8);
 eight.parent = seven;
 
 function inorderSucc(root){
-	let current = root;
-    if (!root.parent || root.right) {
-        current = root.right;
+    let current = root;
+    if (!current.parent || current.right) {
+        current = current.right;
         while (current && current.left) {
             current = current.left;
         }
         return current;
     }
-    let parent = current.parent;
-    while(parent && parent.left !== current) {
+    let { parent } = current;
+    while (parent && parent.left !== current) {
         current = parent;
         parent = parent.parent;
     }
@@ -440,30 +440,28 @@ function helper(arr, level, val) {
     }
 }
 
-function addBinaryTree(tree) {
-    const queue = [tree];
-    const res = [tree.val];
-    let level = 1;
-    let numberOfNodes = 1;
-    while (queue.length) {
-        if (!numberOfNodes) {
-            level++;
-            numberOfNodes = queue.length;
-        }
-        const curr = queue.shift();
-        if (curr.left) {
-            const { left, left: { val } } = curr;
-            helper(res, level, val);
-            queue.push(left);
-        }
-        if (curr.right) {
-            const { right, right: { val } } = curr;
-            helper(res, level, val);
-            queue.push(right);
-        }
-        numberOfNodes--;
-    }
-    return res;
+function addBinaryTree(node) {
+	const queue = [node], res = [node.val];
+	let number = 1, level = 1;
+	while (queue.length) {
+		const curr = queue.shift();
+		if (curr.left) {
+			const { left, left: { val } } = curr;
+			helper(res, level, val);
+			queue.push(left);
+		}
+		if (curr.right) {
+			const { right, right: { val } } = curr;
+			helper(res, level, val);
+			queue.push(right);
+		}
+		number--;
+		if (!number) {
+			level++;
+			number = queue.length;
+		}
+	}
+	return res;
 }
 
 addBinaryTree(tree);
@@ -524,23 +522,22 @@ function buildPath(parents, goal) {
 }
 
 function graphBFS(graph, start, goal) {
-	const queue = [start];
-    const parents = { [start]: null };
-    const visited = { [start]: true };
+	const visited = { [start]: true },
+		parent = { [start]: null },
+		queue = [start];
     while (queue.length) {
-        const current = queue.shift();
-        if (current === goal) {
-            return buildPath(parents, goal);
+        const curr = queue.shift();
+        if (curr === goal) {
+            return buildPath(parent, goal);
         }
-        for (let i = 0; i < graph[current].length; i++) {
-            if (i !== current && graph[current][i] && !visited[i]) {
+        for (let i = 0; i < graph[curr].length; i++) {
+            if (i !== curr && graph[curr][i] && !visited[i]) {
                 visited[i] = true;
-                parents[i] = current;
+                parent[i] = curr;
                 queue.push(i);
             }
         }
     }
-    return null;
 }
 
 graphBFS(graph, 2, 5);
@@ -572,29 +569,29 @@ Populate each next pointer to point to its next right node. If there is no next 
 const tree = { val: "A", left: { val: "B", left: { val: "C", left: null, right: null }, right: null }, right: { val: "D", left: { val: "E", left: { val: "F", left: null, right: null }, right: null }, right: { val: "G", left: { val: "H", left: null, right: null }, right: { val: "I", left: null, right: null } } } };
 
 function connect(root) {
-	if (!root) {
+    if (!root) {
         return;
     }
-    const queue = [root];
     let count = 1;
+    const queue = [root];
     while (queue.length) {
-        const current = queue.shift();
-		if (current.left) {
-            queue.push(current.left);
+        const curr = queue.shift();
+        if (curr.left) {
+            queue.push(curr.left);
         }
-        if (current.right) {
-            queue.push(current.right);
+        if (curr.right) {
+            queue.push(curr.right);
         }
         if (count === 1) {
-            current.next = null;
+            curr.next = null;
             count = queue.length;
         } else {
-            current.next = queue[0];
+            curr.next = queue[0].val;
             count--;
         }
     }
     return root;
 }
 
-connect(tree);
+console.log(JSON.stringify(connect(tree), null, 2));
 ```
