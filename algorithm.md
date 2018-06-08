@@ -163,7 +163,7 @@ function letterCombinations(digits) {
         "9": ["w", "x", "y", "z"]
     };
     (function recurse(str, index) {
-        if (str.length === digits.length) {
+        if (index === digits.length) {
             res.push(str);
             return;
         }
@@ -329,21 +329,18 @@ Get all orders of letters of words:
 ```javascript
 function get(s) {
 	let result = [];
-	function recurse(current, remain) {
+	(function recurse(current, remain) {
 		remain.split("").forEach((e, i) => {
 			let tail = remain.slice(0, i) + remain.slice(i + 1);
 			let word = current + e + tail;
-
-			if(result.indexOf(word) < 0) {
+			if(!result.includes(word)) {
 				result.push(word);
 			}
-
 			if(remain.length > 1) {
 				recurse(current + e, tail);
 			}
 		});
-	}
-	recurse("", s);
+	})("", s);
 	return result;
 }
 
