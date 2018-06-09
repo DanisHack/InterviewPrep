@@ -489,9 +489,9 @@ function longestCommonPrefix(arr) {
     }
     const firstWord = arr[0];
     for (let i = 0; i < firstWord.length; i++) {
-        const currentLetter = firstWord[i];
-        for (let j = 0; j < arr.length; j++) {
-            if (i === arr[j].length || arr[j][i] !== currentLetter) {
+        const currLetter = firstWord[i];
+        for (let j = 1; j < arr.length; j++) {
+            if (i === arr[j].length || arr[j][i] !== currLetter) {
                 return firstWord.slice(0, i);
             }
         }
@@ -504,20 +504,18 @@ longestCommonPrefix(["leets", "leetcode", "leet", "leeds"]); // lee
 Check if parentheses are valid:
 ```javascript
 function validParen(str) {
-    const parentheses = { "(": 1, ")": 2 };
-    const arr = [];
-    let valid = 0;
+    const parenthese = { "(": 1, ")": 2}, arr = [];
+    let count = 0;
     str.split("").forEach(e => {
-        const current = parentheses[e];
-        if (current % 2) {
-            valid++;
+        if (parenthese[e] % 2) {
+            count++;
             arr.push(e);
         } else {
-            valid--;
+            count--;
             arr.pop();
         }
     });
-    return arr.length === 0 && valid === 0;
+    return !arr.length && !count;
 }
 
 validParen(")()()(");
@@ -526,45 +524,53 @@ Word Break:
 ```javascript
 function wordBreak(s, dict) {
     const arr = [true].concat(Array(s.length).fill(false));
-    for (let i = 0; i < s.length; i++) {
-        if (arr[i]) {
-            for (let j = i + 1; j <= s.length; j++) {
+    arr.forEach((e, i) => {
+        if (e) {
+            for (let j = i + 1; j < arr.length; j++) {
                 const word = s.slice(i, j);
                 if (dict.includes(word)) {
                     arr[j] = true;
                 }
             }
         }
-    }
+    });
     return arr[s.length];
 }
 
 wordBreak("leetcode", ["leet", "code"]); // Return true because "leetcode" can be segmented as "leet code".
 ```
-Word Break II:
+Word Break II: Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
 ```javascript
 function dfs(arr, result, str, index) {
-    if (index === 0) {
-        return result.push(str.trim());
+    if (!index) {
+        return res.push(str.trim());
     }
-    arr[index].forEach(word => {
-        dfs(res, arr, `${word} ${str}`, index - word.length);
-    });
+    if (arr[index]) {
+        arr[index].forEach(word => {
+            dfs(arr, res, `${word} ${s}`, index - word.length);
+        });
+    }
 }
 
 function wordBreak(s, dict) {
-    const arr = Array(s.length + 1).fill(null).map(() => []);
-    for (let i = 0; i < s.length; i++) {
-        for (let j = i + 1; j <= s.length; j++) {
-            const word = s.slice(i, j);
-            if (dict.includes(word)) {
-                arr[j].push(word);
+    const arr = [true].concat(Array(s.length).fill(false));
+    arr.forEach((e, i) => {
+        if (e) {
+            for (let j = i + 1; j < arr.length; j++) {
+                const word = s.slice(i, j);
+                if (dict.includes(word)) {
+                    if (arr[j]) {
+                        arr[j].push(word);
+                    } else {
+                        arr[j] = [word];
+                    }
+                }
             }
         }
-    }
-    const result = [];
-    dfs(arr, result, "", s.length);
-    return result;
+    });
+    const res = [];
+    dfs(arr, res, "", s.length);
+    return res;
 }
 
 wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and dog", "cat sand dog"]
@@ -572,16 +578,15 @@ wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and do
 Substring with Concatenation of All Words:
 ```javascript
 function findSubstring(s, words) {
-    const len = words.join("").length;
-    const res = [];
-    for (let i = 0; i <= s.length - len; i++) {
-        const curr = s.slice(i, i + len);
+    const len = words.join("").length, res = [];
+    for (let i  = 0; i <= s.length - len; i++) {
+        const word = s.slice(i, i + len);
         let count = 0;
-        for (let j = 0; j < words.length; j++) {
-            if (curr.includes(words[j])) {
+        words.forEach(e => {
+            if (word.includes(e)) {
                 count++;
             }
-        }
+        });
         if (count === words.length) {
             res.push(i);
         }
@@ -632,12 +637,7 @@ function longestValidParentheses(s) {
                 stack.push([i, 1]);
             } else {
                 stack.pop();
-                let currentLen = 0;
-                if (!stack.length) {
-                    currentLen = i + 1;
-                } else {
-                    currentLen = i - stack[stack.length - 1][0];
-                }
+                let currentLen = stack.length ? i - stack[stack.length - 1][0] : i + 1;
                 result = Math.max(result, currentLen);
             }
         }
