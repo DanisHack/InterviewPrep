@@ -225,38 +225,16 @@ function hanoi(disc, src, buffer, dest) {
 
 hanoi(3, jar1, jar2, jar3);
 ```
-Anagram of a word:
-```javascript
-function anagram(str) {
-    const map = {};
-    (function recurse(current, remain) {
-        current.split("").forEach((e, i) => {
-            const tail = current.slice(0, i) + current.slice(i + 1);
-            const word = remain + e + tail;
-            if (!map[word]) {
-                map[word] = true;
-            }
-            if (current.length > 1) {
-                recurse(tail, remain + e);
-            }
-        });
-    })(str, "");
-    return Object.keys(map);
-}
-
-anagram("ABCA");
-```
 Generate n numbers of proper Parentheses set:
 ```javascript
 function generate(n) {
-    const result = [];
+	const res = [];
     (function recurse(str, i, j) {
         if (i > j) {
             return;
         }
         if (i === 0 && j === 0) {
-            result.push(str);
-            return;
+            return res.push(str);
         }
         if (i > 0) {
             recurse(str + "(", i - 1, j);
@@ -265,7 +243,7 @@ function generate(n) {
             recurse(str + ")", i, j - 1);
         }
     })("", n, n);
-    return result;
+    return res;
 }
 
 generate(3); // [ '((()))', '(()())', '(())()', '()(())', '()()()' ]
@@ -284,19 +262,20 @@ const screen = [
 ];
 
 function paintFill(screen, x, y, newColor) {
-    const visited = {};
+	const visited = {};
     (function recurse(x, y) {
         const key = `${x}${y}`;
-        if (visited[key] || x >= screen.length || y >= screen[0].length || x < 0 || y < 0) {
+        if (visited[key] || x < 0 || y < 0) {
             return;
         }
         if (screen[x][y] === newColor - 1) {
             screen[x][y] = newColor;
             visited[key] = true;
-            recurse(x - 1, y);
-            recurse(x, y - 1);
-            recurse(x + 1, y);
-            recurse(x, y + 1);
+            for (let row = x - 1; row <= x + 1 && row < screen.length; row++) {
+                for (let col = y - 1; col <= y + 1 && col < screen[x].length; col++) {
+                    recurse(row, col);
+                }
+            }
         }
     })(x, y);
     return screen;
@@ -323,12 +302,10 @@ function isValid(combo, row1, col1) {
 }
 
 function placeQueens(n) {
-    const result = [];
-    const combo = [];
+	const res = [], combo = [];
     (function recurse(row) {
         if (row === n) {
-            result.push([...combo]);
-            return;
+            return res.push([...combo]);
         }
         for (let col = 1; col <= n; col++) {
             if (isValid(combo, row, col)) {
@@ -337,7 +314,7 @@ function placeQueens(n) {
             }
         }
     })(0);
-    return result;
+    return res;
 }
 
 placeQueens(8);

@@ -120,7 +120,7 @@ Delete Duplicated from a sorted Array:
 ```javascript
 function removeDuplicate(nums) {
     if (!nums.length) {
-        return 0;
+        return nums;
     }
     let lastIndex = 1;
     for (let i = 1; i < nums.length; i++) {
@@ -129,7 +129,7 @@ function removeDuplicate(nums) {
             lastIndex++;
         }
     }
-    return lastIndex;
+    return nums.slice(0, lastIndex);
 }
 
 removeDuplicate([2, 3, 5, 5, 7, 11, 11, 11, 13]);
@@ -139,13 +139,13 @@ function removeTarget(nums, target) {
         return 0;
     }
     let lastIndex = 0;
-    for (let i = 0; i < nums.length; i++) {
+    nums.forEach((e, i) => {
         if (nums[i] !== target) {
             nums[lastIndex] = nums[i];
             lastIndex++;
         }
-    }
-    return lastIndex;
+    });
+    return nums.slice(0, lastIndex);
 }
 
 removeTarget([2, 3, 5, 5, 7, 11, 11, 11, 13], 11);
