@@ -170,37 +170,32 @@ buySellStock([310, 315, 275, 295, 260, 270, 290, 230, 255, 250]);
 Generate prime from 1 to n:
 ```javascript
 function generatePrime(n) {
-    const primes = [];
-    const isPrime = [false, false].concat(Array(n - 1).fill(true));
-    for (let p = 2; p < n; p++) {
+    const isPrime = [false, false].concat(Array(n - 1).fill(true)), res = [];
+    for (let p = 2; p <= n; p++) {
         if (isPrime[p]) {
-            primes.push(p);
+            res.push(p);
             for (let i = p; i <= n; i += p) {
                 isPrime[i] = false;
             }
         }
     }
-    return primes;
+    return res;
 }
 
 generatePrime(35);
 ```
 Give the spiral order of a NxN matrix and to generate a NxN spiral matrix:
 ```javascript
-const arr = [
+const matrix = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
 ];
 
-function spiralMatrix(matrix) {
+function spiralMatrix(arr) {
     const res = [];
-    let top = 0;
-    let left = 0;
-    let bottom = arr.length - 1;
-    let right = arr.length - 1;
-    let count = 0;
-    while (count < arr.length * arr.length) {
+    let top = 0, left = 0, bottom = arr.length - 1, right = arr.length - 1, count = 1;
+    while (count <= arr.length * arr.length) {
         for (let i = left; i <= right; i++) {
             res.push(arr[top][i]);
             count++;
@@ -225,15 +220,11 @@ function spiralMatrix(matrix) {
     return res;
 }
 
-spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
+spiralMatrix(matrix); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
 
 function generateSpiralMatrix(n) {
-    const res = Array(n).fill(null).map(() => []);
-    let top = 0;
-    let left = 0;
-    let bottom = n - 1;
-    let right = n - 1;
-    let count = 1;
+    const res = Array(n).fill().map(() => []);
+    let left = 0, top = 0, right = n - 1, bottom = n - 1, count = 1;
     while (count <= n * n) {
         for (let i = left; i <= right; i++) {
             res[top][i] = count;
@@ -263,24 +254,24 @@ generateSpiralMatrix(4);
 ```
 Rotate a NxN matrix 90 degree:
 ```javascript
-const arr = [
+const matrix = [
     [1, 2, 3, 4],
     [5, 6, 7, 8],
     [9, 10, 11, 12],
     [13, 14, 15, 16]
 ];
 
-function rotateMatrix(matrix) {
-    const res = Array(matrix.length).fill(null).map(() => []);
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = matrix.length - 1; j >= 0; j--) {
-            res[i].push(matrix[j][i]);
+function rotateMatrix(arr) {
+    const res = Array(arr.length).fill().map(() => []);
+    arr.forEach((e, i) => {
+        for (let j = arr.length - 1; j >= 0; j--) {
+            res[i].push(arr[j][i]);
         }
-    }
+    });
     return res;
 }
 
-rotateMatrix(arr);
+rotateMatrix(matrix);
 ```
 Generate Pascal Triangle:
 ```javascript
@@ -325,9 +316,8 @@ Schedule a minimum number of rooms needed
 const arr = [[1,3],[6,8],[4,5],[3,6],[7,10],[7,9],[11,12],[8,10],[7,8]];
 
 function minNumberOfRoom(arr) {
-    arr.sort((a, b) => a[0] - b[0]);
-    const queue = [];
-    arr.forEach(e => {
+    const rooms = arr.slice().sort((a, b) => a[0] - b[0]), queue = [];
+    rooms.forEach(e => {
         if (queue.length && e[0] >= queue[0][1]) {
             queue.shift();
         }
