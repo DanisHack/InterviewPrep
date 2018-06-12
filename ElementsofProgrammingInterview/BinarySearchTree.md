@@ -125,38 +125,34 @@ function insertNode(node, val) {
 }
 
 function deleteNode(node, val) {
-    let parent = node, current = node;
-    while (current && current.val !== val) {
-        parent = current;
-        current = current.val > val ? current.left : current.right;
+    let parent = node, curr = node;
+    while (curr && curr.val !== val) {
+        parent = curr;
+        curr = curr.val > val ? curr.left : curr.right;
     }
-    if (!current) {
+    if (!curr) {
         return null;
     }
-    const key = current;
-    if (key.right) {
-        let parentRight = key;
-        let right = key.right;
-        while (right.left) {
+    if (curr.right) {
+        let parentRight = curr, right = curr.right;
+        while (right && right.left) {
             parentRight = right;
             right = right.left;
         }
-        key.val = right.val;
+        curr.val = right.val;
         if (parentRight.left === right) {
             parentRight.left = right.right;
         } else {
             parentRight.right = right.right;
         }
     } else {
-        if (node === key) {
-            const { val, left, right } = key.left;
-            node.val = val;
-            node.left = left;
-            node.right = right;
-        } else if (parent.left === key) {
-            parent.left = key.left;
+        if (node === curr) {
+            const { left, right, val } = curr.left;
+            node.val = val, node.left = left, node.right = right;
+        } else if (parent.left === curr) {
+            parent.left = curr.left;
         } else {
-            parent.right = key.left;
+            parent.right = curr.left;
         }
     }
     return node;

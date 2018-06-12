@@ -23,7 +23,7 @@ const tree = { val: 1, left: { val: 0, left: { val: 0, left: { val: 0, left: nul
 
 function sumRootToLeaf(tree) {
     let sum = 0;
-    (function recurse(node, binary) {
+    (function recurse(node, binary = "") {
         if (!node) {
             return;
         }
@@ -34,7 +34,7 @@ function sumRootToLeaf(tree) {
         }
         recurse(node.left, curr);
         recurse(node.right, curr);
-    })(tree, "");
+    })(head);
     return sum;
 }
 
@@ -185,16 +185,17 @@ const postOrder = [null, null, "F", null, null, "A", null, "E", "B", null, null,
 
 
 function generatePreOrder(seq) {
-    seq.reverse();
+    const tree = seq.slice().reverse();
     return (function recurse() {
-        const val = seq.pop();
+        const val = tree.pop();
         return val ? { val, left: recurse(), right: recurse() } : null;
     })();
 }
 
 function generatePostOrder(seq) {
+    const tree = seq.slice();
     return (function recurse() {
-        const val = seq.pop();
+        const val = tree.pop();
         if (!val) {
             return null;
         }
