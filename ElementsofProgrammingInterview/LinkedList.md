@@ -56,7 +56,7 @@ function mergeKLists(lists) {
     return result;
 }
 
-mergeKList([list1, list2, list3]);
+console.log(JSON.stringify(mergeKList([list1, list2, list3])));
 ```
 Revers sublist of a linked list:
 ```javascript
@@ -64,11 +64,10 @@ const list = { val: 11, next: { val: 3, next: { val: 5, next: { val: 7, next: { 
 
 function reverseSublist(list, start, end) {
     let subHead = { next: list };
-    const result = subHead;
     for (let i = 1; i < start; i++) {
         subHead = subHead.next;
     }
-    let subCurrent = subHead.next;
+    const subCurrent = subHead.next;
     for (let i = 0; i < end - start; i++) {
         const temp1 = subCurrent.next;
         const temp2 = subHead.next;

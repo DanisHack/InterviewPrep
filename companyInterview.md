@@ -51,10 +51,11 @@ function removeNode(nodes, key) {
     if (!nodes[key]) {
         return;
     }
-    delete nodes[key];
+    nodes[key] = null;
     Object.keys(nodes).forEach(e => {
-        if (nodes[e][key]) {
-            delete nodes[e][key];
+        if (nodes[e] && nodes[e][key]) {
+            const { [key]: value, ...newObj } = nodes[e];
+            nodes[e] = newObj;
         }
     });
 }
@@ -63,7 +64,7 @@ function findNodeWithNoDep(nodes) {
     const arr = Object.keys(nodes);
     for (let i = 0; i < arr.length; i++) {
         const key = arr[i];
-        if (Object.keys(nodes[key]).length === 0) {
+        if (nodes[key] && !Object.keys(nodes[key]).length) {
             return key;
         }
     }
@@ -139,22 +140,23 @@ console.log(findColor('gold')); // [ 'darkgoldenrod', 'gold', 'goldenrod', 'ligh
 Given a sorted dictionary of an alien language, find order of characters
 ```javascript
 function deleteNode(node, key) {
-    if (!node[key]) {
+    if (!nodes[key]) {
         return;
     }
-    delete node[key];
-    Object.keys(node).forEach(e => {
-        if (node[e][key]) {
-            delete node[e][key];
+    nodes[key] = null;
+    Object.keys(nodes).forEach(e => {
+        if (nodes[e] && nodes[e][key]) {
+            const { [key]: value, ...newObj } = nodes[e];
+            nodes[e] = newObj;
         }
     });
 }
 
 function findNode(node) {
-    const arr = Object.keys(node);
+    const arr = Object.keys(nodes);
     for (let i = 0; i < arr.length; i++) {
         const key = arr[i];
-        if (Object.keys(node[key]).length === 0) {
+        if (nodes[key] && !Object.keys(nodes[key]).length) {
             return key;
         }
     }
