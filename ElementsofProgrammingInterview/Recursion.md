@@ -92,19 +92,21 @@ function generateGrayCode(n) {
     if (n <= 0) {
         return [];
     }
-    const result = ["0", "1"];
-    for (let i = 2; i < 1 << n; i <<= 1) {
+    const res = ["0", "1"];
+    // 1 << n === Math.pow(2, n)
+    // i <<= 1, i *= 2
+    for (let i = 2; i < Math.pow(2, n); i *= 2) {
         for (let j = i - 1; j >= 0; j--) {
-            result.push(result[j]);
+            res.push(res[j]);
         }
         for (let j = 0; j < i; j++) {
-            result[j] = "0" + result[j];
+            res[j] = "0" + res[j];
         }
         for (let j = i; j < 2 * i; j++) {
-            result[j] = "1" + result[j];
+            res[j] = "1" + res[j];
         }
     }
-    return result;
+    return res;
 }
 
 generateGrayCode(3);
