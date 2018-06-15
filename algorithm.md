@@ -162,15 +162,14 @@ function letterCombinations(digits) {
         "8": ["t", "u", "v"],
         "9": ["w", "x", "y", "z"]
     };
-    (function recurse(str, index) {
-        if (index === digits.length) {
-            res.push(str);
-            return;
+    (function recurse(i, str = "") {
+        if (i === digits.length) {
+            return res.push(str);
         }
-        obj[digits[index]].forEach(e => {
-            recurse(str + e, index + 1);
+        obj[digits[i]].forEach(e => {
+            recurse(i + 1, str + e);
         });
-    })("", 0);
+    })(0);
     return res;
 }
 

@@ -79,7 +79,7 @@ nWays(5, 5);
 ```
 Calculate Binomial Coefficient:
 ```javascript
-// http://mathworld.wolfram.com/images/equations/BinomialCoefficient/NumberedEquation1.gif
+// http://mathworld.wolfram.com/BinomialCoefficient.html
 function binomialCoefficient(n, k) {
     const memo = Array(n + 1).fill().map(() => Array(k + 1).fill(0));
     return (function compute(x, y) {
@@ -97,7 +97,7 @@ function binomialCoefficient(n, k) {
 
 binomialCoefficient(5, 2);
 ```
-Search for for the sequence in a 2D array:
+Search for the sequence in a 2D array:
 ```javascript
 const arr = [
     [1, 2, 3],
@@ -106,22 +106,28 @@ const arr = [
 ];
 
 function patternSearch(grid, pattern) {
-    const result = [];
-    return (function search(row, col) {
-        if (!result.length && pattern[result.length] !== grid[row][col]) {
-            return false;
+    const res = [], visited = {};
+    function recurse(i, j) {
+        const key = `${i}${j}`;
+        if (i < 0 || j < 0 || visited[key]) {
+            return;
         }
-        result.push(grid[row][col]);
-        if (result.length === pattern.length) {
-            return true;
+        visited[key] = true;
+        if (grid[i][j] === pattern[res.length]) {
+            res.push(grid[i][j]);
         }
-        if (col < grid[0].length - 1 && pattern[result.length] === grid[row][col + 1]) {
-            return search(row, col + 1);
-        } else if (row < grid.length - 1 && pattern[result.length] === grid[row + 1][col]) {
-            return search(row + 1, col);
+        for (let row = i - 1; row <= i + 1 && row < grid.length; row++) {
+            for (let col = j - 1; col <= j + 1 && col < grid[i].length; col++) {
+                recurse(row, col);
+            }
         }
-        return false;
-    })(0, 0);
+    }
+    grid.forEach((e, i) => {
+        e.forEach((d, j) => {
+            recurse(i, j);
+        });
+    });
+    return res.length === pattern.length
 }
 
 patternSearch(arr, [1, 3, 4, 6]);
@@ -171,7 +177,7 @@ const tri = [[2], [4, 4], [8, 5, 6], [4, 2, 6, 2], [1, 5, 2, 3, 4]];
 function minimumPathWeight(tri) {
     let minPath = [0];
     tri.forEach(row => {
-        minPath = row.map((_, i) => row[i] + Math.min(minPath[Math.max(i - 1, 0)], minPath[Math.min(i, minPath.length - 1)]));
+        minPath = row.map((e, i) => e + Math.min(minPath[Math.max(i - 1, 0)], minPath[Math.min(i, minPath.length - 1)]));
     });
     return Math.min(...minPath);
 }
