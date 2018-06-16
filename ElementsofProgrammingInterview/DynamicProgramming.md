@@ -33,6 +33,7 @@ function combination(n) {
 }
 
 combination(12);
+// time complexity: O(sn), space complexity: O(sn)
 ```
 Use the Levenshtein Algorithm to calculate the minimum changes require for two words:
 ```javascript
@@ -57,6 +58,7 @@ function levenshtein(a, b) {
 }
 
 levenshtein("Saturday", "Sundays"); // 4
+// time complexity: O(ab), space complexity: O(ab)
 ```
 Count the Number of Ways to traverse a 2D Array:
 ```javascript
@@ -76,6 +78,7 @@ function nWays(n, m) {
 }
 
 nWays(5, 5);
+// time complexity: O(nm), space complexity: O(nm)
 ```
 Calculate Binomial Coefficient:
 ```javascript
@@ -96,6 +99,7 @@ function binomialCoefficient(n, k) {
 }
 
 binomialCoefficient(5, 2);
+// time complexity: O(nk), space complexity: O(nk)
 ```
 Search for the sequence in a 2D array:
 ```javascript
@@ -169,6 +173,7 @@ function optimalCapacity(items, cap) {
 }
 
 optimalCapacity(items, 130);
+// time complexity: O(nw), space complexity: O(nw)
 ```
 Find the minimum weight path in triangle:
 ```javascript
@@ -183,8 +188,10 @@ function minimumPathWeight(tri) {
 }
 
 minimumPathWeight(tri);
+// time complexity: O(n^2), space complexity: O(n)
 ```
 Pick up coins for Maximum gain:
+Consider a row of n coins of values v1 . . . vn, where n is even. We play a game against an opponent by alternating turns. In each turn, a player selects either the first or last coin from the row, removes it from the row permanently, and receives the value of the coin. Determine the maximum possible amount of money we can definitely win if we move first.
 ```javascript
 function maxRevenue(coins) {
     const max = coins.map(() => Array(coins.length).fill(0));
@@ -203,6 +210,7 @@ function maxRevenue(coins) {
 }
 
 maxRevenue([5, 25, 10, 1]);
+// time complexity: O(n^2)
 ```
 Count the Number of Moves to Climb Stairs:
 ```javascript
@@ -223,7 +231,7 @@ function countStairs(n, k) {
     })(n);
 }
 
-countStairs(4, 2);
+countStairs(4, 2); // time complexity: O(kn), space complexity: O(n)
 ```
 Find the longest nondecreasing subsequence:
 ```javascript
@@ -241,5 +249,6 @@ function longestIncreasing(arr) {
     return Math.max(...maxLength);
 }
 
-longestIncreasing([0, 8, 4, 12, 2, 10, 6, 14, 1, 9]);
+longestIncreasing([0, 8, 4, 12, 2, 10, 6, 14, 1, 9]); // The longest increasing subsequence is {0, 4, 10, 14}
+// time complexity: O(n^2), space complexity: O(n)
 ```

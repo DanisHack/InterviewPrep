@@ -181,7 +181,7 @@ function alienOrder(dict) {
             while (j < prev.length && j < curr.length && prev[j] === curr[j]) {
                 j++;
             }
-            if (j < curr.length && !nodes[curr[j]][prev[j]]) {
+            if (j < curr.length && j < prev.length && !nodes[curr[j]][prev[j]]) {
                 nodes[curr[j]][prev[j]] = true;
             }
         }
