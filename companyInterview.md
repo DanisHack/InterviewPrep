@@ -105,10 +105,7 @@ function iso(str1, str2) {
         obj2[str2[i]] = e;
     });
     for (let i = 0; i < str1.length; i++) {
-        if (str2[i] !== obj1[str1[i]]) {
-            return false;
-        }
-        if (str1[i] !== obj2[str2[i]]) {
+        if (str2[i] !== obj1[str1[i]] || str1[i] !== obj2[str2[i]]) {
             return false;
         }
     }
