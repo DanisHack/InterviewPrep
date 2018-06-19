@@ -419,7 +419,7 @@ function longestPalindrome(str) {
        const len = Math.max(len1, len2);
        if (len > end - start) {
            start = i - (len - 1) / 2;
-           end = (i + len / 2) + 1;
+           end = i + len / 2 + 1;
        }
     });
     return str.slice(Math.ceil(start), end);
