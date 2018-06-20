@@ -57,24 +57,22 @@ const graph = [
 ];
 
 function graphDFS(graph, start, goal) {
-    const visited = {}, path = [];
+    const visited = { [start]: true }, res = [];
     (function recurse(curr) {
         visited[curr] = true;
-        if (curr === goal) {
-            path.push(curr);
+        if (curr === e) {
             return true;
         }
-        for (let i = 0; i < graph[curr].length; i++) {
-            if (!visited[graph[curr][i]]) {
-                if (recurse(graph[curr][i])) {
-                    path.push(curr);
-                    return true;
-                }
+        for (let i = 0; i < arr[curr].length; i++) {
+            if (!visited[arr[curr][i]] && recurse(arr[curr][i])) {
+                res.push(arr[curr][i]);
+                return true;
             }
         }
         return false;
     })(start);
-    return path.reverse();
+    res.push(start);
+    return res.reverse();
 }
 
 graphDFS(graph, 2, 5);
@@ -133,25 +131,60 @@ const graph = [
 ];
 
 function graphDFS(graph, start, goal) {
-    const visited = {}, path = [];
+    const visited = { [start]: true }, path = [];
     (function recurse(curr) {
         visited[curr] = true;
         if (curr === goal) {
-            path.push(curr);
             return true;
         }
         for (let i = 0; i < graph[curr].length; i++) {
-            if (graph[curr][i] && !visited[i]) {
-                if (recurse(i)) {
-                    path.push(curr);
-                    return true;
-                }
+            if (graph[curr][i] && !visited[i] && recurse(i)) {
+                path.push(i);
+                return true;
             }
         }
         return false;
     })(start);
+    path.push(start);
     return path.reverse();
 }
 
 graphDFS(graph, 2, 5);
+```
+Compute Enclosed Regions:
+Let A be a 2D array whose entries are either W or B. Write a program that takes A, and replaces all Ws that cannot
+reach the boundary with a B.
+```javascript
+const A = [
+    ["B", "B", "B", "B"],
+    ["W", "B", "W", "B"],
+    ["B", "W", "W", "B"],
+    ["B", "B", "B", "B"]
+]
+
+function fillRegion(graph) {
+    const n = graph.length, m = graph[0].length, q = [];
+    for (let i = 0; i < n; i++) {
+        q.push([i, 0], [i, m - 1]);
+    }
+    for (let i = 0; i < m; i++) {
+        q.push([0, i], [n - 1, i])
+    }
+    while (q.length) {
+        const [x, y] = q.shift();
+        if ((0 <= x && x < n) && (0 <= y && y < m) && graph[x][y] === "W") {
+            graph[x][y] = "T";
+            q.push([x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]);
+        }
+    }
+    graph.forEach((row, i) => {
+        row.forEach((e, j) => {
+            graph[i][j] = e === "T" ? "W" : "B";
+        });
+    });
+    return graph;
+}
+
+fillRegion(A);
+// time complexity: O(mn), space complexity: O(mn)
 ```

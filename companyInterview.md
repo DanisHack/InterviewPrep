@@ -89,6 +89,8 @@ function buildOrder(projects, dependencies) {
     return res;
 }
 
+// if deps are circular then nodes would not end with all null ex: { b: { a: true }, a: { b: true }, c: null, d: null }
+
 buildOrder(projects, dependencies);
 ```
 Isomorphic problem
@@ -195,4 +197,24 @@ function alienOrder(dict) {
 const words = ["baa", "abcd", "abca", "cab", "cad"];
 
 alienOrder(words); // [ 'b', 'd', 'a', 'c' ]
+```
+To a word, and a map, map which is a word, ask this if a word is smash able? That is, you can smash one letter each time, and the rest of the letters can form a single word (the new word is still in the map) until it is completely hit.
+For example: sprint -> print -> pint -> pit -> it -> i -> ""
+```javascript
+const dict = ["sprint", "sprin", "print", "spin", "pin", "in", "i"];
+
+function smashable(dict, str) {
+    if (!str) {
+        return true;
+    }
+    for (let i = 0; i < str.length; i++) {
+        const word = str.slice(0, i) + str.slice(i + 1);
+        if ((dict.includes(word) || !word) && smashable(dict, word)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+smashable(dict, "sprint");
 ```
