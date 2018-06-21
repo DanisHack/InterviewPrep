@@ -222,7 +222,7 @@ function countStairs(n, k) {
         }
         if (ways[h] === 0) {
             const toSum = [];
-            for (let i = 1; i < Math.min(k, h) + 1; i++) {
+            for (let i = 1; i <= Math.min(k, h); i++) {
                 toSum.push(compute(h - i));
             }
             ways[h] = toSum.reduce((sum, val) => sum + val, 0);
