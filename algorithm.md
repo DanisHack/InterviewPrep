@@ -503,7 +503,7 @@ longestCommonPrefix(["leets", "leetcode", "leet", "leeds"]); // lee
 Check if parentheses are valid:
 ```javascript
 function validParen(str) {
-    const parenthese = { "(": 1, ")": 2}, arr = [];
+    const parenthese = { "(": 0, ")": 1}, arr = [];
     let count = 0;
     str.split("").forEach(e => {
         if (parenthese[e] % 2) {
@@ -625,11 +625,11 @@ searchRange([5, 7, 7, 8, 8, 10], 8); // [3, 4]
 ```
 Longest Valid Parentheses:
 ```javascript
-function longestValidParentheses(s) {
-    let result = 0;
+function longestValidParentheses(str) {
+    let res = 0, test = "";
     const stack = [];
-    s.split("").forEach((current, i) => {
-        if (current === "(") {
+    str.split("").forEach((e, i) => {
+        if (e === "(") {
             stack.push([i, 0]);
         } else {
             if (!stack.length || stack[stack.length - 1][1] === 1) {
@@ -637,14 +637,17 @@ function longestValidParentheses(s) {
             } else {
                 stack.pop();
                 let currentLen = stack.length ? i - stack[stack.length - 1][0] : i + 1;
-                result = Math.max(result, currentLen);
+                if (currentLen > res) {
+                    res = currentLen;
+                    test = str.slice(i - res + 1, i + 1);
+                }
             }
         }
     });
-    return result;
+    return res;
 }
 
-longestValidParentheses(")()())");
+longestValidParentheses(")(()())");
 ```
 Search in Rotated Sorted Array:
 ```javascript

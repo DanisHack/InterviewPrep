@@ -160,7 +160,7 @@ const A = [
     ["W", "B", "W", "B"],
     ["B", "W", "W", "B"],
     ["B", "B", "B", "B"]
-]
+];
 
 function fillRegion(graph) {
     const n = graph.length, m = graph[0].length, q = [];

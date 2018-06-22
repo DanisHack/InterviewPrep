@@ -171,14 +171,14 @@ Generate prime from 1 to n:
 ```javascript
 function generatePrime(n) {
     const isPrime = [false, false].concat(Array(n - 1).fill(true)), res = [];
-    for (let p = 2; p <= n; p++) {
-        if (isPrime[p]) {
-            res.push(p);
-            for (let i = p; i <= n; i += p) {
-                isPrime[i] = false;
+    isPrime.forEach((e, i) => {
+        if (e) {
+            res.push(i);
+            for (let p = i; p <= n; p += i) {
+                isPrime[p] = false;
             }
         }
-    }
+    });
     return res;
 }
 
