@@ -283,3 +283,27 @@ function addTwoNumbers(l1, l2) {
 
 console.log(JSON.stringify(addTwoNumbers(list1, list2), null, 2));
 ```
+Given a linked list, reverse the nodes of a linked list k at a time and return its modified list
+Given this linked list: 1->2->3->4->5
+For k = 2, you should return: 2->1->4->3->5
+For k = 3, you should return: 3->2->1->4->5
+```javascript
+const list = { val: 1, next: { val: 2, next: { val: 3, next: { val: 4, next: { val: 5, next: null } } } } };
+
+function reverseK(list, k) {
+    let current = list, next = null, prev = null, count = 0;
+    while (current && count < k) {
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+        count++;
+    }
+    if (next) {
+        list.next = reverseK(next, k);
+    }
+    return prev;
+}
+
+console.log(JSON.stringify(reverseK(list, 2), null, 2));
+```
