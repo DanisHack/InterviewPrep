@@ -64,6 +64,7 @@ const list = { val: 11, next: { val: 3, next: { val: 5, next: { val: 7, next: { 
 
 function reverseSublist(list, start, end) {
     let subHead = { next: list };
+    const res = subHead;
     for (let i = 1; i < start; i++) {
         subHead = subHead.next;
     }
@@ -75,7 +76,7 @@ function reverseSublist(list, start, end) {
         subHead.next = temp1;
         temp1.next = temp2;
     }
-    return list;
+    return res.next;
 }
 
 console.log(JSON.stringify(reverseSublist(list, 2, 4), null, 2));
@@ -292,6 +293,14 @@ const list = { val: 1, next: { val: 2, next: { val: 3, next: { val: 4, next: { v
 
 function reverseK(list, k) {
     let current = list, next = null, prev = null, count = 0;
+    while (current && count < k) {
+        current = current.next;
+        count++;
+    }
+    if (count < k) {
+        return list;
+    }
+    current = list, count = 0;
     while (current && count < k) {
         next = current.next;
         current.next = prev;
