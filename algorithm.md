@@ -566,17 +566,23 @@ wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and do
 ```
 Substring with Concatenation of All Words:
 ```javascript
+function checkWord(str, words) {
+    if (!str) {
+        return true;
+    }
+    const newWord = str.slice(0, words[0].length);
+    const index = words.indexOf(newWord);
+    return index > -1 ? checkWord(str.slice(words[0].length), words.slice(0, index).concat(words.slice(index + 1))) : false;
+}
+
 function findSubstring(s, words) {
+    if (!s || !words.length) {
+        return [];
+    }
     const len = words.join("").length, res = [];
-    for (let i  = 0; i <= s.length - len; i++) {
+    for (let i = 0; i <= s.length - len; i++) {
         const word = s.slice(i, i + len);
-        let count = 0;
-        words.forEach(e => {
-            if (word.includes(e)) {
-                count++;
-            }
-        });
-        if (count === words.length) {
+        if (checkWord(word, words)) {
             res.push(i);
         }
     }
