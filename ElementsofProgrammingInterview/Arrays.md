@@ -311,6 +311,27 @@ function maxArea(height) {
 maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]); // 49
 // good link: https://leetcode.com/articles/container-most-water/
 ```
+Trapping Rain Water: Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+```javascript
+function trap(height) {
+    const left = Array(height.length).fill(0), right = Array(height.length).fill(0);
+    let res = 0;
+    left[0] = height[0];
+    for (let i = 1; i < height.length; i++) {
+        left[i] = Math.max(left[i - 1], height[i]);
+    }
+    right[height.length - 1] = height[height.length - 1];
+    for (let i = height.length - 2; i >= 0; i--) {
+        right[i] = Math.max(right[i + 1], height[i]);
+    }
+    height.forEach((e, i) => {
+        res += Math.min(left[i], right[i]) - e;
+    });
+    return res;
+}
+
+trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]); // 6
+```
 Schedule a minimum number of rooms needed
 ```javascript
 const arr = [[1,3],[6,8],[4,5],[3,6],[7,10],[7,9],[11,12],[8,10],[7,8]];
