@@ -98,23 +98,29 @@ function canReachEnd(a) {
 
 canReach(3, 3, 1, 0, 2, 0, 1);
 ```
-Compute the minimum number of steps needed to advance to the last location:
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+Your goal is to reach the last index in the minimum number of jumps.
 ```javascript
-function minimumPath(a) {
-    const path = [];
-    let lastIndex = 0, i = 1, furthest = a[0];
-    while (i <= furthest && furthest < a.length) {
-        if (a[i] + i > a[lastIndex] + lastIndex) {
-            path.push(i - lastIndex);
-            lastIndex = i;
-            furthest = a[i] + i;
-        }
-        i++;
+function minimumPath(nums) {
+    if (!nums.length || !nums.length) {
+        return 0;
     }
-    return path;
+    let lastReach = 0, reach = 0, jump = 0;
+    for (let i = 0; i <= reach && i < nums.length; i++) {
+        if (i > lastReach) {
+            lastReach = reach;
+            jump++;
+        }
+        reach = Math.max(reach, nums[i] + i);
+    }
+    if (reach < nums.length - 1) {
+        return 0;
+    }
+    return jump;
 }
 
-minimumPath([3, 3, 1, 0, 2, 0, 1]); // [1, 3, 2]
+minimumPath([3, 3, 1, 0, 2, 0, 1]); // 3
 ```
 Delete Duplicated from a sorted Array:
 ```javascript
