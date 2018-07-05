@@ -192,33 +192,44 @@ generatePrime(35);
 ```
 Give the spiral order of a NxN matrix and to generate a NxN spiral matrix:
 ```javascript
-const matrix = [
+const arr = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
 ];
 
-function spiralMatrix(arr) {
-    const res = [];
-    let top = 0, left = 0, bottom = arr.length - 1, right = arr.length - 1, count = 1;
-    while (count <= arr.length * arr.length) {
+function spiralMatrix(matrix) {
+    if (!matrix || !matrix.length) {
+        return [];
+    }
+    let left = 0, top = 0, right = matrix[0].length - 1, bottom = matrix.length - 1, count = 1;
+    const res = [], total = matrix.length * matrix[0].length;
+    while (count <= total) {
         for (let i = left; i <= right; i++) {
-            res.push(arr[top][i]);
+            if (count <= total) {
+                res.push(matrix[top][i]);
+            }
             count++;
         }
         top++;
         for (let i = top; i <= bottom; i++) {
-            res.push(arr[i][right]);
+            if (count <= total) {
+                res.push(matrix[i][right]);
+            }
             count++;
         }
         right--;
         for (let i = right; i >= left; i--) {
-            res.push(arr[bottom][i]);
+            if (count <= total) {
+                res.push(matrix[bottom][i]);
+            }
             count++;
         }
         bottom--;
         for (let i = bottom; i >= top; i--) {
-            res.push(arr[i][left]);
+            if (count <= total) {
+                res.push(matrix[i][left]);
+            }
             count++;
         }
         left++;
@@ -226,7 +237,7 @@ function spiralMatrix(arr) {
     return res;
 }
 
-spiralMatrix(matrix); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
+spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
 
 function generateSpiralMatrix(n) {
     const res = Array(n).fill().map(() => []);
@@ -268,13 +279,16 @@ const matrix = [
 ];
 
 function rotateMatrix(arr) {
-    const res = Array(arr.length).fill().map(() => []);
-    arr.forEach((e, i) => {
-        for (let j = arr.length - 1; j >= 0; j--) {
-            res[i].push(arr[j][i]);
+    for (let i = 0; i < arr.length / 2; i++) {
+        for (let j = 0; j < Math.floor(arr.length / 2); j++) {
+            const temp = arr[i][j];
+            arr[i][j] = arr[arr.length - 1 - j][i];
+            arr[arr.length - 1 - j][i] = arr[arr.length - 1 - i][arr.length - 1 - j];
+            arr[arr.length - 1 - i][arr.length - 1 - j] = arr[j][arr.length - 1 - i];
+            arr[j][arr.length - 1 - i] = temp;
         }
-    });
-    return res;
+    }
+    return arr;
 }
 
 rotateMatrix(matrix);

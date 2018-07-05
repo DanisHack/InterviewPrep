@@ -316,3 +316,39 @@ function reverseK(list, k) {
 
 console.log(JSON.stringify(reverseK(list, 2), null, 2));
 ```
+Given a linked list, rotate the list to the right by k places, where k is non-negative.
+Input: 1->2->3->4->5->NULL, k = 2
+Output: 4->5->1->2->3->NULL
+```javascript
+const list = {
+	val: 1,
+	next: {
+		val: 2,
+		next: { val: 3, next: { val: 4, next: { val: 5, next: null } } },
+	}
+};
+
+function rotateRight(head, k) {
+    if (!head || !k) {
+        return head;
+    }
+    let slow = head, fast = head, num = k;
+    while (num > 0) {
+        fast = fast.next || head;
+        num--;
+    }
+    if (!fast || fast === slow) { // if fast is slow then the rotation is back to where it started before
+        return head;
+    }
+    while (fast.next) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+    const newHead = slow.next;
+    slow.next = null;
+    fast.next = head;
+    return newHead;
+}
+
+console.log(JSON.stringify(rotateRight(list, 2), null, 2)); // time complexity: O(n + k)
+```
