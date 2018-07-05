@@ -80,6 +80,41 @@ function nWays(n, m) {
 nWays(5, 5);
 // time complexity: O(nm), space complexity: O(nm)
 ```
+Given a grid with obstacles represented by 1, count the number of ways to traverse the grid
+```javascript
+const grid = [
+  [0, 0, 0],
+  [0, 1, 0],
+  [0, 0, 0]
+];
+
+function nWays(obstacleGrid) {
+    if (!obstacleGrid || !obstacleGrid.length) {
+        return 0;
+    }
+    const m = obstacleGrid.length, n = obstacleGrid[0].length;
+    if (obstacleGrid[0][0] || obstacleGrid[m - 1][n - 1]) {
+        return 0;
+    }
+    const dp = obstacleGrid.map(row => row.map(() => 0));
+    dp[0][0] = 1;
+    for (let i = 1; i < n; i++) {
+        if (!obstacleGrid[0][i]) {
+            dp[0][i] = dp[0][i - 1];
+        }
+    }
+    for (let i = 1; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (!obstacleGrid[i][j]) {
+                dp[i][j] = (i >= 1 ? dp[i - 1][j] : dp[i][j]) + (j >= 1 ? dp[i][j - 1] : dp[i][j]);
+            }
+        }
+    }
+    return dp[m - 1][n - 1];
+}
+
+nWays(grid);
+```
 Calculate Binomial Coefficient:
 ```javascript
 // http://mathworld.wolfram.com/BinomialCoefficient.html

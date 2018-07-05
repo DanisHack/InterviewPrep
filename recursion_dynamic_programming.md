@@ -305,7 +305,7 @@ function placeQueens(n) {
 	const res = [], combo = [];
     (function recurse(row) {
         if (row === n) {
-            return res.push([...combo]);
+            return res.push(combo.join(", "));
         }
         for (let col = 0; col < n; col++) {
             if (isValid(combo, row, col)) {
