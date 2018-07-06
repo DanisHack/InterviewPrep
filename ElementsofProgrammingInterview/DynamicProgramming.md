@@ -88,29 +88,30 @@ const grid = [
   [0, 0, 0]
 ];
 
-function nWays(obstacleGrid) {
-    if (!obstacleGrid || !obstacleGrid.length) {
+function nWays(board) {
+    if (!board || !board.length) {
         return 0;
     }
-    const m = obstacleGrid.length, n = obstacleGrid[0].length;
-    if (obstacleGrid[0][0] || obstacleGrid[m - 1][n - 1]) {
+    const n = board.length, m = board[0].length;
+    if (board[0][0] || board[n - 1][m - 1]) {
         return 0;
     }
-    const dp = obstacleGrid.map(row => row.map(() => 0));
-    dp[0][0] = 1;
-    for (let i = 1; i < n; i++) {
-        if (!obstacleGrid[0][i]) {
-            dp[0][i] = dp[0][i - 1];
+    const memo = board.map(row => row.map(() => 0));
+    for (let i = 0; i < m; i++) {
+        if (!board[0][i]) {
+            memo[0][i] = 1;
+        } else {
+            break;
         }
     }
-    for (let i = 1; i < m; i++) {
-        for (let j = 0; j < n; j++) {
-            if (!obstacleGrid[i][j]) {
-                dp[i][j] = (i >= 1 ? dp[i - 1][j] : dp[i][j]) + (j >= 1 ? dp[i][j - 1] : dp[i][j]);
+    for (let i = 1; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            if (!board[i][j]) {
+                memo[i][j] = memo[i - 1][j] + (j >= 1 ? memo[i][j - 1] : 0);
             }
         }
     }
-    return dp[m - 1][n - 1];
+    return memo[n - 1][m - 1];
 }
 
 nWays(grid);
@@ -286,4 +287,37 @@ function longestIncreasing(arr) {
 
 longestIncreasing([0, 8, 4, 12, 2, 10, 6, 14, 1, 9]); // The longest increasing subsequence is {0, 4, 10, 14}
 // time complexity: O(n^2), space complexity: O(n)
+```
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
+Answer is 7 because the path 1→3→1→1→1 minimizes the sum.
+```javascript
+const grid = [
+    [1, 3, 1],
+    [1, 5, 1],
+    [4, 2, 1]
+];
+
+function minPathSum(arr) {
+    const res = arr.map(row => row.map(() => 0));
+    const n = arr.length, m = arr[0].length;
+    return (function compute(x, y) {
+        if (x === n - 1 && y === m - 1) {
+            return arr[x][y];
+        }
+        if (res[x][y] === 0) {
+            if (x === n - 1) {
+                res[x][y] = arr[x][y] + compute(x, y + 1);
+            } else if (y === m - 1) {
+                res[x][y] = arr[x][y] + compute(x + 1, y);
+            } else {
+                const right = arr[x][y] + compute(x, y + 1);
+                const down = arr[x][y] + compute(x + 1, y);
+                res[x][y] = Math.min(right, down);
+            }
+        }
+        return res[x][y];
+    })(0, 0);
+}
+
+minPathSum(grid);
 ```
