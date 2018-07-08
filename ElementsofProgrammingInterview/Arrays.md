@@ -84,26 +84,12 @@ function multiply(num1, num2) {
 
 multiply([-1, 3, 9], [2, 8]);
 ```
-Advancing through an array:
-```javascript
-function canReachEnd(a) {
-    let furthest = i = 0;
-    const last = a.length - 1;
-    while (i <= furthest && furthest < last) {
-        furthest = Math.max(furthest, a[i] + i);
-        i++;
-    }
-    return furthest >= last;
-}
-
-canReach(3, 3, 1, 0, 2, 0, 1);
-```
 Given an array of non-negative integers, you are initially positioned at the first index of the array.
 Each element in the array represents your maximum jump length at that position.
 Your goal is to reach the last index in the minimum number of jumps.
 ```javascript
 function minimumPath(nums) {
-    if (!nums.length || !nums.length) {
+    if (!nums || !nums.length) {
         return 0;
     }
     let lastReach = 0, reach = 0, jump = 0;
