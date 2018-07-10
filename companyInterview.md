@@ -138,7 +138,7 @@ console.log(findColor('gold')); // [ 'darkgoldenrod', 'gold', 'goldenrod', 'ligh
 ```
 Given a sorted dictionary of an alien language, find order of characters
 ```javascript
-function deleteNode(node, key) {
+function deleteNode(nodes, key) {
     if (!nodes[key]) {
         return;
     }
@@ -151,7 +151,7 @@ function deleteNode(node, key) {
     });
 }
 
-function findNode(node) {
+function findNode(nodes) {
     const arr = Object.keys(nodes);
     for (let i = 0; i < arr.length; i++) {
         const key = arr[i];

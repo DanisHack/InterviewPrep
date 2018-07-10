@@ -82,73 +82,61 @@ minWindow("ADOBECODEBANC", "ABC");
 ```
 ![alt text](../images/textJustification.png)
 ```javascript
-function createLine(words, maxWidth, start, end, currentWordsLen, isLast) {
-    var result = '';
-    if(start < 0 || end >= words.length) {
-        return result;
+const arr = ["What", "must", "be", "acknowledgment", "shall", "be"];
+
+function createLine(words, maxWidth, start, end, currWordsLen, isLast) {
+    let res = "";
+    if (start < 0 || end >= words.length) {
+        return res;
     }
-
-    result += words[start]; // consume the first word
-    var numberOfWords = end - start + 1; // number of words to insert in this line
-
-    // special case: one word or last line - left justified
-    if(numberOfWords === 1 || isLast) {
-        for(var i = start + 1; i <= end; i++) { // start from start + 1 since we already append the first word
-            result += (" " + words[i]);
+    res = words[start];
+    const numOfWords = end - start + 1;
+    if (numOfWords === 1 || isLast) {
+        for (let i = start + 1; i <= end; i++) {
+            res += " " + words[i];
         }
-
-        var remainingSpaces = maxWidth - currentWordsLen - (numberOfWords - 1);
-        for(i = 0; i < remainingSpaces; i++) {
-            result += ' ';
+        const remaining = maxWidth - currWordsLen - (numOfWords - 1);
+        for (let i = 0; i < remaining; i++) {
+            res += " ";
         }
-
-        return result;
+        return res;
     }
-
-    var k = parseInt((maxWidth - currentWordsLen)/(numberOfWords - 1));
-    var m = (maxWidth - currentWordsLen)%(numberOfWords - 1);
-
-    for(i = start + 1; i <= end; i++) { // start from start + 1 since we already append the first word
-        var nspace = i - start <= m ? k + 1: k;
-
-        for(var j = 0; j < nspace; j++) {
-            result += ' ';    
+    const k = Math.floor((maxWidth - currWordsLen) / (numOfWords - 1));
+    const m = (maxWidth - currWordsLen) % (numOfWords - 1);
+    for (let i = start + 1; i <= end; i++) {
+        const nSpace = i - start <= m ? k + 1 : k;
+        for (let j = 0; j < nSpace; j++) {
+            res += " ";
         }
-
-        result += words[i];
+        res += words[i];
     }
-    return result;
+    return res;
 }
 
 function fullJustify(words, maxWidth) {
-    var result = [];
-    var start = 0;
-    var end = -1;
-    var currentWordsLen = 0;
-    var i = 0;
-
-    while(i < words.length) {
-        if(words[i].size > maxWidth) {
-            return result;
+    const res = [];
+    let start = 0, end = -1, currWordsLen = 0, i = 0;
+    while (i < words.length) {
+        if (words[i].length > maxWidth) {
+            return res;
         }
-
-        var newLen = currentWordsLen + (end - start + 1) + words[i].length; // current words len + their spaces + new word
-
-        if(newLen <= maxWidth) { // words[i] can fit in the current line
+        const newLen = currWordsLen + end - start + 1 + words[i].length;
+        if (newLen <= maxWidth) {
             end = i;
-            currentWordsLen += words[i].length;
+            currWordsLen += words[i].length;
             i++;
         } else {
-            var line = createLine(words, maxWidth, start, end, currentWordsLen, false);
-            result.push(line);
+            const line = createLine(words, maxWidth, start, end, currWordsLen, false);
+            res.push(line);
             start = i;
             end = i - 1;
-            currentWordsLen = 0;
+            currWordsLen = 0;
         }
     }
+    const lastLine = createLine(words, maxWidth, start, end, currWordsLen, true);
+    res.push(lastLine);
+    return res;
+}
 
-    var lastLine = createLine(words, maxWidth, start, end, currentWordsLen, true);
-    result.push(lastLine);
-    return result;
-};
+console.log(JSON.stringify(fullJustify(arr, 16), null, 2));
 ```
