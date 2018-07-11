@@ -4,7 +4,7 @@ function isScramble(s1, s2) {
     if (s1.length !== s2.length) {
         return false;
     }
-    if (s1.length === 0 || s1 === s2) {
+    if (!s1 || s1 === s2) {
         return true;
     }
     const copy1 = s1.split("").sort().join("");
@@ -19,10 +19,7 @@ function isScramble(s1, s2) {
         const str4 = s2.slice(i, s2.length);
         const str5 = s2.slice(0, s2.length - i);
         const str6 = s2.slice(s2.length - i, s2.length);
-        if (isScramble(str1, str3) && isScramble(str2, str4)) {
-            return true;
-        }
-        if (isScramble(str1, str6) && isScramble(str2, str5)) {
+        if ((isScramble(str1, str3) && isScramble(str2, str4)) || (isScramble(str1, str6) && isScramble(str2, str5))) {
             return true;
         }
     }
@@ -93,7 +90,7 @@ function createLine(words, maxWidth, start, end, currWordsLen, isLast) {
     const numOfWords = end - start + 1;
     if (numOfWords === 1 || isLast) {
         for (let i = start + 1; i <= end; i++) {
-            res += " " + words[i];
+            res += ` ${words[i]}`;
         }
         const remaining = maxWidth - currWordsLen - (numOfWords - 1);
         for (let i = 0; i < remaining; i++) {

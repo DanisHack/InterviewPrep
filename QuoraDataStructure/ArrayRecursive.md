@@ -147,3 +147,52 @@ function solveSudoku(board) {
 solveSudoku(board);
 console.log(board);
 ```
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+```javascript
+const matrix = [
+    ["1","0","1","0","0"],
+    ["1","0","1","1","1"],
+    ["1","1","1","1","1"],
+    ["1","0","0","1","0"]
+];
+
+function largestRectangleArea(heights) {
+    let res = 0;
+    if (!heights || !heights.length) {
+        return res;
+    }
+    const stack = [];
+    let i = 0;
+    while (i <= heights.length) {
+        if (!stack.length || heights[stack[stack.length - 1]] <= heights[i]) {
+            stack.push(i);
+            i++;
+        } else {
+            const height = heights[stack.pop()];
+            const width = !stack.length ? i : i - stack[stack.length - 1] - 1;
+            res = Math.max(res, height * width);
+        }
+    }
+    return res;
+};
+
+function maximalRectangle(matrix) {
+    let res = 0;
+    if (!matrix || !matrix.length || !matrix[0].length) {
+        return res;
+    }
+    const heights = [];
+    matrix.forEach((row, i) => {
+        heights.push(Array(row.length).fill(0));
+        row.forEach((e, j) => {
+            if (e === "1") {
+                heights[i][j] = i === 0 ? 1 : heights[i - 1][j] + 1;
+            }
+        });
+        res = Math.max(res, largestRectangleArea(heights[i]));
+    });
+    return res
+};
+
+maximalRectangle(matrix);
+```

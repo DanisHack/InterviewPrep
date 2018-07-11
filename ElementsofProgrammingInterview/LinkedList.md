@@ -62,20 +62,24 @@ Revers sublist of a linked list:
 ```javascript
 const list = { val: 11, next: { val: 3, next: { val: 5, next: { val: 7, next: { val: 2, next: null } } } } };
 
-function reverseSublist(list, start, end) {
-    let subHead = { next: list };
-    const res = subHead;
-    for (let i = 1; i < start; i++) {
-        subHead = subHead.next;
+function reverseSublist(head, start, end) {
+    if (start >= end) {
+        return head;
     }
-    const subCurrent = subHead.next;
-    for (let i = 0; i < end - start; i++) {
-        const temp1 = subCurrent.next;
-        const temp2 = subHead.next;
-        subCurrent.next = temp1.next;
-        subHead.next = temp1;
-        temp1.next = temp2;
+    let iter = { next: head };
+    const res = iter;
+    for(let i = 1; i < start; i++) {
+        iter = iter.next;
     }
+    let prev = iter.next, curr = prev.next;
+    for(i = 0; i < end - start; i++) {
+        const temp = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = temp;
+    }
+    iter.next.next = curr;
+    iter.next = prev;
     return res.next;
 }
 
