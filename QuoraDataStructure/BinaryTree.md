@@ -28,3 +28,61 @@ function findDistance(tree, p, q) {
 
 findDistance(tree, 4, 7); // 5
 ```
+Two elements of a binary search tree (BST) are swapped by mistake.
+Recover the tree without changing its structure.
+```javascript
+const list = { val: 1, left: { val: 3, left: null, right: { val: 2, left: null, right: null } }, right: null };
+
+function recoverTree(head) {
+    if (!head) {
+        return null;
+    }
+    let prev, first, second;
+    (function inOrder(node) {
+        if (!node) {
+            return;
+        }
+        inOrder(node.left);
+        if (prev && prev.val > node.val) {
+            if (!first) {
+                first = prev;
+            }
+            second = node;
+        }
+        prev = node;
+        inOrder(node.right);
+    })(head);
+    if (first && second) {
+        const val = first.val;
+        first.val = second.val;
+        second.val = val;
+    }
+    return head;
+}
+
+console.log(JSON.stringify(recoverTree(list), null, 2));
+```
+![alt text](../images/maxPathSum.png)
+```javascript
+const list = { val: 1, left: { val: -2, left: null, right: null }, right: { val: 3, left: null, right: null } };
+
+function maxPathSum(root) {
+    let maxVal = -Infinity;
+    (function findMaxPath(node) {
+        if (!node) {
+            return 0;
+        }
+        const left = Math.max(findMaxPath(node.left), 0);
+        const right = Math.max(findMaxPath(node.right), 0);
+        const addOne = node.val + Math.max(left, right);
+        const addTwo = node.val + left + right;
+        maxVal = Math.max.apply(null, [maxVal, addOne, addTwo]);
+
+        // return addOne only since, addTwo cannot be combined with the parent node
+        return addOne;
+    })(root);
+    return maxVal;
+}
+
+maxPathSum(list);
+```
