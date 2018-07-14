@@ -99,7 +99,7 @@ function numTrees(n) {
     return res[n];
 }
 
-numTrees(4); // 5
+numTrees(3); // 5
 ```
 Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
 ```javascript
