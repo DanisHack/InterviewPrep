@@ -76,7 +76,7 @@ function maxPathSum(root) {
         const right = Math.max(findMaxPath(node.right), 0);
         const addOne = node.val + Math.max(left, right);
         const addTwo = node.val + left + right;
-        maxVal = Math.max.apply(null, [maxVal, addOne, addTwo]);
+        maxVal = Math.max(maxVal, addOne, addTwo);
 
         // return addOne only since, addTwo cannot be combined with the parent node
         return addOne;
@@ -85,4 +85,45 @@ function maxPathSum(root) {
 }
 
 maxPathSum(list);
+```
+Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
+```javascript
+function numTrees(n) {
+    const res = [1, 1];
+    for (let i = 2; i <= n; i++) {
+        res[i] = 0;
+        for (let j = 0; j < i; j++) {
+            res[i] += res[j] * res[i - j - 1];
+        }
+    }
+    return res[n];
+}
+
+numTrees(4); // 5
+```
+Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
+```javascript
+function generateTrees(n) {
+    if (n === 0) {
+        return [];
+    }
+    return (function generate(start, end) {
+        if (start > end) {
+            return [null];
+        }
+        const res = [];
+        for (let i = start; i <= end; i++) {
+            const leftTrees = generate(start, i - 1);
+            const rightTrees = generate(i + 1, end);
+            leftTrees.forEach(left => {
+                rightTrees.forEach(right => {
+                    res.push({ val: i, left, right });
+                });
+            });
+        }
+        return res;
+    })(1, n);
+}
+
+console.log(JSON.stringify(generateTrees(3), null, 2));
 ```
