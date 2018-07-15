@@ -181,9 +181,8 @@ function maximalRectangle(matrix) {
     if (!matrix || !matrix.length || !matrix[0].length) {
         return res;
     }
-    const heights = [];
+    const heights = arr.map(row => row.map(() => 0));
     matrix.forEach((row, i) => {
-        heights.push(Array(row.length).fill(0));
         row.forEach((e, j) => {
             if (e === "1") {
                 heights[i][j] = i === 0 ? 1 : heights[i - 1][j] + 1;
@@ -196,3 +195,44 @@ function maximalRectangle(matrix) {
 
 maximalRectangle(matrix);
 ```
+Given an integer matrix, find the length of the longest increasing path.
+From each cell, you can either move to four directions: left, right, up or down. You may NOT move diagonally or move outside of the boundary (i.e. wrap-around is not allowed).
+```javascript
+const arr = [
+    [3, 4, 5],
+    [3, 2, 6],
+    [2, 2, 1]
+];
+
+function dfs(nums, row, col, mem) {
+    if (mem[row][col] !== 0) {
+        return mem[row][col];
+    }
+    const xDir = [-1, 1, 0, 0];
+    const yDir = [0, 0, -1, 1];
+    xDir.forEach((e, i) => {
+        const x = row + e;
+        const y = col + yDir[i];
+        if (x >= 0 && y >= 0 && x < nums.length && y < nums[0].length && nums[x][y] > nums[row][col]) {
+            mem[row][col] = Math.max(mem[row][col], dfs(nums, x, y, mem));
+        }
+    });
+    mem[row][col]++;
+    return mem[row][col];
+}
+
+function longestIncreasingPath(nums) {
+    if (!nums || !nums.length || !nums[0].length) {
+        return 0;
+    }
+    const mem = nums.map(row => row.map(() => 0));
+    let longest = 0;
+    nums.forEach((row, i) => {
+        row.forEach((e, j) => {
+            longest = Math.max(longest, dfs(nums, i, j, mem));
+        });
+    });
+    return longest;
+}
+
+longestIncreasingPath(arr);
