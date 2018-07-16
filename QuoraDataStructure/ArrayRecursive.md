@@ -19,6 +19,44 @@ function digitsWord(digits) {
 
 digitsWord([1, 2, 2, 1]);
 ```
+Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+```javascript
+function isValid(str) {
+    if (!str || str.length > 3) {
+        return false;
+    }
+    if (str[0] === "0" && str.length !== 1) {
+        return false;
+    }
+    if (str.length === 3 && parseInt(str) > 255) {
+        return false;
+    }
+    return true;
+}
+
+function validIpAddress(s) {
+    const res = [], ipNums = [];
+    (function findIp(i) {
+        if (ipNums.length === 4) {
+            if (i === s.length) {
+                res.push(ipNums.join("."));
+            }
+            return;
+        }
+        for (let j = i; j < i + 3 && j < s.length; j++) {
+            const str = s.slice(i, j + 1);
+            if (isValid(str)) {
+                ipNums.push(str);
+                findIp(j + 1);
+                ipNums.pop();
+            }
+        }
+    })(0);
+    return res;
+}
+
+validIpAddress("25525511135");
+```
 Sudoku Validator
 ```javascript
 const board = [
@@ -236,3 +274,4 @@ function longestIncreasingPath(nums) {
 }
 
 longestIncreasingPath(arr);
+```
