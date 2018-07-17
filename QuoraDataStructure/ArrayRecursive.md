@@ -275,3 +275,56 @@ function longestIncreasingPath(nums) {
 
 longestIncreasingPath(arr);
 ```
+Given a m x n matrix, if an element is 0, set its entire row and column to 0
+```javascript
+const a = [
+  [1, 1, 1],
+  [1, 0, 1],
+  [1, 1, 1]
+];
+
+function setZeroes(matrix) {
+    let row = false, col = false;
+    const n = matrix.length, m = matrix[0].length;
+    for (let i = 0; i < n; i++) {
+        if (matrix[i][0] === 0) {
+            row = true;
+            break;
+        }
+    }
+    for (let i = 0; i < m; i++) {
+        if (matrix[0][i] === 0) {
+            col = true;
+            break;
+        }
+    }
+    for (let i = 1; i < n; i++) {
+        for (let j = 1; j < m; j++) {
+            if (matrix[i][j] === 0) {
+                matrix[i][0] = 0;
+                matrix[0][j] = 0;
+            }
+        }
+    }
+    for (let i = 1; i < n; i++) {
+        for (let j = 1; j < m; j++) {
+            if (matrix[i][0] === 0 || matrix[0][j] === 0) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+    if (row) {
+        for (let i = 0; i < n; i++) {
+            matrix[i][0] = 0;
+        }
+    }
+    if (col) {
+        for (let i = 0; i < m; i++) {
+            matrix[0][i] = 0;
+        }
+    }
+    return matrix;
+}
+
+setZeroes(a);
+```

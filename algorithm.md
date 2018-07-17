@@ -99,13 +99,13 @@ function convertToRoman(num) {
         "IV": 4,
         "I": 1
     };
-    let result = "";
-    for (let key in roman) {
-        const numberOf = Math.floor(num / roman[key]);
-        num -= numberOf * roman[key];
-        result += key.repeat(numberOf);
-    }
-    return result;
+    let res = "";
+    Object.keys(roman).forEach(key => {
+        const numOf = Math.floor(num / roman[key]);
+        num -= numOf * roman[key];
+        res += key.repeat(numOf);
+    });
+    return res;
 }
 
 convertToRoman(435); // 'CDXXXV'
@@ -128,17 +128,16 @@ function convertToNumber(str) {
         "IV": 4,
         "I": 1
     };
-    let result = roman[str[0]];
+    let res = roman[str[0]];
     for (let i = 1; i < str.length; i++) {
-        let num = roman[str[i]];
-        const prev = roman[str[i - 1]];
-        if (num > prev) {
-            result += num - prev - prev;
+        const curr = roman[str[i]], prev = roman[str[i - 1]];
+        if (curr > prev) {
+            res += curr - prev - prev;
         } else {
-            result += num;
+            res += curr;
         }
     }
-    return result;
+    return res;
 }
 
 convertToNumber('CDXXXV'); // 435
