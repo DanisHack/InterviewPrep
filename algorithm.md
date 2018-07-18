@@ -657,7 +657,9 @@ function search(nums, target) {
             return middle;
         }
 
-        if (nums[start] <= nums[middle]) { // left side is sorted
+        if (nums[start] === nums[middle]) { // this condition is for if the array has duplicates
+            start++;
+        } else if (nums[start] < nums[middle]) { // left side is sorted
             if (nums[start] <= target && target < nums[middle]) {
                 end = middle - 1;
             } else {
