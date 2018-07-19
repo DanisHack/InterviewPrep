@@ -137,3 +137,50 @@ function fullJustify(words, maxWidth) {
 
 console.log(JSON.stringify(fullJustify(arr, 16), null, 2));
 ```
+Given an absolute path for a file (Unix-style), simplify it.
+
+For example,
+path = "/home/", => "/home"
+path = "/a/./b/../../c/", => "/c"
+```javascript
+function simplifyPath(path) {
+    const res = [];
+    path.split("/").forEach(e => {
+        if (e === "..") {
+            res.pop();
+        } else if (e !== "" && e !== ".") {
+            res.push(e);
+        }
+    });
+    return `/${res.join("/")}`;
+}
+
+simplifyPath("/a/./b/../../c/");
+```
+Implement a basic calculator to evaluate a simple expression string.
+The expression string may contain open "(" and closing parentheses ")", the plus "+" or minus sign "-", non-negative integers and empty spaces " ".
+```javascript
+function basicCalc(s) {
+    const stack = [1, 1];
+    let sum = 0, i, j;
+    for (i = 0; i < s.length; i++) {
+        if (!isNaN(parseInt(s[i], 10))) {
+            let num = parseInt(s[i], 10);
+            for (j = i + 1; j < s.length && !isNaN(parseInt(s[j], 10)); j++) {
+                num = num * 10 + parseInt(s[j], 10);
+            }
+            sum += stack.pop() * num;
+            i = j - 1;
+        } else if (s[i] === "+" || s[i] === "(") {
+            stack.push(stack[stack.length - 1]);
+        } else if (s[i] === "-") {
+            stack.push(stack[stack.length - 1] * -1);
+        } else if (s[i] === ")") {
+            stack.pop();
+        }
+    }
+    return sum;
+}
+
+basicCalc("(1+(4+5+2)-3)+(6+8)");
+```

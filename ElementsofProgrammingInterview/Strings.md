@@ -78,7 +78,9 @@ function isAnagram(w1, w2) {
             obj2[w2[i]] = 1;
         }
     }
-    for (let key in obj1) {
+    const arr = Object.keys(obj1);
+    for (let i = 0; i < arr.length; i++) {
+        const key = arr[i];
         if (obj1[key] !== obj2[key]) {
             return false;
         }
@@ -88,7 +90,7 @@ function isAnagram(w1, w2) {
 
 function firstOccurence(s, t) {
     const len = t.length;
-    for (let i = 0; i < s.length; i++) {
+    for (let i = 0; i <= s.length - len; i++) {
         const word = s.slice(i, i + len);
         if (isAnagram(word, t)) {
             return i;
