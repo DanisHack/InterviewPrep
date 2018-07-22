@@ -22,43 +22,7 @@ function mergeList(l1, l2) {
 
 console.log(JSON.stringify(mergeList(list2, list1), null, 2));
 ```
-Merge K sorted Lists:
-```javascript
-const list1 = { val: -2, next: { val: 1, next: { val: 4, next: { val: 5, next: null } } } };
-const list2 = { val: -2, next: { val: 5, next: { val: 6, next: null } } };
-const list3 = { val: -2, next: { val: 0, next: null } };
-
-function merge(l1, l2) {
-    let tail = {};
-    const dummyHead = tail;
-    while (l1 && l2) {
-        if (l1.val < l2.val) {
-            tail.next = l1;
-            l1 = l1.next;
-        } else {
-            tail.next = l2;
-            l2 = l2.next;
-        }
-        tail = tail.next;
-    }
-    tail.next = l1 || l2;
-    return dummyHead.next;
-}
-
-function mergeKLists(lists) {
-    if (!lists.length) {
-        return null;
-    }
-    let result = lists[0];
-    for (let i = 1; i < lists.length; i++) {
-        result = merge(result, lists[i]);
-    }
-    return result;
-}
-
-console.log(JSON.stringify(mergeKList([list1, list2, list3])));
-```
-Revers sublist of a linked list:
+Reverse sublist of a linked list:
 ```javascript
 const list = { val: 11, next: { val: 3, next: { val: 5, next: { val: 7, next: { val: 2, next: null } } } } };
 

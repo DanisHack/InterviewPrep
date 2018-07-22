@@ -225,29 +225,6 @@ function hanoi(disc, src, buffer, dest) {
 
 hanoi(3, jar1, jar2, jar3);
 ```
-Generate n numbers of proper Parentheses set:
-```javascript
-function generate(n) {
-	const res = [];
-    (function recurse(str, i, j) {
-        if (i > j) {
-            return;
-        }
-        if (i === 0 && j === 0) {
-            return res.push(str);
-        }
-        if (i > 0) {
-            recurse(str + "(", i - 1, j);
-        }
-        if (j > 0) {
-            recurse(str + ")", i, j - 1);
-        }
-    })("", n, n);
-    return res;
-}
-
-generate(3); // [ '((()))', '(()())', '(())()', '()(())', '()()()' ]
-```
 Implement Paint Fill method:
 ```javascript
 const screen = [

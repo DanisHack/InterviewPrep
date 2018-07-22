@@ -43,25 +43,6 @@ function rearrange(a, i) {
 
 rearrange([0, 1, 2, 0, 2, 1, 1], 3); // [ 0, 0, 2, 2, 1, 1, 1 ]
 ```
-Increment an Arbitrary-Precision Integer:
-```javascript
-function addOne(nums) {
-    nums[nums.length - 1]++;
-    for (let i = nums.length - 1; i > 0; i--) {
-        if (nums[i] === 10) {
-            nums[i] = 0;
-            nums[i - 1]++;
-        }
-    }
-    if (nums[0] === 10) {
-        nums[0] = 1;
-        nums.push(0);
-    }
-    return nums;
-}
-
-addOne([9, 9, 9]); // [1, 0, 0, 0]
-```
 Multiply two arbitrary integers:
 ```javascript
 function multiply(num1, num2) {
@@ -178,53 +159,6 @@ generatePrime(35);
 ```
 Give the spiral order of a NxN matrix and to generate a NxN spiral matrix:
 ```javascript
-const arr = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-];
-
-function spiralMatrix(matrix) {
-    if (!matrix || !matrix.length) {
-        return [];
-    }
-    let left = 0, top = 0, right = matrix[0].length - 1, bottom = matrix.length - 1, count = 1;
-    const res = [], total = matrix.length * matrix[0].length;
-    while (count <= total) {
-        for (let i = left; i <= right; i++) {
-            if (count <= total) {
-                res.push(matrix[top][i]);
-            }
-            count++;
-        }
-        top++;
-        for (let i = top; i <= bottom; i++) {
-            if (count <= total) {
-                res.push(matrix[i][right]);
-            }
-            count++;
-        }
-        right--;
-        for (let i = right; i >= left; i--) {
-            if (count <= total) {
-                res.push(matrix[bottom][i]);
-            }
-            count++;
-        }
-        bottom--;
-        for (let i = bottom; i >= top; i--) {
-            if (count <= total) {
-                res.push(matrix[i][left]);
-            }
-            count++;
-        }
-        left++;
-    }
-    return res;
-}
-
-spiralMatrix(arr); // [ 1, 2, 3, 6, 9, 8, 7, 4, 5 ]
-
 function generateSpiralMatrix(n) {
     const res = Array(n).fill().map(() => []);
     let left = 0, top = 0, right = n - 1, bottom = n - 1, count = 1;
@@ -316,27 +250,6 @@ function maxArea(height) {
 
 maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]); // 49
 // good link: https://leetcode.com/articles/container-most-water/
-```
-Trapping Rain Water: Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
-```javascript
-// image example: https://leetcode.com/static/images/problemset/rainwatertrap.png
-function trap(height) {
-    const left = [height[0]].concat(Array(height.length - 1).fill(0)),
-    right = Array(height.length - 1).fill(0).concat(height[height.length - 1]);
-    for (let i = 1; i < height.length; i++) {
-        left[i] = Math.max(height[i], left[i - 1]);
-    }
-    for (let i = height.length - 2; i >= 0; i--) {
-        right[i] = Math.max(height[i], right[i + 1]);
-    }
-    let res = 0;
-    height.forEach((e, i) => {
-        res += Math.min(left[i], right[i]) - e;
-    });
-    return res;
-}
-
-trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]); // 6
 ```
 Schedule a minimum number of rooms needed
 ```javascript

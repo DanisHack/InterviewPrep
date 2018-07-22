@@ -142,75 +142,6 @@ function convertToNumber(str) {
 
 convertToNumber('CDXXXV'); // 435
 ```
-Phone number combination:
-```javascript
-function letterCombinations(digits) {
-    const res = [];
-    if (!digits) {
-        return res;
-    }
-    const obj = {
-        "1": ["1"],
-        "0": ["0"],
-        "2": ["a", "b", "c"],
-        "3": ["d", "e", "f"],
-        "4": ["g", "h", "i"],
-        "5": ["j", "k", "l"],
-        "6": ["m", "n", "o"],
-        "7": ["p", "q", "r", "s"],
-        "8": ["t", "u", "v"],
-        "9": ["w", "x", "y", "z"]
-    };
-    (function recurse(i, str = "") {
-        if (i === digits.length) {
-            return res.push(str);
-        }
-        obj[digits[i]].forEach(e => {
-            recurse(i + 1, str + e);
-        });
-    })(0);
-    return res;
-}
-
-letterCombinations("234");
-```
-Island count, connected islands are count as one:
-```javascript
-const graph = [
- [1, 1, 0, 0, 1],
- [1, 1, 0, 0, 0],
- [0, 0, 0, 0, 0],
- [0, 1, 0, 1, 1]
-]; // 4
-
-function islandCount(graph) {
-    const visited = {};
-    let sum = 0;
-    function isValid(i, j) {
-        const key = `${i}${j}`;
-        if (i < 0 || j < 0 || !graph[i][j] || visited[key]) {
-            return false;
-        }
-        visited[key] = true;
-        for (let row = i - 1; row <= i + 1 && row < graph.length; row++) {
-            for (let col = j - 1; col <= j + 1 && col < graph[i].length; col++) {
-                isValid(row, col);
-            }
-        }
-        return true;
-    }
-    graph.forEach((e, row) => {
-        e.forEach((ele, col) => {
-            if (isValid(row, col)) {
-                sum++;
-            }    
-        });
-    });
-    return sum;
-}
-
-islandCount(graph);
-```
 Check if a number is prime: (for reference http://www.javascripter.net/faq/numberisprime.htm)
 ```javascript
 function isPrime(n) {
@@ -228,46 +159,6 @@ function isPrime(n) {
     }
     return true;
 }
-```
-Next permutation of a number:
-```javascript
-function reverse(nums, p, q) {
-    while (p < q) {
-        const temp = nums[p];
-        nums[p] = nums[q];
-        nums[q] = temp;
-        p++;
-        q--;
-    }
-}
-
-function nextPermutation(nums) {
-    let p = 0, q = 0;
-    for (let i = nums.length - 2; i >= 0; i--) {
-        if (nums[i] < nums[i + 1]) {
-            p = i;
-            break;
-        }
-    }
-    for (let i = nums.length - 1; i > p; i--) {
-        if (nums[i] > nums[p]) {
-            q = i;
-            break;
-        }
-    }
-    if (p === 0 && q === 0) {
-        return nums.reverse();
-    }
-    const temp = nums[p];
-    nums[p] = nums[q];
-    nums[q] = temp;
-    if (p < nums.length - 1) {
-        reverse(nums, p + 1, nums.length - 1);
-    }
-    return nums;
-}
-
-nextPermutation([1, 3, 2]); // [2, 1, 3]
 ```
 Insert new Interval:
 ```javascript
@@ -416,31 +307,6 @@ function longestPalindrome(str) {
 
 longestPalindrome("bbcccbb");
 ```
-Regular Expression Matching:
-```javascript
-function isMatch(s, p) {
-    if (!p) {
-        return !s;
-    }
-    if (p.length === 1 || p[1] !== "*") {
-        if (!s || (p[0] !== "." && s[0] !== p[0])) {
-            return false;
-        }
-        return isMatch(s.slice(1), p.slice(1));
-    } else {
-        let i = -1;
-        while (i < s.length && (i < 0 || p[0] === "." || p[0] === s[i])) {
-            if (isMatch(s.slice(i + 1), p.slice(2))) {
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
-}
-isMatch("aab", "c*a*b"); // true
-isMatch("aab", "a*"); // true
-```
 Wildcard Matching:
 ```javascript
 function isMatch(s, p) {
@@ -489,25 +355,6 @@ function longestCommonPrefix(arr) {
 
 longestCommonPrefix(["leets", "leetcode", "leet", "leeds"]); // lee
 ```
-Check if parentheses are valid:
-```javascript
-function validParen(str) {
-    const parenthese = { "(": 0, ")": 1}, arr = [];
-    let count = 0;
-    str.split("").forEach(e => {
-        if (parenthese[e] % 2) {
-            count++;
-            arr.push(e);
-        } else {
-            count--;
-            arr.pop();
-        }
-    });
-    return !arr.length && !count;
-}
-
-validParen(")()()(");
-```
 Word Break:
 ```javascript
 function wordBreak(s, dict) {
@@ -526,42 +373,6 @@ function wordBreak(s, dict) {
 }
 
 wordBreak("leetcode", ["leet", "code"]); // Return true because "leetcode" can be segmented as "leet code".
-```
-Word Break II: Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
-```javascript
-function dfs(arr, result, str, index) {
-    if (!index) {
-        return res.push(str.trim());
-    }
-    if (arr[index]) {
-        arr[index].forEach(word => {
-            dfs(arr, res, `${word} ${s}`, index - word.length);
-        });
-    }
-}
-
-function wordBreak(s, dict) {
-    const arr = [true].concat(Array(s.length).fill(false));
-    arr.forEach((e, i) => {
-        if (e) {
-            for (let j = i + 1; j < arr.length; j++) {
-                const word = s.slice(i, j);
-                if (dict.includes(word)) {
-                    if (arr[j]) {
-                        arr[j].push(word);
-                    } else {
-                        arr[j] = [word];
-                    }
-                }
-            }
-        }
-    });
-    const res = [];
-    dfs(arr, res, "", s.length);
-    return res;
-}
-
-wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]); // ["cats and dog", "cat sand dog"]
 ```
 Substring with Concatenation of All Words:
 ```javascript
