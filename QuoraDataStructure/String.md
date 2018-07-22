@@ -184,3 +184,50 @@ function basicCalc(s) {
 
 basicCalc("(1+(4+5+2)-3)+(6+8)");
 ```
+![alt text](../images/zigzag.png)
+```javascript
+function convert(s, numRows) {
+    let res = "";
+    if (!s || numRows <= 0) {
+        return res;
+    }
+    if (numRows === 1) {
+        return s;
+    }
+    const size = numRows * 2 - 2;
+    for (let i = 0; i < numRows; i++) {
+        for (let j = i; j < s.length; j += size) {
+            res += s[j];
+            if (i !== 0 && i !== numRows - 1) {
+                const curr = j + size - 2 * i;
+                if (curr < s.length) {
+                    res += s[curr];
+                }
+            }
+        }
+    }
+    return res;
+}
+
+convert("PAYPALISHIRING", 3); // PAHNAPLSIIGYIR
+```
+Given a string S and a string T, count the number of distinct subsequences of S which equals T.
+A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+```javascript
+function numDistinct(s, t) {
+    if (!s || !t) {
+        return 0;
+    }
+    const mem = Array(t.length).fill(0);
+    s.split("").forEach(e => {
+        for (let i = t.length - 1; i >= 0; i--) {
+            if (e === t[i]) {
+                mem[i] = mem[i] + (i >= 1 ? mem[i - 1] : 1);
+            }
+        }
+    });
+    return mem[t.length - 1];
+}
+
+numDistinct("babgbag", "bag");
+```

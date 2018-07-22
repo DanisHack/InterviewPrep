@@ -319,6 +319,7 @@ maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]); // 49
 ```
 Trapping Rain Water: Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
 ```javascript
+// image example: https://leetcode.com/static/images/problemset/rainwatertrap.png
 function trap(height) {
     const left = [height[0]].concat(Array(height.length - 1).fill(0)),
     right = Array(height.length - 1).fill(0).concat(height[height.length - 1]);
