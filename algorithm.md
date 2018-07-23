@@ -307,34 +307,6 @@ function longestPalindrome(str) {
 
 longestPalindrome("bbcccbb");
 ```
-Wildcard Matching:
-```javascript
-function isMatch(s, p) {
-    let i = 0, j = 0, jIndex = -1, iIndex = -1;
-    while (i < s.length) {
-        if (j < p.length && (p[j] === "?" || p[j] === s[i])) {
-            j++;
-            i++;
-        } else if (j < p.length && p[j] === "*") {
-            jIndex = j;
-            iIndex = i;
-            j++;
-        } else if (jIndex !== -1) {
-            i = iIndex + 1;
-            j = jIndex + 1;
-            iIndex++;
-        } else {
-            return false;
-        }
-    }
-    while (j < p.length && p[j] === "*") {
-        j++;
-    }
-    return j === p.length;
-}
-
-isMatch("abefcdgiescdfimde", "ab*cd?i*de");
-```
 Longest Common Prefix:
 ```javascript
 function longestCommonPrefix(arr) {

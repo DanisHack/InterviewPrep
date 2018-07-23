@@ -466,28 +466,6 @@ function addBinaryTree(node) {
 
 addBinaryTree(tree);
 ```
-Greatest Consecutive Sum in a Binary Tree:
-```javascript
-const tree = { val: 4, left: { val: 3, left: { val: 4, left: null, right: null }, right: { val: 1, left: null, right: null } }, right: { val: 7, left: null, right: null } };
-
-function greatestSum(current, sum = 1) {
-	if (!current) {
-        return sum;
-    }
-    let leftSum = sum, rightSum = sum;
-    if (current.left && current.val + 1 === current.left.val) {
-        leftSum++;
-    }
-    const left = greatestSum(current.left, leftSum);
-    if (current.right && current.val + 1 === current.right.val) {
-        rightSum++;
-    }
-    const right = greatestSum(current.right, rightSum);
-    return Math.max(left, right);
-}
-
-greatestSum(tree); // 2
-```
 Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL:
 ```javascript
 const tree = { val: "A", left: { val: "B", left: { val: "C", left: null, right: null }, right: null }, right: { val: "D", left: { val: "E", left: { val: "F", left: null, right: null }, right: null }, right: { val: "G", left: { val: "H", left: null, right: null }, right: { val: "I", left: null, right: null } } } };
