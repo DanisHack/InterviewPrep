@@ -251,23 +251,6 @@ function maxArea(height) {
 maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]); // 49
 // good link: https://leetcode.com/articles/container-most-water/
 ```
-Schedule a minimum number of rooms needed
-```javascript
-const arr = [[1,3],[6,8],[4,5],[3,6],[7,10],[7,9],[11,12],[8,10],[7,8]];
-
-function minNumberOfRoom(arr) {
-    const rooms = arr.slice().sort((a, b) => a[0] - b[0]), queue = [];
-    rooms.forEach(e => {
-        if (queue.length && e[0] >= queue[0][1]) {
-            queue.shift();
-        }
-        queue.push(e);
-    });
-    return queue.length;
-}
-
-minNumberOfRoom(arr);
-```
 Given a sorted array of numbers, write a function to return a range summary of the array.
 ```javascript
 const arr = [0,3,4,5];
