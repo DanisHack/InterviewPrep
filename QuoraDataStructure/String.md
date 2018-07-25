@@ -77,66 +77,6 @@ function minWindow(s, t) {
 
 minWindow("ADOBECODEBANC", "ABC");
 ```
-![alt text](../images/textJustification.png)
-```javascript
-const arr = ["What", "must", "be", "acknowledgment", "shall", "be"];
-
-function createLine(words, maxWidth, start, end, currWordsLen, isLast) {
-    let res = "";
-    if (start < 0 || end >= words.length) {
-        return res;
-    }
-    res = words[start];
-    const numOfWords = end - start + 1;
-    if (numOfWords === 1 || isLast) {
-        for (let i = start + 1; i <= end; i++) {
-            res += ` ${words[i]}`;
-        }
-        const remaining = maxWidth - currWordsLen - (numOfWords - 1);
-        for (let i = 0; i < remaining; i++) {
-            res += " ";
-        }
-        return res;
-    }
-    const k = Math.floor((maxWidth - currWordsLen) / (numOfWords - 1));
-    const m = (maxWidth - currWordsLen) % (numOfWords - 1);
-    for (let i = start + 1; i <= end; i++) {
-        const nSpace = i - start <= m ? k + 1 : k;
-        for (let j = 0; j < nSpace; j++) {
-            res += " ";
-        }
-        res += words[i];
-    }
-    return res;
-}
-
-function fullJustify(words, maxWidth) {
-    const res = [];
-    let start = 0, end = -1, currWordsLen = 0, i = 0;
-    while (i < words.length) {
-        if (words[i].length > maxWidth) {
-            return res;
-        }
-        const newLen = currWordsLen + end - start + 1 + words[i].length;
-        if (newLen <= maxWidth) {
-            end = i;
-            currWordsLen += words[i].length;
-            i++;
-        } else {
-            const line = createLine(words, maxWidth, start, end, currWordsLen, false);
-            res.push(line);
-            start = i;
-            end = i - 1;
-            currWordsLen = 0;
-        }
-    }
-    const lastLine = createLine(words, maxWidth, start, end, currWordsLen, true);
-    res.push(lastLine);
-    return res;
-}
-
-console.log(JSON.stringify(fullJustify(arr, 16), null, 2));
-```
 Given an absolute path for a file (Unix-style), simplify it.
 
 For example,
