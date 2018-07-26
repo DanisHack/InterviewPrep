@@ -132,10 +132,10 @@ const inOrder = ["F", "B", "A", "E", "H", "C", "D", "I", "G"];
 const preOrder = ["H", "B", "F", "E", "A", "C", "D", "G", "I"];
 
 function binaryConstruct(preOrder, inOrder) {
-    const nodes = {};
-    inOrder.forEach((e, i) => {
-        nodes[e] = i;
-    });
+    const nodes = inOrder.reduce((obj, val, i) => {
+        obj[val] = i;
+        return obj;
+    }, {});
     return (function recurse(preStart, preEnd, inStart, inEnd) {
         if (preStart >= preEnd || inStart >= inEnd) {
             return null;
@@ -158,10 +158,10 @@ const inOrder = ["F", "B", "A", "E", "H", "C", "D", "I", "G"];
 const postOrder = ["F", "A", "E", "B", "I", "G", "D", "C", "H"];
 
 function binaryConstruct(postOrder, inOrder) {
-    const nodes = {};
-    inOrder.forEach((e, i) => {
-        nodes[e] = i;
-    });
+    const nodes = inOrder.reduce((obj, val, i) => {
+        obj[val] = i;
+        return obj;
+    }, {});
     return (function recurse(postStart, postEnd, inStart, inEnd) {
         if (postStart >= postEnd || inStart >= inEnd) {
             return null;

@@ -167,24 +167,24 @@ function alienOrder(dict) {
     if (dict.length === 0) {
         return res;
     }
-    const nodes = {};
-    dict.forEach((curr, i) => {
+    const nodes = words.reduce((obj, curr, i) => {
         curr.split("").forEach(e => {
-            if (!nodes[e]) {
-                nodes[e] = {};
+            if (!obj[e]) {
+                obj[e] = {};
+            }
+            if (i !== 0) {
+                const prev = words[i - 1];
+                let j = 0;
+                while (j < curr.length && j < prev.length && curr[j] === prev[j]) {
+                    j++;
+                }
+                if (j < curr.length && j < prev.length && !obj[curr[j]][prev[j]]) {
+                    obj[curr[j]][prev[j]] = true;
+                }
             }
         });
-        if (i !== 0) {
-            const prev = dict[i - 1];
-            let j = 0;
-            while (j < prev.length && j < curr.length && prev[j] === curr[j]) {
-                j++;
-            }
-            if (j < curr.length && j < prev.length && !nodes[curr[j]][prev[j]]) {
-                nodes[curr[j]][prev[j]] = true;
-            }
-        }
-    });
+        return obj;
+    }, {});
     let curr = findNode(nodes);
     while (curr) {
         res.push(curr);

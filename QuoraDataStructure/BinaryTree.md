@@ -62,30 +62,6 @@ function recoverTree(head) {
 
 console.log(JSON.stringify(recoverTree(list), null, 2));
 ```
-![alt text](../images/maxPathSum.png)
-```javascript
-const list = { val: 1, left: { val: -2, left: null, right: null }, right: { val: 3, left: null, right: null } };
-
-function maxPathSum(root) {
-    let maxVal = -Infinity;
-    (function findMaxPath(node) {
-        if (!node) {
-            return 0;
-        }
-        const left = Math.max(findMaxPath(node.left), 0);
-        const right = Math.max(findMaxPath(node.right), 0);
-        const addOne = node.val + Math.max(left, right);
-        const addTwo = node.val + left + right;
-        maxVal = Math.max(maxVal, addOne, addTwo);
-
-        // return addOne only since, addTwo cannot be combined with the parent node
-        return addOne;
-    })(root);
-    return maxVal;
-}
-
-maxPathSum(list);
-```
 Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
 ```javascript
 function numTrees(n) {
