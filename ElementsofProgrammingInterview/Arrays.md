@@ -46,21 +46,21 @@ rearrange([0, 1, 2, 0, 2, 1, 1], 3); // [ 0, 0, 2, 2, 1, 1, 1 ]
 Multiply two arbitrary integers:
 ```javascript
 function multiply(num1, num2) {
-    const sign = (num1[0] < 0 && num2[0] > 0) || (num2[0] < 0 && num1[0] > 0) ? -1 : 1;
+    const sign = (num1[0] < 0) ^ (num2[0] < 0);
     num1[0] = Math.abs(num1[0]), num2[0] = Math.abs(num2[0]);
-    const arr = Array(num1.length + num2.length).fill(0);
+    const res = Array(num1.length + num2.length).fill(0);
     for (let i = num1.length - 1; i >= 0; i--) {
         for (let j = num2.length - 1; j >= 0; j--) {
-            arr[i + j + 1] += num1[i] * num2[j];
-            arr[i + j] += Math.floor(arr[i + j + 1] / 10);
-            arr[i + j + 1] %= 10;
+            res[i + j + 1] += num1[i] * num2[j];
+            res[i + j] += Math.floor(res[i + j + 1] / 10);
+            res[i + j + 1] %= 10;
         }
     }
-    while (arr[0] === 0) {
-        arr.shift();
+    while (res[0] === 0) {
+        res.shift();
     }
-    arr[0] *= sign;
-    return arr;
+    res[0] *= sign ? -1 : 1
+    return res;
 }
 
 multiply([-1, 3, 9], [2, 8]);
